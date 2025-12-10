@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/TitleScene.unity
+    guid: b0b2eda57cd38ce4fb1f83ca7d410708
+  - enabled: 1
+    path: Assets/Scenes/ModeSentaku.unity
+    guid: 0319159cf9d63ff49872bb06ebd8ff85
+  - enabled: 1
+    path: Assets/Scenes/SpecialSelectScene.unity
+    guid: 3571854aa89e3e9428fd807a2279151a
+  - enabled: 1
+    path: Assets/Scenes/LoadScene.unity
+    guid: 656b2e591b434054881c0e574668cd1f
+  - enabled: 1
+    path: Assets/Scenes/BATTRU1.unity
+    guid: 79a3eef9e375e07488304c9520893940
+  - enabled: 1
+    path: Assets/Scenes/DJ.unity
+    guid: bf790e4332e06db499c37ffb3d3d96ac
+  - enabled: 1
+    path: Assets/Scenes/ICE.unity
+    guid: b7a2597277f323b4aaca61f717acccaa
+  - enabled: 1
+    path: Assets/Scenes/StageNZW.unity
+    guid: 15672cfd036eb934b9c7eed361c9e547
+  - enabled: 1
+    path: Assets/Scenes/StageNZW2.unity
+    guid: 84fccd1c7a864fe4eb32fc2547b46819
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 9e9396d87b5ebbe409387e0b4a0de37e
+  m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0
