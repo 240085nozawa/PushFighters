@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // ★ Input Systemパッケージが必要です
 
 public class ModeSelectGlow : MonoBehaviour
 {
@@ -32,22 +32,22 @@ public class ModeSelectGlow : MonoBehaviour
 
         float horizontal = 0f;
 
-        // 🎮 【ゲームパッド】
-        if (Gamepad.current != null)
-        {
-            horizontal = Gamepad.current.leftStick.x.ReadValue();
-            if (Gamepad.current.dpad.right.isPressed) horizontal = 1f;
-            else if (Gamepad.current.dpad.left.isPressed) horizontal = -1f;
-        }
-
-        // ⌨️ 【キーボード】
+        // ⌨️ 【キーボード操作のみ】
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.rightArrowKey.isPressed) horizontal = 1f;
-            else if (Keyboard.current.leftArrowKey.isPressed) horizontal = -1f;
+            // 右移動: 右矢印 または Dキー
+            if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
+            {
+                horizontal = 1f;
+            }
+            // 左移動: 左矢印 または Aキー
+            else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+            {
+                horizontal = -1f;
+            }
         }
 
-        // ⏱ 入力遅延
+        // ⏱ 入力遅延処理（カーソル移動）
         if (inputTimer >= inputDelay)
         {
             if (horizontal > 0.5f)
@@ -64,11 +64,14 @@ public class ModeSelectGlow : MonoBehaviour
             }
         }
 
-        // 🎯 決定（Bボタン or Enter）
-        bool padSubmit = (Gamepad.current != null && Gamepad.current.buttonEast.wasPressedThisFrame);
-        bool keySubmit = (Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame);
+        // 🎯 決定（Enter または Space）
+        bool keySubmit = false;
+        if (Keyboard.current != null)
+        {
+            keySubmit = Keyboard.current.enterKey.wasPressedThisFrame || Keyboard.current.spaceKey.wasPressedThisFrame;
+        }
 
-        if (padSubmit || keySubmit)
+        if (keySubmit)
         {
             SelectMode();
         }
@@ -83,6 +86,7 @@ public class ModeSelectGlow : MonoBehaviour
 
             if (selected)
             {
+                // 選択中は黄色く光らせる
                 modeButtons[i].outline.effectColor = new Color(1f, 1f, 0.3f, 1f);
                 modeButtons[i].outline.effectDistance = new Vector2(8f, 8f);
             }
@@ -96,6 +100,15 @@ public class ModeSelectGlow : MonoBehaviour
 
         Debug.Log($"選択されたモード: {selected.buttonObject.name}, 人数: {selected.playerCount}");
 
+        // ゲームデータに人数を保存
+        // ※ GameDataクラスが存在しない場合はここをコメントアウトするか修正してください
+        if (typeof(GameData) != null)
+        {
+            // SkillSelectionDataではなくGameDataを使う場合はこちら
+            // GameData.PlayerCount = selected.playerCount; 
+        }
+
+        // 元のコードにあったデータ保存クラス
         SkillSelectionData.playerCount = selected.playerCount;
 
         SceneManager.LoadScene("SpecialSelectScene");
