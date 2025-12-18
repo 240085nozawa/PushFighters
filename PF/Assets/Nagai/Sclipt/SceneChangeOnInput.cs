@@ -1,15 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using System.Collections;
 
 public class SceneChangeByInput : MonoBehaviour
 {
     [SerializeField] private string nextSceneName = "ModeSentaku";
     [SerializeField] private float delayTime = 1f;
-    [SerializeField] private TextMeshProUGUI messageText;
 
+    [Header("点滅させる Image")]
+    [SerializeField] private Image messageImage;
+
+    [Header("Audio")]
     [SerializeField] private AudioSource bgmSource;   // BGM（止めない）
     [SerializeField] private AudioSource seSource;    // SE（押したとき）
 
@@ -18,19 +22,17 @@ public class SceneChangeByInput : MonoBehaviour
     void Start()
     {
         if (bgmSource != null)
-        {
             bgmSource.Play();
-        }
     }
 
     void Update()
     {
         if (isChanging) return;
 
-        // キーボードのどれかが押された
+        // キーボード入力
         bool anyKey = Keyboard.current?.anyKey.wasPressedThisFrame == true;
 
-        // ゲームパッドのどれかが押された
+        // ゲームパッド入力
         bool anyGamepad = false;
         foreach (var pad in Gamepad.all)
         {
@@ -54,7 +56,7 @@ public class SceneChangeByInput : MonoBehaviour
         }
     }
 
-    private System.Collections.IEnumerator BlinkAndChangeScene()
+    private IEnumerator BlinkAndChangeScene()
     {
         isChanging = true;
 
@@ -62,28 +64,28 @@ public class SceneChangeByInput : MonoBehaviour
         if (seSource != null)
             seSource.Play();
 
-        StartCoroutine(BlinkText());
+        StartCoroutine(BlinkImage());
         yield return new WaitForSeconds(delayTime);
 
         SceneManager.LoadScene(nextSceneName);
     }
 
-    private System.Collections.IEnumerator BlinkText()
+    private IEnumerator BlinkImage()
     {
-        if (messageText == null) yield break;
+        if (messageImage == null) yield break;
 
-        float blinkDuration = delayTime;
         float elapsed = 0f;
         bool visible = true;
 
-        while (elapsed < blinkDuration)
+        while (elapsed < delayTime)
         {
             visible = !visible;
-            messageText.enabled = visible;
+            messageImage.enabled = visible;
+
             yield return new WaitForSeconds(0.1f);
             elapsed += 0.1f;
         }
 
-        messageText.enabled = true;
+        messageImage.enabled = true;
     }
 }
