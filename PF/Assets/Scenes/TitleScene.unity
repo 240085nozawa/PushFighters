@@ -439,6 +439,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pCube1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: cade26c444a443b438cc4103e44d59bb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030823460149662100, guid: cade26c444a443b438cc4103e44d59bb, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
@@ -943,7 +947,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: GameStart
+  m_text: PUSH SPACE KEY
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1102,6 +1106,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 2fdceb58c2ebc234b81c9037530c8bd1, type: 3}
       propertyPath: m_Name
       value: Tenjyou_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2fdceb58c2ebc234b81c9037530c8bd1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1170970068873931921, guid: 2fdceb58c2ebc234b81c9037530c8bd1, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -1560,6 +1568,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Box_3_New
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 36c00158ee35646418d6e036d745f3d4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2030823460149662100, guid: 36c00158ee35646418d6e036d745f3d4, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1815,7 +1827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.2924528, g: 0.2924528, b: 0.2924528, a: 0.21176471}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.19607843}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
