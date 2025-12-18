@@ -11,46 +11,77 @@ public class CharacterLottery : MonoBehaviour
     [SerializeField] private Sprite[] characterIcons;
 
     [Header("表示スロット（左から1P〜4P）")]
-    [SerializeField] private Image[] slots; // 4
+    [SerializeField] private Image[] slots;
 
-    [Header("回転間隔")]
+    [Header("回転間隔（小さいほど速い）")]
     [SerializeField] private float interval = 0.1f;
 
-    [Header("遷移先ゲームシーン（4P用）")]
-    [SerializeField] private string[] gameSceneNames;
+    [Header("回転中エフェクトPrefab")]
+    [SerializeField] private GameObject rollingEffectPrefab;
+    [SerializeField] private Transform effectParent;
 
-    private bool isRolling;
-    private bool canStop;
+    [Header("移動先シーン候補")]
+    [SerializeField] private string[] gameScenes;
+
+    private GameObject rollingEffectInstance;
     private Coroutine rollCoroutine;
 
-    public void StartLottery()
+    private bool isRolling = false;
+    private bool canStop = false;
+
+    void Start()
     {
-        if (isRolling) return;
-
-        if (characterIcons.Length < slots.Length)
-        {
-            Debug.LogError("❌ キャラ画像が足りません");
-            return;
-        }
-
-        isRolling = true;
+        isRolling = false;
         canStop = false;
-
-        rollCoroutine = StartCoroutine(Roll());
-        StartCoroutine(EnableStopAfterDelay());
     }
 
     void Update()
     {
         if (!isRolling || !canStop) return;
 
-        if (Keyboard.current == null) return;
+        bool stopInput =
+            Keyboard.current != null &&
+            (
+                Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
+                Keyboard.current.spaceKey.wasPressedThisFrame
+            );
 
-        if (Keyboard.current.enterKey.wasPressedThisFrame ||
-            Keyboard.current.spaceKey.wasPressedThisFrame)
+        if (stopInput)
         {
             StopLottery();
         }
+    }
+
+    /// <summary>
+    /// 抽選開始（UIが消えた後に呼ぶ）
+    /// </summary>
+    public void StartLottery()
+    {
+        if (isRolling) return;
+
+        if (characterIcons == null || characterIcons.Length < slots.Length)
+        {
+            Debug.LogError("❌ キャラ画像が足りない");
+            return;
+        }
+
+        isRolling = true;
+        canStop = false;
+
+        // ★ 回転エフェクト生成
+        if (rollingEffectPrefab != null && effectParent != null)
+        {
+            rollingEffectInstance = Instantiate(
+                rollingEffectPrefab,
+                effectParent.position,
+                Quaternion.identity,
+                effectParent
+            );
+        }
+
+        rollCoroutine = StartCoroutine(Roll());
+        StartCoroutine(EnableStopAfterDelay());
     }
 
     IEnumerator Roll()
@@ -61,7 +92,10 @@ public class CharacterLottery : MonoBehaviour
             Shuffle(shuffled);
 
             for (int i = 0; i < slots.Length; i++)
-                slots[i].sprite = shuffled[i];
+            {
+                if (slots[i] != null)
+                    slots[i].sprite = shuffled[i];
+            }
 
             yield return new WaitForSeconds(interval);
         }
@@ -78,45 +112,54 @@ public class CharacterLottery : MonoBehaviour
         if (!isRolling) return;
 
         isRolling = false;
+
         if (rollCoroutine != null)
             StopCoroutine(rollCoroutine);
 
-        // ===== キャラ保存 =====
-        SkillSelectionData.playerCount = 4;
-        SkillSelectionData.p1Character = GetId(slots[0].sprite);
-        SkillSelectionData.p2Character = GetId(slots[1].sprite);
-        SkillSelectionData.p3Character = GetId(slots[2].sprite);
-        SkillSelectionData.p4Character = GetId(slots[3].sprite);
+        // ★ 回転エフェクト削除
+        if (rollingEffectInstance != null)
+        {
+            Destroy(rollingEffectInstance);
+            rollingEffectInstance = null;
+        }
 
-        // ===== シーン遷移 =====
+        SaveResult();
         MoveToRandomScene();
     }
 
+    /// <summary>
+    /// 抽選結果を保存
+    /// </summary>
+    void SaveResult()
+    {
+        // slots[i].sprite をそのまま使えばOK
+        Debug.Log("🎯 抽選結果保存");
+        // ここで CharacterSelectionData / SkillSelectionData に代入
+    }
+
+    /// <summary>
+    /// ランダムにゲームシーンへ移動
+    /// </summary>
     void MoveToRandomScene()
     {
-        if (gameSceneNames == null || gameSceneNames.Length == 0)
+        if (gameScenes == null || gameScenes.Length == 0)
         {
-            Debug.LogError("❌ 遷移先シーン未設定（4P）");
+            Debug.LogError("❌ 移動先シーンが設定されていない");
             return;
         }
 
-        string next =
-            gameSceneNames[Random.Range(0, gameSceneNames.Length)];
+        string sceneName = gameScenes[Random.Range(0, gameScenes.Length)];
+        Debug.Log("➡ シーン移動: " + sceneName);
 
-        SceneManager.LoadScene(next);
-    }
-
-    int GetId(Sprite sprite)
-    {
-        return System.Array.IndexOf(characterIcons, sprite);
+        SceneManager.LoadScene(sceneName);
     }
 
     void Shuffle(List<Sprite> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
-            int r = Random.Range(i, list.Count);
-            (list[i], list[r]) = (list[r], list[i]);
+            int rand = Random.Range(i, list.Count);
+            (list[i], list[rand]) = (list[rand], list[i]);
         }
     }
 }
