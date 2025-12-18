@@ -491,8 +491,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -402, y: 100}
-  m_SizeDelta: {x: 750, y: 300}
+  m_AnchoredPosition: {x: -408.84485, y: 100}
+  m_SizeDelta: {x: 763.1421, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &510615765
 MonoBehaviour:
@@ -1699,9 +1699,11 @@ MonoBehaviour:
   - buttonObject: {fileID: 510615763}
     outline: {fileID: 510615767}
     playerCount: 2
+    sceneName: 2p CharaSelectScene
   - buttonObject: {fileID: 1514420950}
     outline: {fileID: 1514420954}
     playerCount: 4
+    sceneName: 4p CharaSelectScene
 --- !u!4 &1831237521
 Transform:
   m_ObjectHideFlags: 0

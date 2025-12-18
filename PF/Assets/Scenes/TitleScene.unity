@@ -1266,6 +1266,7 @@ GameObject:
   - component: {fileID: 977954277}
   - component: {fileID: 977954276}
   - component: {fileID: 977954278}
+  - component: {fileID: 977954279}
   m_Layer: 5
   m_Name: "\u30B2\u30FC\u30E0\u30B9\u30BF\u30FC\u30C8UI"
   m_TagString: Untagged
@@ -1342,11 +1343,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bacc4ac4141a2664d854dc2eaa340e2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: ModeSentaku
+  nextSceneName: LoadScene
   delayTime: 1
   messageImage: {fileID: 977954276}
   bgmSource: {fileID: 2091949542}
   seSource: {fileID: 1834968867}
+--- !u!95 &977954279
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977954274}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 504d761df65663a4d8f22f1911d45f1e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1371957759
 PrefabInstance:
   m_ObjectHideFlags: 0

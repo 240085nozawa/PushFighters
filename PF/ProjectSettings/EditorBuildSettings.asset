@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ModeSentaku.unity
     guid: 0319159cf9d63ff49872bb06ebd8ff85
-  - enabled: 0
-    path: Assets/Scenes/CharacterSelectScene.unity
-    guid: 3571854aa89e3e9428fd807a2279151a
+  - enabled: 1
+    path: Assets/Scenes/2p CharaSelectScene.unity
+    guid: a684220fa16c44e448c7f408e6d27ba4
+  - enabled: 1
+    path: Assets/Scenes/4p CharaSelectScene.unity
+    guid: e1d8a7f8dc6bf4b4db0a7bfa134dd6a8
   - enabled: 1
     path: Assets/Scenes/LoadScene.unity
     guid: 656b2e591b434054881c0e574668cd1f

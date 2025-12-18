@@ -822,7 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10135090937486e4dae792d8dbceddfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Round1
+  nextSceneName: ModeSentaku
   delay: 2
 --- !u!4 &1382452430
 Transform:
