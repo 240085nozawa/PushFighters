@@ -377,6 +377,10 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 638111080
       objectReference: {fileID: 0}
+    - target: {fileID: 6220967465847169241, guid: 590375841ab8bd647b78545c97a9bcf7, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d1caf0ffe4d69ad4984a2f886bcb9761, type: 2}
     - target: {fileID: 8971202431665667762, guid: 590375841ab8bd647b78545c97a9bcf7, type: 3}
       propertyPath: m_Name
       value: Player 4
@@ -712,6 +716,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1559482993738329569, guid: aa7d77594cba4a74baaf634e258755f3, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ee88bfe9a0414264eb745efa9aa76dde, type: 2}
     - target: {fileID: 6142548427067657835, guid: aa7d77594cba4a74baaf634e258755f3, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1746632679
@@ -773,9 +781,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1690367554231350637, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
+      propertyPath: horizontalAxis
+      value: P1_Horizontal
+      objectReference: {fileID: 0}
     - target: {fileID: 6142548427067657835, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 2531119014
+      objectReference: {fileID: 0}
+    - target: {fileID: 8589241626113922083, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8971202431665667762, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
       propertyPath: m_Name
@@ -977,6 +993,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4229308567302238166, guid: 6a8da0201313a014f991cb0603ade4ee, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 111340731bf208d4c8cb5f6575453559, type: 2}
     - target: {fileID: 6142548427067657835, guid: 6a8da0201313a014f991cb0603ade4ee, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3077472795
