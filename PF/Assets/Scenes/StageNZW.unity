@@ -422,7 +422,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -2536,7 +2536,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -3852,7 +3852,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -5642,7 +5642,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: f9659ceabcb42034c9a044cda854bda3, type: 2}
-  changeInterval: 10
+  changeInterval: 6
   blinkDuration: 2
   blinkSpeed: 0.15
   activeDuration: 2
@@ -5673,6 +5673,12 @@ MonoBehaviour:
     applyMaterial: {fileID: 2100000, guid: 8eeb0ca277f6b384abf49f548575c705, type: 2}
   - patternName: Circle
     tileNumbers: 0700000008000000090000000c0000000e000000110000001200000013000000
+    applyMaterial: {fileID: 2100000, guid: 8eeb0ca277f6b384abf49f548575c705, type: 2}
+  - patternName: 1
+    tileNumbers: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000e0000000f0000001000000011000000120000001300000014000000150000001600000017000000180000001900000019000000
+    applyMaterial: {fileID: 2100000, guid: 8eeb0ca277f6b384abf49f548575c705, type: 2}
+  - patternName: 16
+    tileNumbers: 010000000200000004000000050000000600000007000000090000000a0000001000000011000000130000001400000015000000160000001800000019000000
     applyMaterial: {fileID: 2100000, guid: 8eeb0ca277f6b384abf49f548575c705, type: 2}
 --- !u!4 &864580445
 Transform:
@@ -9759,7 +9765,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
@@ -11957,10 +11963,10 @@ SceneRoots:
   - {fileID: 1160234427}
   - {fileID: 604712594}
   - {fileID: 241583040}
+  - {fileID: 1787680155}
   - {fileID: 1834933173}
   - {fileID: 864580445}
   - {fileID: 5938300797357367970}
-  - {fileID: 1787680155}
   - {fileID: 1785514551}
   - {fileID: 944000847}
   - {fileID: 434808801}
