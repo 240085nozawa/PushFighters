@@ -2,18 +2,38 @@ using UnityEngine;
 
 public class VerticalLoopMovement : MonoBehaviour
 {
-    public float startY;        // 初期Y位置（インスペクターで設定）
-    public float amplitude = 0.5f;  // 移動幅（0から-0.5）
-    public float speed = 1f;    // 移動速度（小さくするとゆっくり）
+    [Header("上下移動設定")]
+    public float startY;
+    public float amplitude = 0.5f;
+    public float speed = 1f;
+
+    private Rigidbody rb;
+    private Vector3 initialPos;
 
     void Start()
     {
-        startY = transform.position.y;
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbodyが必要です！");
+            enabled = false;
+            return;
+        }
+
+        initialPos = transform.position;
+        startY = initialPos.y;
+
+        // 物理用設定
+        rb.isKinematic = true; // 物理干渉なしでスムーズ移動
+        rb.interpolation = RigidbodyInterpolation.Interpolate; // 滑らかさUP
     }
 
-    void Update()
+    void FixedUpdate() // Update → FixedUpdate に変更
     {
         float newY = startY + Mathf.Sin(Time.time * speed) * -amplitude;
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
+        Vector3 targetPos = new Vector3(initialPos.x, newY, initialPos.z);
+
+        // transform.position ではなく Rigidbody で移動
+        rb.MovePosition(targetPos);
     }
 }
