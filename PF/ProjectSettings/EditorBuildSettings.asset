@@ -21,9 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadScene.unity
     guid: 656b2e591b434054881c0e574668cd1f
   - enabled: 1
-    path: Assets/Scenes/BATTRU1.unity
-    guid: 79a3eef9e375e07488304c9520893940
-  - enabled: 1
     path: Assets/Scenes/Battle stage/DJ.unity
     guid: bf790e4332e06db499c37ffb3d3d96ac
   - enabled: 1
@@ -36,13 +33,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Battle stage/TENKAI.unity
     guid: 84fccd1c7a864fe4eb32fc2547b46819
   - enabled: 1
-    path: Assets/Scenes/ResultScene.unity
-    guid: 9e9396d87b5ebbe409387e0b4a0de37e
-  - enabled: 1
     path: Assets/Scenes/Battle stage/AKAZA.unity
     guid: 5116cb01556d5424caeef01a3cb7f87b
   - enabled: 1
     path: Assets/Scenes/Battle stage/DENKI.unity
     guid: 3f3178552b29ea14bba317424f7b02e1
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 9e9396d87b5ebbe409387e0b4a0de37e
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
