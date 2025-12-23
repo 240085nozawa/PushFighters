@@ -415,7 +415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &251240509
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -608,7 +608,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3840412099130560612, guid: 561fcee6ad0370e419b4a02d7a126db1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 216.85329
+      value: 175.26517
       objectReference: {fileID: 0}
     - target: {fileID: 3840412099130560612, guid: 561fcee6ad0370e419b4a02d7a126db1, type: 3}
       propertyPath: m_LocalScale.z
@@ -620,7 +620,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3840412099130560612, guid: 561fcee6ad0370e419b4a02d7a126db1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 33.822
+      value: 34.299
       objectReference: {fileID: 0}
     - target: {fileID: 3840412099130560612, guid: 561fcee6ad0370e419b4a02d7a126db1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -681,7 +681,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6894073731827345238, guid: 22b1319eabac8cc448983d7df76013e2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 200
+      value: 150.434
       objectReference: {fileID: 0}
     - target: {fileID: 6894073731827345238, guid: 22b1319eabac8cc448983d7df76013e2, type: 3}
       propertyPath: m_LocalScale.z
@@ -689,11 +689,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6894073731827345238, guid: 22b1319eabac8cc448983d7df76013e2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.793392
+      value: -16.632
       objectReference: {fileID: 0}
     - target: {fileID: 6894073731827345238, guid: 22b1319eabac8cc448983d7df76013e2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 32.2
+      value: 33.023
       objectReference: {fileID: 0}
     - target: {fileID: 6894073731827345238, guid: 22b1319eabac8cc448983d7df76013e2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1813,13 +1813,12 @@ MonoBehaviour:
   - {fileID: 462977296}
   - {fileID: 1566459474}
   - {fileID: 1388914791}
-  - {fileID: 1515019822}
-  width: 65
+  width: 70
   height: 20
-  yPosition: 0
+  yPosition: -1
   minSpawnInterval: 1.5
   maxSpawnInterval: 4
-  maxCreatures: 15
+  maxCreatures: 30
   moveSpeedMin: 2
   moveSpeedMax: 5
 --- !u!65 &1717850571
@@ -1929,7 +1928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6892779522000813646, guid: 45977e3d2717782469ccbd471a526680, type: 3}
       propertyPath: m_LocalScale.y
-      value: 50
+      value: 36.815
       objectReference: {fileID: 0}
     - target: {fileID: 6892779522000813646, guid: 45977e3d2717782469ccbd471a526680, type: 3}
       propertyPath: m_LocalScale.z
@@ -1941,7 +1940,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6892779522000813646, guid: 45977e3d2717782469ccbd471a526680, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 33.65873
+      value: 34.412
       objectReference: {fileID: 0}
     - target: {fileID: 6892779522000813646, guid: 45977e3d2717782469ccbd471a526680, type: 3}
       propertyPath: m_LocalPosition.z
