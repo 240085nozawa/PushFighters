@@ -3,33 +3,40 @@ using UnityEngine;
 public class SeaCreatureMover : MonoBehaviour
 {
     private SeaCreatureSpawner spawner;
-    private int side;          // -1 = 左から右へ, +1 = 右から左へ
-    private float speed;       // 移動速度
+    private Vector3 baseForward;   // 基準進行方向（flowAngleYで決まる）
+    private int side;              // -1 or +1
+    private float speed;
 
-    public void Init(SeaCreatureSpawner spawner, int side, float speed)
+    // Spawner から呼ぶ初期化
+    public void InitDirection(SeaCreatureSpawner spawner, Vector3 baseForward, int side, float speed)
     {
         this.spawner = spawner;
+        this.baseForward = baseForward.normalized;
         this.side = side;
         this.speed = speed;
 
-        // 進行方向を向かせる（X軸正方向を右と想定）
-        Vector3 dir = (side < 0) ? Vector3.right : Vector3.left;
-        transform.rotation = Quaternion.LookRotation(dir, Vector3.up); // 3D で進行方向を向く。[web:44][web:47]
+        // 実際の進行方向（片側→反対側）
+        Vector3 moveDir = (side < 0) ? baseForward : -baseForward;
+
+        // モデルの「前」が +Z なら LookRotation(moveDir)
+        transform.rotation = Quaternion.LookRotation(moveDir, Vector3.up); // 進行方向を向く。[web:44]
     }
 
-    void Update()
+    private void Update()
     {
         if (spawner == null) return;
 
-        // X方向にまっすぐ移動
-        Vector3 move = (side < 0 ? Vector3.right : Vector3.left) * speed * Time.deltaTime;
-        transform.position += move;
+        Vector3 moveDir = (side < 0) ? baseForward : -baseForward;
+        transform.position += moveDir * speed * Time.deltaTime;
 
-        // BOXの端まで行ったら削除
-        float halfW = spawner.GetHalfWidth();
-        Vector3 localPos = transform.position - spawner.transform.position;
+        // 端を越えたら消す（中心から進行方向成分だけ見る）
+        float halfLen = spawner.GetHalfLength();
+        Vector3 centerToMe = transform.position - spawner.transform.position;
 
-        if (Mathf.Abs(localPos.x) > halfW + 1f) // 少し余裕を持たせて判定
+        // 進行方向成分 = Dot(centerToMe, baseForward)
+        float d = Vector3.Dot(centerToMe, baseForward);
+
+        if (Mathf.Abs(d) > halfLen + 1f)
         {
             Destroy(gameObject);
         }

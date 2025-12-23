@@ -4,12 +4,16 @@ using System.Collections.Generic;
 public class SeaCreatureSpawner : MonoBehaviour
 {
     [Header("生成する生き物プレハブ")]
-    public GameObject[] creaturePrefabs;   // サメ・イルカなどのプレハブ
+    public GameObject[] creaturePrefabs;
 
-    [Header("海の範囲（中心＝このオブジェクト）")]
-    public float width = 50f;              // X方向サイズ
-    public float height = 20f;             // Z方向サイズ
-    public float yPosition = 0f;           // 泳ぐ高さ（Y）
+    [Header("範囲（中心＝このオブジェクト）")]
+    public float width = 50f;      // ローカルX方向サイズ
+    public float height = 20f;     // ローカルZ方向サイズ
+    public float yPosition = 0f;   // 高さ
+
+    [Header("流れる向き設定")]
+    [Tooltip("0=+X/-X(横)、90=+Z/-Z(縦) など。Y軸回転角度。")]
+    public float flowAngleY = 0f;  // 進行方向の基準角度（度）
 
     [Header("生成タイミング")]
     public float minSpawnInterval = 1.5f;
@@ -33,14 +37,10 @@ public class SeaCreatureSpawner : MonoBehaviour
 
     private void Update()
     {
-        // 死んだ個体をリストから除外
         aliveCreatures.RemoveAll(c => c == null);
 
-        // すでに最大数いたら生成しない
         if (aliveCreatures.Count >= maxCreatures)
-        {
             return;
-        }
 
         timer += Time.deltaTime;
         if (timer >= nextInterval)
@@ -59,48 +59,51 @@ public class SeaCreatureSpawner : MonoBehaviour
     private void SpawnCreature()
     {
         if (creaturePrefabs == null || creaturePrefabs.Length == 0)
-        {
             return;
-        }
 
-        // ランダムな種類を選ぶ
         GameObject prefab = creaturePrefabs[Random.Range(0, creaturePrefabs.Length)];
 
-        // -1: 左端スタート → 右に泳ぐ,  +1: 右端スタート → 左に泳ぐ
+        // ■ 流れる基準方向（forward）をY回転から作る
+        Quaternion flowRot = Quaternion.Euler(0f, flowAngleY, 0f);
+        Vector3 forward = flowRot * Vector3.right;   // 基準進行方向
+        Vector3 right = Vector3.Cross(Vector3.up, forward).normalized; // 進行方向に対して右
+        Vector3 up = Vector3.up;
+
+        // side = -1 → 片側の端、+1 → 反対側の端から出す
         int side = Random.value < 0.5f ? -1 : 1;
 
         float halfW = width * 0.5f;
         float halfH = height * 0.5f;
 
-        // ★ 端ジャストのX座標（BOXの本当の端）
-        float x = (side < 0) ? -halfW : halfW;
-
-        // ZはBOX内ランダム
-        float z = Random.Range(-halfH, halfH);
-
+        // ■ 端ジャスト：中心 ± forward * halfW
         Vector3 center = transform.position;
-        Vector3 spawnPos = new Vector3(center.x + x,
-                                       center.y + yPosition,
-                                       center.z + z);
+        Vector3 edgePos = center + forward * (side < 0 ? -halfW : halfW);
 
-        // 生成
+        // ■ 幅方向(=right)にランダムオフセットを加える
+        float offset = Random.Range(-halfH, halfH);
+        Vector3 spawnPos = edgePos + right * offset + up * yPosition;
+
         GameObject creature = Instantiate(prefab, spawnPos, Quaternion.identity);
         aliveCreatures.Add(creature);
 
-        // Mover を取得 or 追加して初期化
         SeaCreatureMover mover = creature.GetComponent<SeaCreatureMover>();
         if (mover == null)
-        {
             mover = creature.AddComponent<SeaCreatureMover>();
-        }
 
         float speed = Random.Range(moveSpeedMin, moveSpeedMax);
-        mover.Init(this, side, speed);
+
+        // 進行方向は「flowAngleY」「side」から渡す
+        mover.InitDirection(this, forward, side, speed);
     }
 
-    // Mover が端判定に使う幅
-    public float GetHalfWidth()
+    // Mover が端判定に使う半径（進行方向方向の半分の長さ）
+    public float GetHalfLength()
     {
         return width * 0.5f;
+    }
+
+    public float GetFlowAngleY()
+    {
+        return flowAngleY;
     }
 }
