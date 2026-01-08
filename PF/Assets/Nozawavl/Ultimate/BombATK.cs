@@ -18,6 +18,28 @@ public class BombATK : MonoBehaviour
     [Header("スタン継続時間（秒）")]
     public float stunDuration = 3f;
 
+    // ================================
+    // ★ 追加：生成するPrefab
+    // ================================
+    [Header("〇秒後に生成するPrefab")]
+    public GameObject spawnPrefab;
+
+    // ================================
+    // ★ 追加：生成までの待ち時間
+    // ================================
+    public float spawnDelay = 1.5f;
+
+    // ================================
+    // ★ 追加：開始時にCoroutineを起動
+    // ================================
+    private void Start()
+    {
+        if (spawnPrefab != null)
+        {
+            StartCoroutine(SpawnAfterDelay());
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // 自分は無視
@@ -98,5 +120,16 @@ public class BombATK : MonoBehaviour
         pc.isStunned = false;
 
         Debug.Log($"{pc.name} はスタン解除！");
+    }
+    // ================================
+    // ★ 追加：〇秒後にPrefabを生成
+    // ================================
+    private IEnumerator SpawnAfterDelay()
+    {
+        yield return new WaitForSeconds(spawnDelay);
+
+        Instantiate(spawnPrefab, transform.position, Quaternion.identity);
+
+        Debug.Log("BombATK：Prefabを生成しました");
     }
 }
