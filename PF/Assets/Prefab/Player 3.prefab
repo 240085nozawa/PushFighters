@@ -195,6 +195,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 619252687575529827, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: effectDuration
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 619252687575529827, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: theWorldEffectPrefab
+      value: 
+      objectReference: {fileID: 5405489201896850485, guid: 0c99204f63e6f244ba511cf73100e1aa, type: 3}
     - target: {fileID: 2013242796154219315, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_IsActive
       value: 0

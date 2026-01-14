@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5797166583593213113}
   - component: {fileID: 5410560262243160319}
   - component: {fileID: 6980291542432189622}
-  - component: {fileID: 2801159270158343534}
   - component: {fileID: 1549519203137088727}
   - component: {fileID: 7475507146828479329}
   - component: {fileID: 4783869413914064950}
@@ -91,27 +90,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2801159270158343534
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3221698389464596147}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &1549519203137088727
 Animator:
   serializedVersion: 7
@@ -151,6 +129,7 @@ MonoBehaviour:
   stunDuration: 2
   spawnPrefab: {fileID: 8151293795276954672, guid: e11ff71d394875c4c9c7bf64eb5ed844, type: 3}
   spawnDelay: 1
+  destroyDelay: 2
 --- !u!114 &4783869413914064950
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,16 @@ public class TheWorld : MonoBehaviour
     [Header("停止時間（秒）")]
     public float stopDuration = 5f;
 
+
+    // ★追加：演出用エフェクト
+    [Header("The World 演出エフェクト")]
+    public GameObject theWorldEffectPrefab;
+
+    // ★追加：エフェクト表示時間
+    public float effectDuration = 2f;
+
+
+
     private bool isActive = false;
     private GameObject owner; // 自分自身を記憶
     private GameTimer gameTimer;
@@ -21,14 +31,14 @@ public class TheWorld : MonoBehaviour
         gameTimer = FindObjectOfType<GameTimer>();
     }
 
-    //void Update()
-    //{
-    //    // Spaceキーで発動
-    //    if (Input.GetKeyDown(KeyCode.X))
-    //    {
-    //        Activate();
-    //    }
-    //}
+    void Update()
+    {
+        // Spaceキーで発動
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Activate();
+        }
+    }
 
     public void Activate()
     {
@@ -36,6 +46,17 @@ public class TheWorld : MonoBehaviour
 
         Debug.Log("【The World】時よ止まれ…！！");
         isActive = true;
+
+        // ★追加：TheWorldEffect を生成
+        if (theWorldEffectPrefab != null)
+        {
+            GameObject effect =
+                Instantiate(theWorldEffectPrefab, transform.position, Quaternion.identity);
+
+            // ★追加：〇秒後に削除
+            Destroy(effect, effectDuration);
+        }
+
         StartCoroutine(StopTimeForOthers());
     }
 
