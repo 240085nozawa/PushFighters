@@ -257,6 +257,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -691,6 +695,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1290290687}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     - target: {fileID: 4568583532367135475, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Name
       value: HumanF@Dance02 - Loop(Clone)
@@ -802,6 +810,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1290290687}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     - target: {fileID: 4568583532367135475, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Name
       value: HumanF@Dance02 - Loop(Clone) (1)
@@ -871,6 +883,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1290290687}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     - target: {fileID: 4568583532367135475, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Name
       value: HumanF@Dance02 - Loop(Clone)
@@ -1065,6 +1081,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1276,6 +1296,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1294,6 +1318,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 841751220}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     - target: {fileID: 4568583532367135475, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Name
       value: HumanF@Dance02 - Loop(Clone) (2)
@@ -1589,6 +1617,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2053,6 +2085,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 841751220}
     m_Modifications:
+    - target: {fileID: 4341499945805117318, guid: 1235e57324fad0b49a209f86ce8e4680, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     - target: {fileID: 6347813142687792296, guid: 1235e57324fad0b49a209f86ce8e4680, type: 3}
       propertyPath: m_Name
       value: HumanM@Dance03 - Loop
@@ -2674,7 +2710,8 @@ Transform:
   m_LocalPosition: {x: 20, y: -1.1, z: 0}
   m_LocalScale: {x: 82.81494, y: 1.3602151, z: 4.8626}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2011976417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1001 &1492027504
@@ -2685,6 +2722,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1290290687}
     m_Modifications:
+    - target: {fileID: 4341499945805117318, guid: 1235e57324fad0b49a209f86ce8e4680, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     - target: {fileID: 6347813142687792296, guid: 1235e57324fad0b49a209f86ce8e4680, type: 3}
       propertyPath: m_Name
       value: HumanM@Dance03 - Loop
@@ -2774,47 +2815,47 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1453113765}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalScale.x
-      value: 7.442605
+      value: 4.6666937
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalScale.y
-      value: 7.442605
+      value: 1.6081754
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalScale.z
-      value: 7.442605
+      value: 0.0898703
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 38.81582
+      value: -0.25849205
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 44.710358
+      value: 33.67876
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 21.407
+      value: 3.8694975
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.79335415
+      value: 0.5609861
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: -0.43045864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.5609861
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.6087605
+      value: 0.43045864
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2988,6 +3029,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 841751220}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     - target: {fileID: 4334803093438462942, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3117,6 +3162,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3465,6 +3514,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1290290687}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c60feb589e0183f4b9ab74d648c22ad6, type: 2}
     - target: {fileID: 4334803093438462942, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -3610,6 +3663,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 841751220}
     m_Modifications:
+    - target: {fileID: 1974701328758081446, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     - target: {fileID: 4568583532367135475, guid: bc342986d05355840b8ed899dc2784af, type: 3}
       propertyPath: m_Name
       value: HumanF@Dance02 - Loop(Clone) (3)
@@ -3671,6 +3728,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc342986d05355840b8ed899dc2784af, type: 3}
+--- !u!4 &2011976417 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5647d786e30684049991b87daf76bd17, type: 3}
+  m_PrefabInstance: {fileID: 1602744293}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2022835984
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3735,6 +3797,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HumanF@Dance04 - Loop (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5887891696479381865, guid: 4bd44a8fe431873459a61015c827b2c8, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0a2829d13e735f945bad4a55f824905b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3842,4 +3908,3 @@ SceneRoots:
   - {fileID: 1717850574}
   - {fileID: 813304577}
   - {fileID: 1453113765}
-  - {fileID: 1602744293}
