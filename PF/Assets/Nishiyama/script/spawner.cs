@@ -26,8 +26,7 @@ public class EffectSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // ó·: (0, 2, 0) ÇÃà íuÇ…èoÇ∑
-            SpawnObjectAt(new Vector3(0, 2, 0));
+            SpawnObjectAt(new Vector3(0, 0, 0));
         }
     }
 }

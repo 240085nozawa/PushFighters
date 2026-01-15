@@ -65,6 +65,10 @@ public class PlayerController : MonoBehaviour
     public int scoreTimer = 0;
     private bool isTimerActive = false;
 
+    [Header("Knockback Settings")]
+    public float knockbackForce = 20f;     // 吹き飛ぶ強さ
+    public float knockbackDuration = 0.5f; // 操作不能になる時間
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -255,6 +259,40 @@ public class PlayerController : MonoBehaviour
         if (rb != null) rb.velocity = Vector3.zero;
     }
 
+    public void ApplyKnockback(Vector3 direction)
+    {
+        if (!canKnockback) return; // ノックバック無効フラグがあれば中断
+
+        StartCoroutine(KnockbackRoutine(direction));
+    }
+
+    // ノックバックの実際の処理
+    IEnumerator KnockbackRoutine(Vector3 direction)
+    {
+        // 1. 操作不能にする
+        canMove = false;
+        isDashing = false; // ダッシュもキャンセル
+
+        // 2. 物理挙動で吹き飛ばす
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero; // 一旦停止
+            rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
+        }
+
+        Debug.Log($"[Player {PlayerTag}] Knockback!");
+
+        // 3. 硬直時間待つ
+        yield return new WaitForSeconds(knockbackDuration);
+
+        // 4. 復帰
+        if (rb != null)
+        {
+            rb.velocity = Vector3.zero; // 滑りを止める
+        }
+        canMove = true;
+    }
+
     public void IncreaseSpecialGauge(int amount)
     {
         specialGaugeValue = Mathf.Min(specialGaugeValue + amount, MAX_GAUGE);
@@ -338,6 +376,18 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("GameOverTag"))
         {
             OnGameOver();
+        }
+
+        if (other.CompareTag("wave"))
+        {
+            // 相手(other)から自分(transform)への方向 = 吹き飛ぶ方向
+            Vector3 knockbackDir = (transform.position - other.transform.position).normalized;
+
+            // Y軸（高さ）成分を消して水平に飛ばす
+            knockbackDir.y = 0;
+            knockbackDir = knockbackDir.normalized;
+
+            ApplyKnockback(knockbackDir);
         }
     }
 }

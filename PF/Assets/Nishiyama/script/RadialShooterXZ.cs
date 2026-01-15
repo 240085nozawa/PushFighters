@@ -1,46 +1,152 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using System.Collections;
 
-public class RadialShooterXZ : MonoBehaviour
+public class RadialShooterRandom : MonoBehaviour
 {
-    [Header("”­Ë‚·‚é’e‚ÌƒvƒŒƒnƒu")]
+    // ==========================================
+    // â–¼ è¡¨ç¤ºç”¨ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¨­å®š
+    // ==========================================
+    [Header("æ™‚é–“ã«ãªã£ãŸã‚‰è¡¨ç¤ºã•ã›ã‚‹ãƒ—ãƒ¬ãƒãƒ–")]
+    public GameObject targetPrefab;
+    public Vector3 targetSpawnPos = new Vector3(0, 0, 0);
+
+    [Header("è¡¨ç¤ºã‹ã‚‰ç™ºå°„ã¾ã§ã®å¾…æ©Ÿæ™‚é–“ï¼ˆç§’ï¼‰")]
+    public float delayTime = 1.0f;
+
+    // ==========================================
+    // â–¼ å¼¾ã®ç™ºå°„è¨­å®š
+    // ==========================================
+    [Header("ç™ºå°„è¨­å®š")]
     public GameObject ballPrefab;
-
-    [Header("’e‚Ì”i360“x‚ğ‰½•ªŠ„‚·‚é‚©j")]
     public int bulletCount = 12;
-
-    [Header("’e‚Ì‘¬‚³")]
     public float speed = 10f;
+    public float spawnHeight = 1.0f;
+    public float spawnRadius = 1.0f;
+
+    [Header("ãƒ©ãƒ³ãƒ€ãƒ ã‚¿ã‚¤ãƒãƒ¼è¨­å®š")]
+    public float timeLimit = 120f;
+    public int shootCount = 2;
+
+    [Header("é€£ç¶šç™ºå°„é˜²æ­¢")] // â˜…è¿½åŠ 
+    public float coolTime = 5.0f; // â˜…è¿½åŠ : ã“ã‚Œã‚ˆã‚ŠçŸ­ã„é–“éš”ã§ã¯ç™ºå‹•ã•ã›ãªã„
+
+    // --- å†…éƒ¨å¤‰æ•° ---
+    private float timer = 0f;
+    private float[] targetTimes;
+    private bool[] hasFired;
+    private bool isFinished = false;
+
+    void Start()
+    {
+        targetTimes = new float[shootCount];
+        hasFired = new bool[shootCount];
+
+        string logMessage = "ä»Šå›ã®ã‚¤ãƒ™ãƒ³ãƒˆäºˆå®šæ™‚åˆ»: ";
+
+        // â˜…â˜…â˜… ä¿®æ­£: æ™‚é–“æ±ºå®šãƒ­ã‚¸ãƒƒã‚¯ â˜…â˜…â˜…
+        for (int i = 0; i < shootCount; i++)
+        {
+            float candidateTime = 0f;
+            bool isTimeValid = false;
+            int attempts = 0; // ç„¡é™ãƒ«ãƒ¼ãƒ—é˜²æ­¢ç”¨ã®ã‚«ã‚¦ãƒ³ãƒˆ
+
+            // æœ‰åŠ¹ãªæ™‚é–“ãŒæ±ºã¾ã‚‹ã¾ã§å†æŠ½é¸ï¼ˆæœ€å¤§100å›è©¦è¡Œï¼‰
+            while (!isTimeValid && attempts < 100)
+            {
+                attempts++;
+
+                // ãƒ©ãƒ³ãƒ€ãƒ ãªæ™‚é–“ã‚’å€™è£œã¨ã—ã¦ç”Ÿæˆ
+                float safeMaxTime = Mathf.Max(1.0f, timeLimit - delayTime - 2.0f);
+                candidateTime = Random.Range(1.0f, safeMaxTime);
+
+                // ã€Œéå»ã«æ±ºã‚ãŸæ™‚é–“ã€ã¨è¿‘ã™ããªã„ã‹ãƒã‚§ãƒƒã‚¯
+                isTimeValid = true; // ã¨ã‚Šã‚ãˆãšOKã¨ä»®å®š
+                for (int j = 0; j < i; j++)
+                {
+                    // å·®ã®çµ¶å¯¾å€¤ãŒã‚¯ãƒ¼ãƒ«ã‚¿ã‚¤ãƒ æœªæº€ãªã‚‰NG
+                    if (Mathf.Abs(candidateTime - targetTimes[j]) < coolTime)
+                    {
+                        isTimeValid = false;
+                        break;
+                    }
+                }
+            }
+
+            // æ±ºå®šã—ãŸæ™‚é–“ã‚’ä¿å­˜
+            targetTimes[i] = candidateTime;
+            hasFired[i] = false;
+            logMessage += $"[{targetTimes[i]:F1}ç§’] ";
+        }
+
+        Debug.Log(logMessage);
+    }
 
     void Update()
     {
-        // ƒeƒXƒg—p: ƒXƒy[ƒXƒL[‚Å”­Ë
+        if (isFinished) return;
+
+        timer += Time.deltaTime;
+
+        if (timer >= timeLimit)
+        {
+            isFinished = true;
+            Debug.Log("çµ‚äº†ã€‚");
+            return;
+        }
+
+        // äºˆå®šæ™‚åˆ»ãƒã‚§ãƒƒã‚¯
+        for (int i = 0; i < shootCount; i++)
+        {
+            if (!hasFired[i] && timer >= targetTimes[i])
+            {
+                StartCoroutine(SpawnAndShootSequence(i + 1));
+                hasFired[i] = true;
+            }
+        }
+
+        // æ‰‹å‹•ãƒ†ã‚¹ãƒˆ
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Shoot();
+            StartCoroutine(SpawnAndShootSequence(0));
+        }
+    }
+
+    IEnumerator SpawnAndShootSequence(int countIndex)
+    {
+        SpawnObjectAt(targetSpawnPos);
+
+        yield return new WaitForSeconds(delayTime);
+
+        Shoot();
+    }
+
+    public void SpawnObjectAt(Vector3 position)
+    {
+        if (targetPrefab != null)
+        {
+            Instantiate(targetPrefab, position, Quaternion.identity);
         }
     }
 
     public void Shoot()
     {
-        // ’e”•ª‚¾‚¯ƒ‹[ƒv
+        if (ballPrefab == null) return;
+
         for (int i = 0; i < bulletCount; i++)
         {
-            // 1. Šp“x‚ğŒvZ (360“x € ŒÂ”)
             float angle = i * (360f / bulletCount) * Mathf.Deg2Rad;
-
-            // 2. is•ûŒü‚ÌƒxƒNƒgƒ‹‚ğì¬ (XZ•½–Ê)
-            // X = Cos(Šp“x), Z = Sin(Šp“x), Y = 0
             Vector3 direction = new Vector3(Mathf.Cos(angle), 0f, Mathf.Sin(angle)).normalized;
 
-            // 3. ’e‚ğ¶¬i©•ª‚ÌˆÊ’u‚©‚çj
-            GameObject ball = Instantiate(ballPrefab, transform.position, Quaternion.identity);
+            Vector3 centerPos = new Vector3(transform.position.x, spawnHeight, transform.position.z);
+            Vector3 spawnPos = centerPos + (direction * spawnRadius);
 
-            // 4. ‘¬“x‚ğ—^‚¦‚é
+            GameObject ball = Instantiate(ballPrefab, spawnPos, Quaternion.identity);
             Rigidbody rb = ball.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                // ’n–Ê‚Æ…•½‚É”ò‚Î‚·‚½‚ßd—Í‚ğØ‚éi•K—v‚É‰‚¶‚Ätrue‚É‚µ‚Ä‚­‚¾‚³‚¢j
                 rb.useGravity = false;
+                rb.isKinematic = false;
+                rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
                 rb.velocity = direction * speed;
             }
         }
