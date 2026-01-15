@@ -3,12 +3,10 @@ using System.Collections;
 
 public class BombATK : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-
     /// - 中にいる間は軽く押し出される（OnTriggerStay）
     /// - 出た瞬間にノックバックレベルで強く吹き飛ばされる（OnTriggerExit）
     /// - スタンは一度だけ発生
-    /// 
+
     [Header("攻撃発動者（影響を受けない対象）")]
     public GameObject owner;
 
@@ -18,27 +16,32 @@ public class BombATK : MonoBehaviour
     [Header("スタン継続時間（秒）")]
     public float stunDuration = 3f;
 
-    // ================================
-    // ★ 追加：生成するPrefab
-    // ================================
+    // ★追加：生成するPrefab
+    // =========================
     [Header("〇秒後に生成するPrefab")]
     public GameObject spawnPrefab;
 
-    // ================================
-    // ★ 追加：生成までの待ち時間
-    // ================================
-    public float spawnDelay = 1.5f;
+    // =========================
+    // ★追加：生成までの待ち時間
+    // =========================
+    public float spawnDelay = 1f;
 
-    // ================================
-    // ★ 追加：開始時にCoroutineを起動
-    // ================================
+    // =========================
+    // ★追加：生成後に消えるまでの時間
+    // =========================
+    public float destroyDelay = 2f;
+
+    // =========================
+    // ★追加：開始時に処理開始
+    // =========================
     private void Start()
     {
         if (spawnPrefab != null)
         {
-            StartCoroutine(SpawnAfterDelay());
+            StartCoroutine(SpawnAndDestroyRoutine());
         }
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -51,7 +54,7 @@ public class BombATK : MonoBehaviour
         PlayerController pc = other.GetComponent<PlayerController>();
         if (pc == null) return;
 
-        // --- ?? AllCounters発動中なら無効化 ---
+        // AllCounters 発動中なら無効化
         if (!pc.canKnockback)
         {
             Debug.Log($"[BombATK] Player{pc.PlayerTag} は AllCounters中のため、爆風効果を無効化。");
@@ -61,10 +64,10 @@ public class BombATK : MonoBehaviour
         // すでにスタン中なら何もしない
         if (pc.isStunned) return;
 
-        // --- 外方向ベクトル ---
+        // 外方向ベクトル
         Vector3 dir = (other.transform.position - transform.position).normalized;
 
-        // --- massStagesからノックバック強度を決定 ---
+        // massStagesからノックバック強度を決定
         float knockbackPower = baseKnockbackPower;
         if (pc.massStages != null && pc.massStages.Length > 0)
         {
@@ -72,11 +75,11 @@ public class BombATK : MonoBehaviour
             knockbackPower = Mathf.Max(baseKnockbackPower / Mathf.Max(mass, 0.1f), 1f);
         }
 
-        // --- transformベースで吹っ飛ばす（Translate移動対応） ---
+        // transformベースで吹っ飛ばす（Translate移動対応）
         Vector3 targetPos = pc.transform.position + dir * knockbackPower;
         pc.StartCoroutine(KnockbackRoutine(pc, targetPos));
 
-        // --- スタン開始 ---
+        // スタン開始
         pc.StartCoroutine(StunRoutine(pc));
 
         Debug.Log($"{pc.name} が爆風に当たってノックバック＋スタン！");
@@ -121,15 +124,22 @@ public class BombATK : MonoBehaviour
 
         Debug.Log($"{pc.name} はスタン解除！");
     }
-    // ================================
-    // ★ 追加：〇秒後にPrefabを生成
-    // ================================
-    private IEnumerator SpawnAfterDelay()
+    private IEnumerator SpawnAndDestroyRoutine()
     {
+        // 〇秒待つ
         yield return new WaitForSeconds(spawnDelay);
 
-        Instantiate(spawnPrefab, transform.position, Quaternion.identity);
+        // Prefab生成
+        GameObject obj = Instantiate(
+            spawnPrefab,
+            transform.position,
+            Quaternion.identity
+        );
 
-        Debug.Log("BombATK：Prefabを生成しました");
+        // さらに〇秒待つ
+        yield return new WaitForSeconds(destroyDelay);
+
+        // 破壊
+        Destroy(obj);
     }
 }
