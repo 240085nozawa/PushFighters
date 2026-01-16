@@ -14,7 +14,7 @@
     // =====================
     // スキルID
     // =====================
-    // 0=ビーム, 1=停止, 2=自爆, 3=カウンター
+    // 0=ビーム, 1=自爆, 2=カウンター, 3=停止
     public static int p1Skill = -1;
     public static int p2Skill = -1;
     public static int p3Skill = -1;

@@ -54,7 +54,7 @@ public class CharacterLottery : MonoBehaviour
     }
 
     /// <summary>
-    /// 抽選開始（UIが消えた後に呼ぶ）
+    /// 抽選開始
     /// </summary>
     public void StartLottery()
     {
@@ -69,7 +69,7 @@ public class CharacterLottery : MonoBehaviour
         isRolling = true;
         canStop = false;
 
-        // ★ 回転エフェクト生成
+        // 回転エフェクト生成
         if (rollingEffectPrefab != null && effectParent != null)
         {
             rollingEffectInstance = Instantiate(
@@ -93,8 +93,7 @@ public class CharacterLottery : MonoBehaviour
 
             for (int i = 0; i < slots.Length; i++)
             {
-                if (slots[i] != null)
-                    slots[i].sprite = shuffled[i];
+                slots[i].sprite = shuffled[i];
             }
 
             yield return new WaitForSeconds(interval);
@@ -116,41 +115,98 @@ public class CharacterLottery : MonoBehaviour
         if (rollCoroutine != null)
             StopCoroutine(rollCoroutine);
 
-        // ★ 回転エフェクト削除
         if (rollingEffectInstance != null)
-        {
             Destroy(rollingEffectInstance);
-            rollingEffectInstance = null;
-        }
 
         SaveResult();
         MoveToRandomScene();
     }
 
     /// <summary>
-    /// 抽選結果を保存
+    /// 抽選結果を保存（キャラID＋スキルID）
     /// </summary>
     void SaveResult()
     {
-        // slots[i].sprite をそのまま使えばOK
-        Debug.Log("🎯 抽選結果保存");
-        // ここで CharacterSelectionData / SkillSelectionData に代入
+        SkillSelectionData.playerCount = slots.Length;
+
+        SavePlayerData(0, slots[0].sprite);
+        SavePlayerData(1, slots[1].sprite);
+
+        if (slots.Length >= 3)
+            SavePlayerData(2, slots[2].sprite);
+
+        if (slots.Length >= 4)
+            SavePlayerData(3, slots[3].sprite);
+
+        Debug.Log("🎯 キャラ＆スキル保存完了");
+    }
+
+    void SavePlayerData(int playerIndex, Sprite sprite)
+    {
+        int charId = GetCharacterIndex(sprite);
+        int skillId = GetSkillFromCharacter(charId);
+
+        switch (playerIndex)
+        {
+            case 0:
+                SkillSelectionData.p1Character = charId;
+                SkillSelectionData.p1Skill = skillId;
+                break;
+            case 1:
+                SkillSelectionData.p2Character = charId;
+                SkillSelectionData.p2Skill = skillId;
+                break;
+            case 2:
+                SkillSelectionData.p3Character = charId;
+                SkillSelectionData.p3Skill = skillId;
+                break;
+            case 3:
+                SkillSelectionData.p4Character = charId;
+                SkillSelectionData.p4Skill = skillId;
+                break;
+        }
     }
 
     /// <summary>
-    /// ランダムにゲームシーンへ移動
+    /// Sprite → キャラID
+    /// </summary>
+    int GetCharacterIndex(Sprite sprite)
+    {
+        for (int i = 0; i < characterIcons.Length; i++)
+        {
+            if (characterIcons[i] == sprite)
+                return i;
+        }
+        return -1;
+    }
+
+    /// <summary>
+    /// キャラID → スキルID（固定）
+    /// </summary>
+    int GetSkillFromCharacter(int characterId)
+    {
+        switch (characterId)
+        {
+            case 0: return 0; // ビーム
+            case 1: return 2; // 自爆
+            case 2: return 3; // カウンター
+            case 3: return 1; // 停止
+            default: return -1;
+        }
+    }
+
+    /// <summary>
+    /// ランダムシーン移動
     /// </summary>
     void MoveToRandomScene()
     {
         if (gameScenes == null || gameScenes.Length == 0)
         {
-            Debug.LogError("❌ 移動先シーンが設定されていない");
+            Debug.LogError("❌ 移動先シーンが未設定");
             return;
         }
 
         string sceneName = gameScenes[Random.Range(0, gameScenes.Length)];
-        Debug.Log("➡ シーン移動: " + sceneName);
-
         SceneManager.LoadScene(sceneName);
     }
 
