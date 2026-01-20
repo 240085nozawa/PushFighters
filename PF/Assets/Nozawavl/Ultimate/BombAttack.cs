@@ -3,97 +3,123 @@ using System.Collections;
 
 public class BombAttack : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("必殺技フラグ")]
+    public bool isActive = false;
 
-    /// 爆破攻撃の処理を行うスクリプト
-    /// - 所有者（owner）は影響を受けない
-    /// - 爆風範囲内のPlayerを外側にノックバック
-    /// - massStageに応じてノックバック強度を調整
-    /// - 3秒後に自動削除
+    [Header("溜め演出Prefab")]
+    public GameObject chargeEffectPrefab;
+    public float chargeDuration = 2f;
 
-    [Header("ResourcesからロードするPrefab名（Resources/BombAttackPrefab など）")]
-    public string bombPrefabName = "BombAttack"; // Resources/BombAttack.prefab に置く
+    [Header("爆破演出Prefab")]
+    public GameObject explosionEffectPrefab;
+    public float explosionDuration = 1.5f;
 
-    [Header("生成位置（指定がない場合は自分の位置）")]
-    public Transform spawnPoint;
+    [Header("爆破判定Prefab（BombATK付き）")]
+    public GameObject explosionATKPrefab;
 
-    [Header("生成した爆破を削除するまでの時間（秒）")]
-    public float destroyDelay = 3f;
+    private PlayerController pc;
 
-    private GameObject spawnedBomb;
+    private bool isRunning = false;
 
-    private bool isFiring = false;
+    private void Awake()
+    {
+        pc = GetComponent<PlayerController>();
+    }
+
+    public void Activate()
+    {
+        if (!isActive)
+        {
+            isActive = true;
+        }
+    }
 
     private void Update()
     {
-        // 仮で Xキー押下時に発動
-        if (Input.GetKeyDown(KeyCode.Space) && !isFiring)
+        // 発動リクエストが来ていて、まだ実行中でない場合だけ実行
+        if (isActive && !isRunning)
         {
-            StartCoroutine(FireBombRoutine());
+            isActive = false;
+            StartCoroutine(BombAttackRoutine());
         }
-    }
-    public void Activate()
-    {
-        if (!isFiring)
+
+        // Spaceキーで発動
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            StartCoroutine(FireBombRoutine());
+            Activate();
         }
     }
 
-    /// 爆破発動処理をコルーチンで管理。
-    /// - 発動者を一時的に移動停止
-    /// - 爆破生成
-    /// - 一定時間後に削除して移動復帰
-    private IEnumerator FireBombRoutine()
+    private IEnumerator BombAttackRoutine()
     {
-        isFiring = true;
+        isRunning = true;
 
-        // --- ?? プレイヤー移動停止 ---
-        PlayerController pc = GetComponent<PlayerController>();
+        // =========================
+        // プレイヤー4移動停止
+        // =========================
         if (pc != null)
         {
             pc.canMove = false;
-            Debug.Log($"[BombAttack] {pc.name} は爆破準備中（移動停止）");
         }
 
-        // --- ?? 爆破プレハブをロード＆生成 ---
-        GameObject bombPrefab = Resources.Load<GameObject>(bombPrefabName);
-        if (bombPrefab == null)
+        // =========================
+        // 溜め演出
+        // =========================
+        if (chargeEffectPrefab != null)
         {
-            Debug.LogError($"Resources/{bombPrefabName}.prefab が見つかりません！");
-            yield break;
+            GameObject charge = Instantiate(
+                chargeEffectPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+            Destroy(charge, chargeDuration);
         }
 
-        Vector3 pos = spawnPoint != null ? spawnPoint.position : transform.position;
-        spawnedBomb = Instantiate(bombPrefab, pos, Quaternion.identity);
+        yield return new WaitForSeconds(chargeDuration);
 
-        // 発動者情報を渡す（BombATKで除外するため）
-        BombATK atk = spawnedBomb.GetComponent<BombATK>();
-        if (atk != null)
+        // =========================
+        // 爆破演出
+        // =========================
+        if (explosionEffectPrefab != null)
         {
-            atk.owner = this.gameObject;
+            GameObject explosion = Instantiate(
+                explosionEffectPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+            Destroy(explosion, explosionDuration);
         }
 
-        Debug.Log($"{gameObject.name} が爆破必殺技を発動！");
-
-        // --- ?? 爆破持続時間中は待機 ---
-        yield return new WaitForSeconds(destroyDelay);
-
-        // --- ?? 爆破削除 ---
-        if (spawnedBomb != null)
+        // =========================
+        // 爆破判定生成
+        // =========================
+        if (explosionATKPrefab != null)
         {
-            Destroy(spawnedBomb);
-            Debug.Log("[BombAttack] 爆破終了。");
+            GameObject atk = Instantiate(
+                explosionATKPrefab,
+                transform.position,
+                Quaternion.identity
+            );
+
+            BombATK bombATK = atk.GetComponent<BombATK>();
+            if (bombATK != null)
+            {
+                bombATK.owner = this.gameObject; // Player4を渡す
+            }
+
+            Destroy(atk, explosionDuration);
         }
 
-        // --- ? プレイヤー移動再開 ---
+        yield return new WaitForSeconds(explosionDuration);
+
+        // =========================
+        // 移動再開
+        // =========================
         if (pc != null)
         {
             pc.canMove = true;
-            Debug.Log($"[BombAttack] {pc.name} の移動を再開。");
         }
 
-        isFiring = false;
-    }
-
+        isRunning = false;
+}
 }

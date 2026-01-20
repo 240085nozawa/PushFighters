@@ -3,98 +3,58 @@ using System.Collections;
 
 public class BombATK : MonoBehaviour
 {
-    /// - 中にいる間は軽く押し出される（OnTriggerStay）
-    /// - 出た瞬間にノックバックレベルで強く吹き飛ばされる（OnTriggerExit）
-    /// - スタンは一度だけ発生
-
-    [Header("攻撃発動者（影響を受けない対象）")]
+    [Header("発動者（Player4）")]
     public GameObject owner;
 
-    [Header("ノックバックの基本強度")]
-    public float baseKnockbackPower = 5f;
+    [Header("ノックバック強度")]
+    public float knockbackPower = 5f;
 
-    [Header("スタン継続時間（秒）")]
+    [Header("スタン時間")]
     public float stunDuration = 3f;
-
-    // ★追加：生成するPrefab
-    // =========================
-    [Header("〇秒後に生成するPrefab")]
-    public GameObject spawnPrefab;
-
-    // =========================
-    // ★追加：生成までの待ち時間
-    // =========================
-    public float spawnDelay = 1f;
-
-    // =========================
-    // ★追加：生成後に消えるまでの時間
-    // =========================
-    public float destroyDelay = 2f;
-
-    // =========================
-    // ★追加：開始時に処理開始
-    // =========================
-    private void Start()
-    {
-        if (spawnPrefab != null)
-        {
-            StartCoroutine(SpawnAndDestroyRoutine());
-        }
-    }
-
 
     private void OnTriggerEnter(Collider other)
     {
-        // 自分は無視
-        if (other.gameObject == owner) return;
-
-        // Player 以外は無視
+        // Player以外無視
         if (!other.CompareTag("Player")) return;
+
+        // 発動者無視（rootで判定）
+        if (owner != null && other.transform.root.gameObject == owner) return;
 
         PlayerController pc = other.GetComponent<PlayerController>();
         if (pc == null) return;
 
-        // AllCounters 発動中なら無効化
-        if (!pc.canKnockback)
-        {
-            Debug.Log($"[BombATK] Player{pc.PlayerTag} は AllCounters中のため、爆風効果を無効化。");
-            return;
-        }
+        // AllCounter中は無効
+        if (!pc.canKnockback) return;
 
-        // すでにスタン中なら何もしない
+        // すでにスタン中なら無視
         if (pc.isStunned) return;
 
-        // 外方向ベクトル
-        Vector3 dir = (other.transform.position - transform.position).normalized;
+        // =========================
+        // 横方向のみノックバック
+        // =========================
+        Vector3 dir = other.transform.position - transform.position;
+        dir.y = 0f;
+        dir = dir.normalized;
 
-        // massStagesからノックバック強度を決定
-        float knockbackPower = baseKnockbackPower;
-        if (pc.massStages != null && pc.massStages.Length > 0)
-        {
-            float mass = pc.massStages[pc.currentMassStage];
-            knockbackPower = Mathf.Max(baseKnockbackPower / Mathf.Max(mass, 0.1f), 1f);
-        }
-
-        // transformベースで吹っ飛ばす（Translate移動対応）
         Vector3 targetPos = pc.transform.position + dir * knockbackPower;
+        targetPos.y = pc.transform.position.y;
+
         pc.StartCoroutine(KnockbackRoutine(pc, targetPos));
-
-        // スタン開始
         pc.StartCoroutine(StunRoutine(pc));
-
-        Debug.Log($"{pc.name} が爆風に当たってノックバック＋スタン！");
     }
 
     private IEnumerator KnockbackRoutine(PlayerController pc, Vector3 targetPos)
     {
-        // 0.15秒かけて滑らかに押し出す
         float duration = 0.15f;
         float elapsed = 0f;
         Vector3 startPos = pc.transform.position;
 
         while (elapsed < duration)
         {
-            pc.transform.position = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            Vector3 pos = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            pos.y = startPos.y;
+            pc.transform.position = pos;
+
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -106,40 +66,16 @@ public class BombATK : MonoBehaviour
     {
         pc.isStunned = true;
 
-        // 元の状態を記録
         float originalSpeed = pc.moveSpeed;
         bool originalCanMove = pc.canMove;
 
-        // スタン効果
         pc.moveSpeed = 0f;
         pc.canMove = false;
-        Debug.Log($"{pc.name} はスタン中...");
 
         yield return new WaitForSeconds(stunDuration);
 
-        // スタン解除
         pc.moveSpeed = originalSpeed;
         pc.canMove = originalCanMove;
         pc.isStunned = false;
-
-        Debug.Log($"{pc.name} はスタン解除！");
-    }
-    private IEnumerator SpawnAndDestroyRoutine()
-    {
-        // 〇秒待つ
-        yield return new WaitForSeconds(spawnDelay);
-
-        // Prefab生成
-        GameObject obj = Instantiate(
-            spawnPrefab,
-            transform.position,
-            Quaternion.identity
-        );
-
-        // さらに〇秒待つ
-        yield return new WaitForSeconds(destroyDelay);
-
-        // 破壊
-        Destroy(obj);
     }
 }

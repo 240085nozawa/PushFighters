@@ -14752,6 +14752,8 @@ MonoBehaviour:
   punchButton: P2_Punch
   dashButton: P2_Dash
   scoreTimer: 0
+  knockbackForce: 20
+  knockbackDuration: 0.5
 --- !u!114 &1690367554326966962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14799,6 +14801,8 @@ MonoBehaviour:
   punchButton: P1_Punch
   dashButton: P1_Dash
   scoreTimer: 0
+  knockbackForce: 20
+  knockbackDuration: 0.5
 --- !u!114 &1690367554687045587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14846,6 +14850,8 @@ MonoBehaviour:
   punchButton: Punch
   dashButton: Dash
   scoreTimer: 0
+  knockbackForce: 20
+  knockbackDuration: 0.5
 --- !u!4 &1711435508138833195
 Transform:
   m_ObjectHideFlags: 0
@@ -20527,9 +20533,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ada074dc68a7a744991362dcd075594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bombPrefabName: BombAttack
-  spawnPoint: {fileID: 5614112680095371769}
-  destroyDelay: 3
+  isActive: 0
+  chargeEffectPrefab: {fileID: 9099500524267264704, guid: 37b409a8aedc11b458b89758da2b1914, type: 3}
+  chargeDuration: 0.15
+  explosionEffectPrefab: {fileID: 8151293795276954672, guid: e11ff71d394875c4c9c7bf64eb5ed844, type: 3}
+  explosionDuration: 3
+  explosionATKPrefab: {fileID: 6058947793099854096, guid: 2367778f03b082944869cfcdf7e304f4, type: 3}
 --- !u!137 &5668765844595386947
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

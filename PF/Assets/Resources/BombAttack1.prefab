@@ -107,7 +107,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2
@@ -148,10 +148,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  baseKnockbackPower: 10
+  knockbackPower: 5
   stunDuration: 2
-  spawnPrefab: {fileID: 0}
-  spawnDelay: 1.5
 --- !u!114 &3444245224356133800
 MonoBehaviour:
   m_ObjectHideFlags: 0
