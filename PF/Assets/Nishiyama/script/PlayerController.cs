@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     [Header("Score")]
     public int currentScore = 0; // ★ 追加: 現在のスコア
 
+    [Header("レベル管理")]
+    public int knockbackLevel = 1; // これをUIで表示します (初期値1)
+
     [Header("ULT")]
     public bool canMove = true;
     [HideInInspector] public bool isTimeStopped = false;
