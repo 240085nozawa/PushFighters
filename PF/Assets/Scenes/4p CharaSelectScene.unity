@@ -2181,7 +2181,7 @@ MonoBehaviour:
   characterIcons:
   - {fileID: 21300000, guid: 0ca5517854686cd438c81c6e4bd84dc4, type: 3}
   - {fileID: 21300000, guid: d3cfacf71d6e390418a4329c0ba58fce, type: 3}
-  - {fileID: 21300000, guid: bbe91ac2489fc4146acbec2ffb4a43c7, type: 3}
+  - {fileID: 21300000, guid: 5d1ddf6f0c0e08c4b9c1bc7503d0ab87, type: 3}
   - {fileID: 21300000, guid: 4533497bda0412843b503fb917951588, type: 3}
   slots:
   - {fileID: 1988099749}
