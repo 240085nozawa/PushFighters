@@ -8364,7 +8364,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a016373416572845be5b83084edb360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefabs: []
+  characterPrefabs:
+  - {fileID: 8489560655632961387, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
+  - {fileID: 5893021420201624301, guid: 46b32a0c41c3a5242b44230bff7ba90f, type: 3}
+  - {fileID: 5078872692706160687, guid: 148ec0b2e6c5f464b9f7cd60a6e1ca23, type: 3}
+  - {fileID: 8228740815269485223, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
   spawnPoints:
   - {fileID: 728568721}
   - {fileID: 143699449}
