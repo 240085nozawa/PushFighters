@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5923690424060351763
+--- !u!1001 &6703992958983602108
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.7499974
+      value: 3.362922
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.44249916
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -22.871155
+      value: -6.455099
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -50,10 +50,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
       propertyPath: m_Name
-      value: RobotCharacter
+      value: Robot_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7522357398609939573}
   m_SourcePrefab: {fileID: 100100000, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
+--- !u!1 &5893021420201624301 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1ec5054dfc07fd94ea1b0c0530d228d6, type: 3}
+  m_PrefabInstance: {fileID: 6703992958983602108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7522357398609939573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5893021420201624301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5632aeee858899a4f86c57c45391f64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerTag: 2
+  currentScore: 0
+  knockbackLevel: 1
+  canMove: 1
+  isTimeStopped: 0
+  isStunned: 0
+  hasBeenStunnedByBomb: 0
+  canTakeDamage: 1
+  specialGaugeValue: 0
+  increaseultamount: 0.5
+  canKnockback: 1
+  massStages:
+  - 3
+  - 2
+  - 1
+  currentMassStage: 0
+  recoveryInterval: 2
+  recoveryTimer: 0
+  isRecovering: 0
+  massColors:
+  - {r: 0, g: 1, b: 0, a: 1}
+  - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  - {r: 1, g: 0, b: 0, a: 1}
+  moveSpeed: 5
+  rotationSpeed: 10
+  punchHandPrefab: {fileID: 0}
+  punchPoint: {fileID: 0}
+  punchCooldown: 0
+  dashForce: 15
+  dashCooldown: 1
+  dashDuration: 0.1
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  punchButton: Punch
+  dashButton: Dash
+  scoreTimer: 0
+  knockbackForce: 20
+  knockbackDuration: 0.5
