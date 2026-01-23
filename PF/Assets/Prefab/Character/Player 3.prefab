@@ -253,6 +253,10 @@ PrefabInstance:
       value: P3_Dash
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: windUpTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: punchButton
       value: P3_Punch
       objectReference: {fileID: 0}
