@@ -5179,6 +5179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 143699449}
+  - component: {fileID: 143699450}
   m_Layer: 0
   m_Name: "2p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -5201,6 +5202,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &143699450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 143699448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 2
 --- !u!1 &203844586
 GameObject:
   m_ObjectHideFlags: 0
@@ -7147,6 +7161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728568721}
+  - component: {fileID: 728568722}
   m_Layer: 0
   m_Name: "1p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -7169,6 +7184,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &728568722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728568720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 1
 --- !u!1 &785530242
 GameObject:
   m_ObjectHideFlags: 0
@@ -8722,6 +8750,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1063236853}
+  - component: {fileID: 1063236854}
   m_Layer: 0
   m_Name: "3p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -8744,6 +8773,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1063236854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1063236852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 3
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0
@@ -9060,6 +9102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1262767633}
+  - component: {fileID: 1262767634}
   m_Layer: 0
   m_Name: "4p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -9082,6 +9125,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1262767634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1262767632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 4
 --- !u!1 &1351838370
 GameObject:
   m_ObjectHideFlags: 0
@@ -31482,6 +31538,8 @@ MonoBehaviour:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   moveSpeed: 7
+  windUpTime: 0.5
+  recoveryTime: 1
   rotationSpeed: 12
   punchHandPrefab: {fileID: 3114788990440995519, guid: 1d457967d7bf78642a10d875375aa7e7, type: 3}
   punchPoint: {fileID: 451147799157249276}

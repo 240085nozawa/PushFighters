@@ -64,6 +64,10 @@ public class PlayerController : MonoBehaviour
     public string punchButton = "Punch";
     public string dashButton = "Dash";
 
+    [Header("Spawn Info")]
+    // 🔥CHANGE
+    public int spawnBoxNumber = 0; // 0 = 未設定
+
     private SpecialExecutor specialExecutor;
     private SpecialBeam specialBeam;
     private BombAttack bombAttack;
@@ -101,7 +105,19 @@ public class PlayerController : MonoBehaviour
         isTimerActive = true;
 
         StartGaugeTicker();
+
+        //ForceInputNameBySpawnBox(); // ★ 念のため
     }
+
+
+    //void ForceInputNameBySpawnBox()
+    //{
+    //    horizontalAxis = $"P{spawnBoxNumber}_Horizontal";
+    //    verticalAxis = $"P{spawnBoxNumber}_Vertical";
+    //    punchButton = $"P{spawnBoxNumber}_Punch";
+    //    dashButton = $"P{spawnBoxNumber}_Dash";
+    //}
+
 
     // ★ 追加: スコア加算用関数
     public void AddScore(int amount)
@@ -110,9 +126,57 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"Player {PlayerTag} Score: {currentScore} (+{amount})");
     }
 
+    // ★★★ ここだけで入力を確定させる
+    //public void SetSpawnBoxNumber(int boxNumber)
+    //{
+    //    spawnBoxNumber = boxNumber;
+
+    //    horizontalAxis = $"P{spawnBoxNumber}_Horizontal";
+    //    verticalAxis = $"P{spawnBoxNumber}_Vertical";
+    //    punchButton = $"P{spawnBoxNumber}_Punch";
+    //    dashButton = $"P{spawnBoxNumber}_Dash";
+
+    //    Debug.Log(
+    //        $"[PlayerController] Input fixed to P{spawnBoxNumber}_*"
+    //    );
+    //}
+    public void ApplySpawnBox(int boxNumber)
+    {
+        spawnBoxNumber = boxNumber;
+
+        horizontalAxis = $"P{boxNumber}_Horizontal";
+        verticalAxis = $"P{boxNumber}_Vertical";
+        punchButton = $"P{boxNumber}_Punch";
+        dashButton = $"P{boxNumber}_Dash";
+
+        Debug.Log(
+            $"[PlayerController] 🔥 強制操作確定 Box={boxNumber} Axis={horizontalAxis}"
+        );
+    }
     void Update()
     {
+        //// ★ 追加：毎フレーム必ず操作名を強制更新
+        //ForceInputNameBySpawnBox();
+
         if (isTimeStopped) return;
+
+        //// 🔥 CharacterSpawner が決めた箱番号を毎フレーム取得
+        //if (CharacterSpawner.SpawnBoxMap.TryGetValue(
+        //    GetInstanceID(), out int boxNumber))
+        //{
+        //    spawnBoxNumber = boxNumber;
+        //}
+        //else
+        //{
+        //    return; // まだ割り当てられていない
+        //}
+
+        //// 🔥CHANGE②：操作は箱番号から直接取得
+        //// ==============================
+        //string hAxis = $"P{spawnBoxNumber}_Horizontal";
+        //string vAxis = $"P{spawnBoxNumber}_Vertical";
+        //string punchBtn = $"P{spawnBoxNumber}_Punch";
+        //string dashBtn = $"P{spawnBoxNumber}_Dash";
 
         // ★修正: 攻撃中は移動処理などをスキップして、その場で停止させる
         if (isAttacking)
