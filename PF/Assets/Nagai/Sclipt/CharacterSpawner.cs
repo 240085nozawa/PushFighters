@@ -21,25 +21,31 @@ public class CharacterSpawner : MonoBehaviour
         {
             int characterId = GetCharacterId(i);
 
-            if (characterId < 0 || characterId >= characterPrefabs.Length)
-            {
-                Debug.LogError($"❌ P{i + 1} キャラID不正: {characterId}");
-                continue;
-            }
-
-            if (spawnPoints[i] == null)
-            {
-                Debug.LogError($"❌ P{i + 1} SpawnPoint が未設定");
-                continue;
-            }
-
-            Instantiate(
+            GameObject player = Instantiate(
                 characterPrefabs[characterId],
                 spawnPoints[i].position,
                 spawnPoints[i].rotation
             );
 
-            Debug.Log($"✅ P{i + 1} に キャラID {characterId} をスポーン");
+            PlayerController controller = player.GetComponent<PlayerController>();
+            if (controller != null)
+            {
+                int playerNumber = i + 1;
+
+                // ★ Player番号
+                controller.PlayerTag = playerNumber;
+
+                // ★ Input名を全部作り直す（ここが超重要）
+                controller.horizontalAxis = $"P{playerNumber}_Horizontal";
+                controller.verticalAxis = $"P{playerNumber}_Vertical";
+                controller.punchButton = $"P{playerNumber}_Punch";
+                controller.dashButton = $"P{playerNumber}_Dash";
+
+                Debug.Log(
+                    $"🎮 P{playerNumber} 設定完了\n" +
+                    $"{controller.horizontalAxis}, {controller.punchButton}"
+                );
+            }
         }
     }
 
