@@ -2183,7 +2183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterIcons:
   - {fileID: 21300000, guid: 7ab9e018ea5f3924bb39a1bfad5539e9, type: 3}
-  - {fileID: 21300000, guid: 5d1ddf6f0c0e08c4b9c1bc7503d0ab87, type: 3}
+  - {fileID: 21300000, guid: a16996dca6bbacc44b555f7bd45440d8, type: 3}
   - {fileID: 21300000, guid: 255d1659abac4a04f839aef529c6729a, type: 3}
   - {fileID: 21300000, guid: 3494866a02f427644962d905f057a8cf, type: 3}
   slots:
@@ -2202,7 +2202,7 @@ MonoBehaviour:
   - KARA
   - TENKAI
   audioSource: {fileID: 1713241314}
-  startPressSE: {fileID: 0}
+  startPressSE: {fileID: 8300000, guid: 6a223c46039f6454abb5e7c9c5287e96, type: 3}
   loopSE: {fileID: 8300000, guid: 2afb4c9664bb1214c925cce9e48a74bb, type: 3}
 --- !u!82 &1713241314
 AudioSource:
@@ -2214,8 +2214,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6a223c46039f6454abb5e7c9c5287e96, type: 3}
-  m_Resource: {fileID: 8300000, guid: 6a223c46039f6454abb5e7c9c5287e96, type: 3}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
