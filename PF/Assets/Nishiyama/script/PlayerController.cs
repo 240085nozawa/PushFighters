@@ -39,6 +39,11 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     private Renderer playerRenderer;
     public float moveSpeed = 5f;
+
+    [Header("Punch Timing")]
+    public float windUpTime = 0.5f;   // ★追加: パンチが出るまでのタメ時間
+    public float recoveryTime = 1.0f; // ★追加: パンチ後の硬直時間
+    private bool isAttacking = false; // ★追加: 現在攻撃中かどうかのフラグ
     public Vector3 LastMoveDirection { get; private set; } = Vector3.forward;
     public float rotationSpeed = 10f;
     public GameObject punchHandPrefab;
@@ -109,6 +114,13 @@ public class PlayerController : MonoBehaviour
     {
         if (isTimeStopped) return;
 
+        // ★修正: 攻撃中は移動処理などをスキップして、その場で停止させる
+        if (isAttacking)
+        {
+            if (rb != null) rb.velocity = Vector3.zero; // 滑り防止
+            return;
+        }
+
         move();
 
         if (specialGaugeValue == 100)
@@ -116,9 +128,10 @@ public class PlayerController : MonoBehaviour
             // Debug.Log("ULT Rdy");
         }
 
+        // ★修正: ボタンを押したら「Punch()」を直接呼ばず、コルーチンを開始する
         if (Input.GetButtonDown(punchButton))
         {
-            Punch();
+            StartCoroutine(PunchSequence());
         }
 
         if (isRecovering)
@@ -187,6 +200,23 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
     }
 
+    IEnumerator PunchSequence()
+    {
+        isAttacking = true;
+
+        // 1. 予備動作（タメ）
+        // ここで「構えモーション」などを入れると良いです
+        yield return new WaitForSeconds(windUpTime);
+
+        // 2. パンチ実行
+        // 既存のプレハブ生成処理を呼び出します
+        Punch();
+
+        // 3. 硬直（パンチした後も少し動けない）
+        yield return new WaitForSeconds(recoveryTime);
+
+        isAttacking = false;
+    }
     void Punch()
     {
         if (Time.time < nextPunchTime) return;
