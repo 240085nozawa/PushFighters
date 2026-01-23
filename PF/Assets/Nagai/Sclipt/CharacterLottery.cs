@@ -23,43 +23,90 @@ public class CharacterLottery : MonoBehaviour
     [Header("移動先シーン候補")]
     [SerializeField] private string[] gameScenes;
 
+    [Header("効果音設定")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip startPressSE;    // スペース押した瞬間のSE
+    [SerializeField] private AudioClip loopSE;          // 2秒後ループSE
+
     private GameObject rollingEffectInstance;
     private Coroutine rollCoroutine;
 
     private bool isRolling = false;
     private bool canStop = false;
+    private bool started = false;      // スタート済みフラグ
+    private bool stopping = false;     // 停止フラグ
 
     void Start()
     {
         isRolling = false;
         canStop = false;
+        started = false;
     }
 
     void Update()
     {
-        if (!isRolling || !canStop) return;
+        if (Keyboard.current == null) return;
 
-        bool stopInput =
-            Keyboard.current != null &&
-            (
-                Keyboard.current.enterKey.wasPressedThisFrame ||
-                Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
-                Keyboard.current.spaceKey.wasPressedThisFrame
-            );
+        bool press =
+            Keyboard.current.enterKey.wasPressedThisFrame ||
+            Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
+            Keyboard.current.spaceKey.wasPressedThisFrame;
 
-        if (stopInput)
+        if (!press) return;
+
+        if (!started)
+        {
+            StartLotteryCoroutineFromUpdate();
+        }
+        else if (!stopping && canStop)
         {
             StopLottery();
         }
     }
 
     /// <summary>
-    /// 抽選開始
+    /// UIから呼ばれる抽選開始コルーチン
     /// </summary>
-    public void StartLottery()
+    public void StartLotteryCoroutine()
     {
-        if (isRolling) return;
+        StartCoroutine(StartLotteryCoroutineInternal());
+    }
 
+    /// <summary>
+    /// Updateから呼ばれる抽選開始コルーチン
+    /// </summary>
+    void StartLotteryCoroutineFromUpdate()
+    {
+        StartCoroutine(StartLotteryCoroutineInternal());
+    }
+
+    IEnumerator StartLotteryCoroutineInternal()
+    {
+        started = true;
+
+        // 1つ目のSE
+        if (audioSource != null && startPressSE != null)
+        {
+            audioSource.PlayOneShot(startPressSE);
+        }
+
+        // 2秒待機
+        yield return new WaitForSeconds(2f);
+
+        // ループSE開始
+        if (audioSource != null && loopSE != null)
+        {
+            audioSource.clip = loopSE;
+            audioSource.loop = true;
+            audioSource.Play();
+        }
+
+        // ルーレット開始
+        StartRoll();
+    }
+
+    void StartRoll()
+    {
         if (characterIcons == null || characterIcons.Length < slots.Length)
         {
             Debug.LogError("❌ キャラ画像が足りない");
@@ -108,7 +155,14 @@ public class CharacterLottery : MonoBehaviour
 
     void StopLottery()
     {
-        if (!isRolling) return;
+        stopping = true;
+
+        // ループSE停止
+        if (audioSource != null)
+        {
+            audioSource.loop = false;
+            audioSource.Stop();
+        }
 
         isRolling = false;
 
@@ -122,9 +176,6 @@ public class CharacterLottery : MonoBehaviour
         MoveToRandomScene();
     }
 
-    /// <summary>
-    /// 抽選結果を保存（キャラID＋スキルID）
-    /// </summary>
     void SaveResult()
     {
         SkillSelectionData.playerCount = slots.Length;
@@ -167,9 +218,6 @@ public class CharacterLottery : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Sprite → キャラID
-    /// </summary>
     int GetCharacterIndex(Sprite sprite)
     {
         for (int i = 0; i < characterIcons.Length; i++)
@@ -180,24 +228,18 @@ public class CharacterLottery : MonoBehaviour
         return -1;
     }
 
-    /// <summary>
-    /// キャラID → スキルID（固定）
-    /// </summary>
     int GetSkillFromCharacter(int characterId)
     {
         switch (characterId)
         {
-            case 0: return 0; // ビーム
-            case 1: return 2; // 自爆
-            case 2: return 3; // カウンター
-            case 3: return 1; // 停止
+            case 0: return 0;
+            case 1: return 2;
+            case 2: return 3;
+            case 3: return 1;
             default: return -1;
         }
     }
 
-    /// <summary>
-    /// ランダムシーン移動
-    /// </summary>
     void MoveToRandomScene()
     {
         if (gameScenes == null || gameScenes.Length == 0)

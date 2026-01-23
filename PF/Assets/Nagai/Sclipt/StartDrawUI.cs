@@ -3,7 +3,13 @@ using UnityEngine.InputSystem;
 
 public class StartDrawUI : MonoBehaviour
 {
+    [Header("抽選スクリプト（4P用）")]
     [SerializeField] private CharacterLottery characterLottery;
+
+    [Header("効果音設定")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip startPressSE;
+
     private bool started = false;
 
     void Update()
@@ -27,7 +33,7 @@ public class StartDrawUI : MonoBehaviour
             gameObject.SetActive(false);
 
             if (characterLottery != null)
-                characterLottery.StartLottery();
+                characterLottery.StartLotteryCoroutine();  // これでコルーチン開始
             else
                 Debug.LogError("CharacterLottery 未設定");
         }
