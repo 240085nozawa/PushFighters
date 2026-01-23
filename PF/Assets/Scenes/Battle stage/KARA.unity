@@ -9387,6 +9387,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615910331}
+  - component: {fileID: 1615910332}
   m_Layer: 0
   m_Name: "2p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -9409,6 +9410,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1615910332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615910330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 2
 --- !u!1001 &1619090229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10854,6 +10868,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1881216171}
+  - component: {fileID: 1881216172}
   m_Layer: 0
   m_Name: "1p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -10876,6 +10891,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1881216172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881216170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 1
 --- !u!1 &1888877902
 GameObject:
   m_ObjectHideFlags: 0
@@ -11102,6 +11130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1922632845}
+  - component: {fileID: 1922632846}
   m_Layer: 0
   m_Name: "4p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -11124,6 +11153,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1922632846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1922632844}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 4
 --- !u!1 &1922637772
 GameObject:
   m_ObjectHideFlags: 0
@@ -12125,6 +12167,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2134804544}
+  - component: {fileID: 2134804545}
   m_Layer: 0
   m_Name: "3p\u30B9\u30DD\u30FC\u30F3"
   m_TagString: Untagged
@@ -12147,6 +12190,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2134804545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2134804543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a65e40072932d847afd0d07ad2717e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxNumber: 3
 --- !u!1 &2146758036
 GameObject:
   m_ObjectHideFlags: 0
@@ -14980,6 +15036,8 @@ MonoBehaviour:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   moveSpeed: 7
+  windUpTime: 0.5
+  recoveryTime: 1
   rotationSpeed: 12
   punchHandPrefab: {fileID: 3114788990440995519, guid: 1d457967d7bf78642a10d875375aa7e7, type: 3}
   punchPoint: {fileID: 8842554387042909090}
@@ -15030,6 +15088,8 @@ MonoBehaviour:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   moveSpeed: 7
+  windUpTime: 0.5
+  recoveryTime: 1
   rotationSpeed: 12
   punchHandPrefab: {fileID: 3114788990440995519, guid: 1d457967d7bf78642a10d875375aa7e7, type: 3}
   punchPoint: {fileID: 8842554386118367153}
@@ -15080,6 +15140,8 @@ MonoBehaviour:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   - {r: 1, g: 0, b: 0, a: 1}
   moveSpeed: 7
+  windUpTime: 0.5
+  recoveryTime: 1
   rotationSpeed: 12
   punchHandPrefab: {fileID: 3114788990440995519, guid: 1d457967d7bf78642a10d875375aa7e7, type: 3}
   punchPoint: {fileID: 8842554385668958928}

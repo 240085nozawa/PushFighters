@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    [Header("キャラPrefab（ID順）")]
-    [SerializeField] private GameObject[] characterPrefabs;
+    public static Dictionary<int, int> SpawnBoxMap = new Dictionary<int, int>();
+    // key = PlayerController の InstanceID
+    // value = 箱番号
 
-    [Header("スポーン位置（1P〜4P）")]
+    [SerializeField] private GameObject[] characterPrefabs;
     [SerializeField] private Transform[] spawnPoints;
 
     void Start()
@@ -17,33 +19,27 @@ public class CharacterSpawner : MonoBehaviour
     {
         int playerCount = SkillSelectionData.playerCount;
 
-        for (int i = 0; i < playerCount; i++)
+        for (int boxIndex = 0; boxIndex < playerCount; boxIndex++)
         {
-            int characterId = GetCharacterId(i);
+            int characterId = GetCharacterId(boxIndex);
 
             GameObject player = Instantiate(
                 characterPrefabs[characterId],
-                spawnPoints[i].position,
-                spawnPoints[i].rotation
+                spawnPoints[boxIndex].position,
+                spawnPoints[boxIndex].rotation
             );
 
-            PlayerController controller = player.GetComponent<PlayerController>();
-            if (controller != null)
+            PlayerController pc = player.GetComponent<PlayerController>();
+
+            if (pc != null)
             {
-                int playerNumber = i + 1;
+                int boxNumber = boxIndex + 1;
 
-                // ★ Player番号
-                controller.PlayerTag = playerNumber;
-
-                // ★ Input名を全部作り直す（ここが超重要）
-                controller.horizontalAxis = $"P{playerNumber}_Horizontal";
-                controller.verticalAxis = $"P{playerNumber}_Vertical";
-                controller.punchButton = $"P{playerNumber}_Punch";
-                controller.dashButton = $"P{playerNumber}_Dash";
+                // ★★★ これが決定打 ★★★
+                pc.ApplySpawnBox(boxNumber);
 
                 Debug.Log(
-                    $"🎮 P{playerNumber} 設定完了\n" +
-                    $"{controller.horizontalAxis}, {controller.punchButton}"
+                    $"[Spawner] キャラID={characterId} → 箱={boxNumber}"
                 );
             }
         }
