@@ -280,6 +280,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6647243730533027887, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8629713695114836855, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_Mass
       value: 2
