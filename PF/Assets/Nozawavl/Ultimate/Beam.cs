@@ -48,15 +48,7 @@ public class Beam : MonoBehaviour
         targetRb.mass = target.massStages[lastIndex];
         target.currentMassStage = lastIndex; // 内部ステージを正しく更新
 
-        // 見た目も変更（massColorsを利用）
-        if (target.massColors != null && target.massColors.Length > lastIndex)
-        {
-            Renderer r = target.GetComponentInChildren<Renderer>();
-            if (r != null)
-            {
-                r.material.color = target.massColors[lastIndex];
-            }
-        }
+      
 
         Debug.Log($"[Beam] Player{ownerTag} のビームが Player{target.PlayerTag} に命中！ → massStage 3");
 

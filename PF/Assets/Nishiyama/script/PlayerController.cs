@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public float recoveryInterval = 2f;
     public float recoveryTimer;
     public bool isRecovering = false;
-    public Color[] massColors = { Color.green, Color.yellow, Color.red };
+ 
 
     [Header("Move")]
     private Rigidbody rb;
@@ -98,86 +98,105 @@ public class PlayerController : MonoBehaviour
             rb.mass = massStages[0];
         }
 
-        if (playerRenderer != null && massColors.Length > 0)
-        {
-            playerRenderer.material.color = massColors[0];
-        }
+        AutoSetupFromNearestSpawnPoint();
+
         isTimerActive = true;
 
         StartGaugeTicker();
 
-        //ForceInputNameBySpawnBox(); // ★ 念のため
+       
     }
 
-
-    //void ForceInputNameBySpawnBox()
-    //{
-    //    horizontalAxis = $"P{spawnBoxNumber}_Horizontal";
-    //    verticalAxis = $"P{spawnBoxNumber}_Vertical";
-    //    punchButton = $"P{spawnBoxNumber}_Punch";
-    //    dashButton = $"P{spawnBoxNumber}_Dash";
-    //}
-
-
-    // ★ 追加: スコア加算用関数
     public void AddScore(int amount)
     {
         currentScore += amount;
         Debug.Log($"Player {PlayerTag} Score: {currentScore} (+{amount})");
     }
 
-    // ★★★ ここだけで入力を確定させる
-    //public void SetSpawnBoxNumber(int boxNumber)
-    //{
-    //    spawnBoxNumber = boxNumber;
-
-    //    horizontalAxis = $"P{spawnBoxNumber}_Horizontal";
-    //    verticalAxis = $"P{spawnBoxNumber}_Vertical";
-    //    punchButton = $"P{spawnBoxNumber}_Punch";
-    //    dashButton = $"P{spawnBoxNumber}_Dash";
-
-    //    Debug.Log(
-    //        $"[PlayerController] Input fixed to P{spawnBoxNumber}_*"
-    //    );
-    //}
-    public void ApplySpawnBox(int boxNumber)
+    void AutoSetupFromNearestSpawnPoint()
     {
-        spawnBoxNumber = boxNumber;
+        // 1. シーン内のすべての SpawnPointInfo を探す
+        SpawnPointInfo[] allPoints = FindObjectsOfType<SpawnPointInfo>();
 
-        horizontalAxis = $"P{boxNumber}_Horizontal";
-        verticalAxis = $"P{boxNumber}_Vertical";
-        punchButton = $"P{boxNumber}_Punch";
-        dashButton = $"P{boxNumber}_Dash";
+        SpawnPointInfo nearestPoint = null;
+        float minDistance = 0.5f; // 0.5m以内なら「自分のスポーン地点」とみなす
 
-        Debug.Log(
-            $"[PlayerController] 🔥 強制操作確定 Box={boxNumber} Axis={horizontalAxis}"
-        );
+        foreach (var point in allPoints)
+        {
+            // 自分とスポーン地点の距離を測る
+            float dist = Vector3.Distance(transform.position, point.transform.position);
+
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                nearestPoint = point;
+            }
+        }
+
+        // 2. 近くに見つかったら、そこから設定をコピーする
+        if (nearestPoint != null)
+        {
+            horizontalAxis = nearestPoint.horizontalAxis;
+            verticalAxis = nearestPoint.verticalAxis;
+            punchButton = nearestPoint.punchButton;
+            dashButton = nearestPoint.dashButton;
+
+            PlayerTag = nearestPoint.playerNumber;
+            spawnBoxNumber = nearestPoint.playerNumber;
+
+            Debug.Log($"[自動設定完了] 私は {nearestPoint.name} にスポーンしました。操作: {horizontalAxis}");
+        }
+        else
+        {
+            Debug.LogError("足元に SpawnPointInfo が見つかりません！スポーン位置とキャラの位置がズレているか、スクリプトがありません。");
+        }
     }
+
+
+    public void SetupFromSpawnPoint(SpawnPointInfo info)
+    {
+        // 1. 番号を受け取る
+        PlayerTag = info.playerNumber;
+        spawnBoxNumber = info.playerNumber;
+
+        // 2. 文字列のチェックと強制修正
+        // データが空っぽ(nullまたは"")なら、自動で「P○_Horizontal」を作る
+        if (string.IsNullOrEmpty(info.horizontalAxis))
+        {
+            Debug.LogWarning($"[自動修正] P{PlayerTag} の入力設定が空でした。自動生成します。");
+            horizontalAxis = $"P{PlayerTag}_Horizontal";
+            verticalAxis = $"P{PlayerTag}_Vertical";
+            punchButton = $"P{PlayerTag}_Punch";
+            dashButton = $"P{PlayerTag}_Dash";
+        }
+        else
+        {
+            // データが入っていればそれを使う
+            horizontalAxis = info.horizontalAxis;
+            verticalAxis = info.verticalAxis;
+            punchButton = info.punchButton;
+            dashButton = info.dashButton;
+        }
+
+        Debug.Log($"[設定完了] P{PlayerTag} は '{horizontalAxis}' で動きます");
+    }
+
     void Update()
     {
-        //// ★ 追加：毎フレーム必ず操作名を強制更新
-        //ForceInputNameBySpawnBox();
+        // ★追加: まだ番号をもらっていない(0番の)ときは、何もしないで待つ
+        if (PlayerTag == 0) return;
 
         if (isTimeStopped) return;
+        // ★デバッグ用：現在どの入力を読み取ろうとしているか確認
+        // (確認できたらコメントアウトしてください。ログが大量に出ます)
+        if (Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log($"[PlayerTag: {PlayerTag}] 確認中: {horizontalAxis} / 入力値: {Input.GetAxisRaw(horizontalAxis)}");
+        }
 
-        //// 🔥 CharacterSpawner が決めた箱番号を毎フレーム取得
-        //if (CharacterSpawner.SpawnBoxMap.TryGetValue(
-        //    GetInstanceID(), out int boxNumber))
-        //{
-        //    spawnBoxNumber = boxNumber;
-        //}
-        //else
-        //{
-        //    return; // まだ割り当てられていない
-        //}
 
-        //// 🔥CHANGE②：操作は箱番号から直接取得
-        //// ==============================
-        //string hAxis = $"P{spawnBoxNumber}_Horizontal";
-        //string vAxis = $"P{spawnBoxNumber}_Vertical";
-        //string punchBtn = $"P{spawnBoxNumber}_Punch";
-        //string dashBtn = $"P{spawnBoxNumber}_Dash";
 
+       
         // ★修正: 攻撃中は移動処理などをスキップして、その場で停止させる
         if (isAttacking)
         {
@@ -215,6 +234,7 @@ public class PlayerController : MonoBehaviour
 
         CheckAndActivateSpecial();
     }
+
 
     private void CheckAndActivateSpecial()
     {
@@ -305,8 +325,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMassStage++;
             if (rb != null) rb.mass = massStages[currentMassStage];
-            if (playerRenderer != null && currentMassStage < massColors.Length)
-                playerRenderer.material.color = massColors[currentMassStage];
+           
         }
 
         if (currentMassStage > 0)
@@ -322,8 +341,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMassStage--;
             if (rb != null) rb.mass = massStages[currentMassStage];
-            if (playerRenderer != null && currentMassStage < massColors.Length)
-                playerRenderer.material.color = massColors[currentMassStage];
+           
         }
 
         if (currentMassStage == 0)
@@ -355,8 +373,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         if (rb != null) rb.velocity = Vector3.zero;
     }
-
-    
+ 
 
     public void IncreaseSpecialGauge(int amount)
     {

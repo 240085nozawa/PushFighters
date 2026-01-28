@@ -20,15 +20,7 @@ public class FireHit : MonoBehaviour
         // massStages[currentMassStage] に合わせて質量変更
         pc.GetComponent<Rigidbody>().mass = pc.massStages[pc.currentMassStage];
 
-        // 色変更処理
-        if (pc.currentMassStage < pc.massColors.Length)
-        {
-            Renderer r = pc.GetComponentInChildren<Renderer>();
-            if (r != null)
-            {
-                r.material.color = pc.massColors[pc.currentMassStage];
-            }
-        }
+      
 
         // 自動回復開始
         pc.isRecovering = true;

@@ -158,8 +158,7 @@ public class Reflection : MonoBehaviour
 
             // 見た目更新
             Renderer r = attacker.GetComponentInChildren<Renderer>();
-            if (r != null && targetPC.massColors.Length > lastIndex)
-                r.material.color = targetPC.massColors[lastIndex];
+           
 
             // 反射方向（バリア→攻撃者）
             Vector3 dir = (attacker.transform.position - ownerObject.transform.position).normalized;

@@ -1,46 +1,32 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public class CharacterSpawner : MonoBehaviour
 {
-    public static Dictionary<int, int> SpawnBoxMap = new Dictionary<int, int>();
-    // key = PlayerController の InstanceID
-    // value = 箱番号
-
-    [SerializeField] private GameObject[] characterPrefabs;
-    [SerializeField] private Transform[] spawnPoints;
+    [Header("設定")]
+    public GameObject[] characterPrefabs;
+    public Transform[] spawnPoints; // SpawnPointInfoがついた場所
 
     void Start()
     {
+        // 安全装置
+        if (SkillSelectionData.playerCount == 0) SkillSelectionData.playerCount = 4;
         SpawnCharacters();
     }
 
     void SpawnCharacters()
     {
-        int playerCount = SkillSelectionData.playerCount;
+        int count = SkillSelectionData.playerCount;
 
-        for (int boxIndex = 0; boxIndex < playerCount; boxIndex++)
+        for (int i = 0; i < count; i++)
         {
-            int characterId = GetCharacterId(boxIndex);
+            int charId = GetCharacterId(i);
+            if (charId >= characterPrefabs.Length) charId = 0;
 
-            GameObject player = Instantiate(
-                characterPrefabs[characterId],
-                spawnPoints[boxIndex].position,
-                spawnPoints[boxIndex].rotation
-            );
-
-            PlayerController pc = player.GetComponent<PlayerController>();
-
-            if (pc != null)
+            // ★以前のコードにあった pc.xxxxx = ... は全て削除！
+            // ただ生成するだけ。あとはプレイヤーが勝手に設定を読み込みます。
+            if (spawnPoints[i] != null)
             {
-                int boxNumber = boxIndex + 1;
-
-                // ★★★ これが決定打 ★★★
-                pc.ApplySpawnBox(boxNumber);
-
-                Debug.Log(
-                    $"[Spawner] キャラID={characterId} → 箱={boxNumber}"
-                );
+                Instantiate(characterPrefabs[charId], spawnPoints[i].position, spawnPoints[i].rotation);
             }
         }
     }
@@ -53,7 +39,7 @@ public class CharacterSpawner : MonoBehaviour
             1 => SkillSelectionData.p2Character,
             2 => SkillSelectionData.p3Character,
             3 => SkillSelectionData.p4Character,
-            _ => -1
+            _ => 0
         };
     }
 }

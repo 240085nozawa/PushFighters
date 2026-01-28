@@ -56,10 +56,7 @@ public class AllCounters : MonoBehaviour
             if (rb != null && playerController.massStages.Length > 0)
                 rb.mass = playerController.massStages[0];
 
-            // 見た目（色）も初期化
-            Renderer r = playerController.GetComponentInChildren<Renderer>();
-            if (r != null && playerController.massColors.Length > 0)
-                r.material.color = playerController.massColors[0];
+           
 
             Debug.Log($"[AllCounters] Player{playerController.PlayerTag} のMassを初期化（Stage0）に戻しました。");
         }
