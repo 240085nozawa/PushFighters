@@ -21,25 +21,43 @@ EditorBuildSettings:
     path: Assets/Scenes/LoadScene.unity
     guid: 656b2e591b434054881c0e574668cd1f
   - enabled: 1
-    path: Assets/Scenes/Battle stage/DJ.unity
+    path: Assets/Scenes/P2 Battle stage/2p DJ.unity
     guid: bf790e4332e06db499c37ffb3d3d96ac
   - enabled: 1
-    path: Assets/Scenes/Battle stage/ICE.unity
+    path: Assets/Scenes/P2 Battle stage/2p ICE.unity
     guid: b7a2597277f323b4aaca61f717acccaa
   - enabled: 1
-    path: Assets/Scenes/Battle stage/KARA.unity
+    path: Assets/Scenes/P2 Battle stage/2p KARA.unity
     guid: 15672cfd036eb934b9c7eed361c9e547
   - enabled: 1
-    path: Assets/Scenes/Battle stage/TENKAI.unity
+    path: Assets/Scenes/P2 Battle stage/2p TENKAI.unity
     guid: 84fccd1c7a864fe4eb32fc2547b46819
   - enabled: 1
-    path: Assets/Scenes/Battle stage/AKAZA.unity
+    path: Assets/Scenes/P2 Battle stage/2p AKAZA.unity
     guid: 5116cb01556d5424caeef01a3cb7f87b
   - enabled: 1
-    path: Assets/Scenes/Battle stage/DENKI.unity
+    path: Assets/Scenes/P2 Battle stage/2p DENKI.unity
     guid: 3f3178552b29ea14bba317424f7b02e1
   - enabled: 1
     path: Assets/Scenes/ResultScene.unity
     guid: 9e9396d87b5ebbe409387e0b4a0de37e
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p AKAZA.unity
+    guid: 0b3d76bc56fb773469fa4989783fb1a3
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p DENKI.unity
+    guid: 1323f5dd9012ca74d862401f9cc027c5
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p DJ.unity
+    guid: 37070b403a6226447acc415984a724be
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p ICE.unity
+    guid: 3976b19f0e2c2924eb794d151e4cd87b
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p KARA.unity
+    guid: 38aa7897e26c3d944a9d9bd13a0f1802
+  - enabled: 1
+    path: Assets/Scenes/P4 Battle stage/4p TENKAI.unity
+    guid: 6fe96518bf1543a42b354dd205bdcfb6
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -478,7 +478,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd20ebe4811079d45876576f569507da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd20ebe4811079d45876576f569507da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2499,12 +2499,12 @@ MonoBehaviour:
   rollingEffectPrefab: {fileID: 0}
   effectParent: {fileID: 0}
   gameScenes:
-  - DJ
-  - DENKI
-  - ICE
-  - AKAZA
-  - KARA
-  - TENKAI
+  - 4p DJ
+  - 4p DENKI
+  - 4p ICE
+  - 4p AKAZA
+  - 4p KARA
+  - 4p TENKAI
   audioSource: {fileID: 1713241314}
   startPressSE: {fileID: 8300000, guid: 6a223c46039f6454abb5e7c9c5287e96, type: 3}
   loopSE: {fileID: 8300000, guid: 2afb4c9664bb1214c925cce9e48a74bb, type: 3}
@@ -2770,7 +2770,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd20ebe4811079d45876576f569507da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2951,7 +2951,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: fd20ebe4811079d45876576f569507da, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

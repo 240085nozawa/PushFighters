@@ -3,8 +3,11 @@ using TMPro;
 
 public class MassLevelNumber : MonoBehaviour
 {
-    [Header("参照設定")]
-    [Tooltip("ここにPlayerControllerがついているオブジェクトを入れる")]
+    [Header("自動取得設定")]
+    [Tooltip("プレイヤー何番を表示するか")]
+    public int targetPlayerNumber = 1;
+
+    // 自動で入るのでドラッグ不要
     public PlayerController targetPlayer;
 
     [Tooltip("数字を表示するテキスト")]
@@ -12,16 +15,30 @@ public class MassLevelNumber : MonoBehaviour
 
     void Update()
     {
-        // 参照がなければ何もしない
-        if (targetPlayer == null || levelText == null) return;
+        // ★プレイヤーがいなければ探す
+        if (targetPlayer == null)
+        {
+            FindTargetPlayer();
+            return;
+        }
 
-        // 内部データ(0, 1, 2) に 1 を足して、(1, 2, 3) にする
+        if (levelText == null) return;
+
+        // 表示更新 (0,1,2 -> 1,2,3)
         int displayLevel = targetPlayer.currentMassStage + 1;
-
-        // テキストを更新
         levelText.text = displayLevel.ToString();
+    }
 
-        // 【おまけ】もし文字色も連動させたいなら（変数がpublicなら可能）
-        // levelText.color = targetPlayer.massColors[targetPlayer.currentMassStage];
+    void FindTargetPlayer()
+    {
+        var allPlayers = FindObjectsOfType<PlayerController>();
+        foreach (var p in allPlayers)
+        {
+            if (p.PlayerTag == targetPlayerNumber)
+            {
+                targetPlayer = p;
+                break;
+            }
+        }
     }
 }
