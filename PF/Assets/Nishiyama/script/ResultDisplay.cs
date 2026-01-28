@@ -28,8 +28,8 @@ public class ResultDisplay : MonoBehaviour
 
     void Update()
     {
-        // 🎮 コントローラーのBボタン（Xbox基準）
-        if (Input.GetKeyDown(KeyCode.JoystickButton1))
+        // 🎮 コントローラーのAボタン（Xbox基準 = Button 0）
+        if (Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             SceneManager.LoadScene(nextSceneName);
         }

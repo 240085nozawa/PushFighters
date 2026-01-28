@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // Input System必須
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,15 +45,37 @@ public class CharacterLottery : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current == null) return;
+        // ---------------------------------------------------------
+        // 入力チェック (キーボード & ゲームパッド)
+        // ---------------------------------------------------------
+        bool press = false;
 
-        bool press =
-            Keyboard.current.enterKey.wasPressedThisFrame ||
-            Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
-            Keyboard.current.spaceKey.wasPressedThisFrame;
+        // ⌨️ キーボード
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.numpadEnterKey.wasPressedThisFrame ||
+                Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
 
+        // 🎮 ゲームパッド (Aボタン / 南ボタン) ★ここを追加！
+        if (Gamepad.current != null)
+        {
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
+
+        // 入力がなければ何もしない
         if (!press) return;
 
+        // ---------------------------------------------------------
+        // 処理実行
+        // ---------------------------------------------------------
         if (!started)
         {
             StartLotteryCoroutineFromUpdate();
@@ -153,7 +175,8 @@ public class CharacterLottery : MonoBehaviour
         canStop = true;
     }
 
-    void StopLottery()
+    // 必要に応じて外部から呼べるように public にしておきます
+    public void StopLottery()
     {
         stopping = true;
 
