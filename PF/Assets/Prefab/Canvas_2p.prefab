@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944d130e9a8a36948aec19a150edd598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   targetPlayer: {fileID: 0}
   valueText: {fileID: 7483666859923637806}
 --- !u!1 &1185530427386971740
@@ -771,7 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 0
   player: {fileID: 0}
 --- !u!1 &2104345481435366944
@@ -923,7 +923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebeb1d3e4d6faa9419a1931ea83d2213, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   targetPlayer: {fileID: 0}
   levelText: {fileID: 6870203062495949097}
 --- !u!1 &2349621865039162905
@@ -1239,7 +1239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c6608d1cae72741851721760e9b631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   targetPlayer: {fileID: 0}
   targetImage: {fileID: 8110650698044240598}
   levelSprites:
@@ -1738,7 +1738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 2
   player: {fileID: 0}
 --- !u!1 &5531501547686076138
@@ -2283,7 +2283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 1
   player: {fileID: 0}
 --- !u!1 &7881176710589210706
