@@ -239,7 +239,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2013242796154219315, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2639937039433936333, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_Enabled
@@ -308,6 +308,14 @@ PrefabInstance:
     - target: {fileID: 3009051022300367361, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4733732730246552102, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6378696014428113271, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6378696014428113271, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
