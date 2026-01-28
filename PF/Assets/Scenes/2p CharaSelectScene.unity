@@ -2236,12 +2236,12 @@ MonoBehaviour:
   - {fileID: 1809031914}
   interval: 0.01
   gameSceneNames:
-  - DJ
-  - ICE
-  - DENKI
-  - AKAZA
-  - KARA
-  - TENKAI
+  - 2p DJ
+  - 2p ICE
+  - 2p DENKI
+  - 2p AKAZA
+  - 2p KARA
+  - 2p TENKAI
 --- !u!1 &1718536245
 GameObject:
   m_ObjectHideFlags: 0
