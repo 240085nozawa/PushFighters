@@ -36,7 +36,11 @@ public class ModeSelectGlow : MonoBehaviour
 
         float horizontal = 0f;
 
-        // ⌨️ 【キーボード操作: 矢印キー または WASD】
+        // ---------------------------------------------------------
+        // 1. 移動入力のチェック (キーボード & ゲームパッド)
+        // ---------------------------------------------------------
+
+        // ⌨️ キーボード (矢印 or WASD)
         if (Keyboard.current != null)
         {
             if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
@@ -44,6 +48,23 @@ public class ModeSelectGlow : MonoBehaviour
                 horizontal = 1f;
             }
             else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
+            {
+                horizontal = -1f;
+            }
+        }
+
+        // 🎮 ゲームパッド (十字キー & 左スティック)
+        if (Gamepad.current != null)
+        {
+            Vector2 dpad = Gamepad.current.dpad.ReadValue();     // 十字キー
+            Vector2 stick = Gamepad.current.leftStick.ReadValue(); // 左スティック
+
+            // 十字キー優先、なければスティックも反応させる
+            if (dpad.x > 0.5f || stick.x > 0.5f)
+            {
+                horizontal = 1f;
+            }
+            else if (dpad.x < -0.5f || stick.x < -0.5f)
             {
                 horizontal = -1f;
             }
@@ -68,14 +89,32 @@ public class ModeSelectGlow : MonoBehaviour
             }
         }
 
-        // 🎯 決定（Space または Enter）
-        bool keySubmit = false;
+        // ---------------------------------------------------------
+        // 2. 決定入力のチェック (キーボード & ゲームパッド)
+        // ---------------------------------------------------------
+        bool isSubmit = false;
+
+        // ⌨️ キーボード (Space / Enter)
         if (Keyboard.current != null)
         {
-            keySubmit = Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame;
+            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)
+            {
+                isSubmit = true;
+            }
         }
 
-        if (keySubmit)
+        // 🎮 ゲームパッド (Aボタン / 南ボタン)
+        if (Gamepad.current != null)
+        {
+            // Xbox: A, PS: ×, Switch: B が該当します
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+            {
+                isSubmit = true;
+            }
+        }
+
+        // 決定実行
+        if (isSubmit)
         {
             SelectMode();
         }
@@ -110,7 +149,7 @@ public class ModeSelectGlow : MonoBehaviour
 
         Debug.Log($"決定: {selected.buttonObject.name}, 人数: {selected.playerCount}, 移動先: {selected.sceneName}");
 
-        // ▼ データを保存（必要に応じてGameDataなどに変更してください）
+        // ▼ データを保存
         SkillSelectionData.playerCount = selected.playerCount;
 
         // ★★★ ここで設定されたシーンへ移動します ★★★
@@ -121,6 +160,7 @@ public class ModeSelectGlow : MonoBehaviour
         else
         {
             Debug.LogError("移動先のシーン名が設定されていません！インスペクターを確認してください。");
+            canInput = true; // エラー時は入力再開
         }
     }
 }

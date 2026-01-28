@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
+using UnityEngine.InputSystem; // Input System必須
 
 public class StartDrawUI2P : MonoBehaviour
 {
@@ -11,12 +11,12 @@ public class StartDrawUI2P : MonoBehaviour
     [SerializeField] private CharacterLottery2P characterLottery2P;
 
     [Header("効果音設定")]
-    [SerializeField] private AudioSource audioSource;      // SE用の AudioSource をドラッグ
-    [SerializeField] private AudioClip startPressSE;       // スペース押した瞬間のSE
-    [SerializeField] private AudioClip loopSE;             // 2秒後からループさせるSE（WAV推奨）
+    [SerializeField] private AudioSource audioSource;      // SE用の AudioSource
+    [SerializeField] private AudioClip startPressSE;       // 開始時のSE
+    [SerializeField] private AudioClip loopSE;             // ループSE
 
-    private bool started = false;      // 1回目のスタート済み
-    private bool stopping = false;     // 2回目入力で停止フラグ
+    private bool started = false;      // スタートしたか
+    private bool stopping = false;     // ストップ済みか
 
     void Start()
     {
@@ -26,12 +26,33 @@ public class StartDrawUI2P : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current == null) return;
+        // ---------------------------------------------------------
+        // 入力チェック (キーボード & ゲームパッド)
+        // ---------------------------------------------------------
+        bool press = false;
 
-        bool press =
-            Keyboard.current.enterKey.wasPressedThisFrame ||
-            Keyboard.current.spaceKey.wasPressedThisFrame;
+        // ⌨️ キーボード (Space / Enter)
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.enterKey.wasPressedThisFrame ||
+                Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
 
+        // 🎮 ゲームパッド (Aボタン / 南ボタン)
+        if (Gamepad.current != null)
+        {
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
+
+        // ---------------------------------------------------------
+        // 処理実行
+        // ---------------------------------------------------------
         if (!press) return;
 
         if (!started)
@@ -56,42 +77,51 @@ public class StartDrawUI2P : MonoBehaviour
 
     System.Collections.IEnumerator StartDrawCoroutine()
     {
-        // スペース押した瞬間のSE
+        // 開始音
         if (audioSource != null && startPressSE != null)
         {
             audioSource.PlayOneShot(startPressSE);
         }
 
-        // 2秒待つ
+        // 2秒待機
         yield return new WaitForSeconds(2f);
 
-        // 2秒後のループSE開始
+        // ループ音開始
         if (audioSource != null && loopSE != null)
         {
             audioSource.clip = loopSE;
-            audioSource.loop = true;      // ループON[web:14]
+            audioSource.loop = true;
             audioSource.Play();
         }
 
         // ルーレット開始
         if (characterLottery2P != null)
+        {
             characterLottery2P.StartLottery();
+        }
         else
+        {
             Debug.LogError("❌ CharacterLottery2P が設定されていません");
+        }
     }
 
     void StopDraw()
     {
         stopping = true;
 
-        // ループSEを止める（ルーレットを止めるタイミング）
+        // 音を止める
         if (audioSource != null)
         {
             audioSource.loop = false;
             audioSource.Stop();
         }
 
-        // ここでルーレット停止をしたいなら、CharacterLottery2P 内で完結させる形にする
-        // （このクラスからは何も呼ばない、という要望なので何もしない）
+        // ★★★ 追加：ルーレット本体に停止命令を送る ★★★
+        if (characterLottery2P != null)
+        {
+            // CharacterLottery2P に "StopLottery" という関数があると仮定して呼び出します
+            // もしエラーが出る場合は、CharacterLottery2Pのコードを見せてください
+            characterLottery2P.StopLottery();
+        }
     }
 }

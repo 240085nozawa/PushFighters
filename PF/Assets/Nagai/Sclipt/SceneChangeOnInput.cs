@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem; // Input Systemを使うために必要
 using System.Collections;
 
 public class SceneChangeByInput : MonoBehaviour
@@ -29,28 +28,30 @@ public class SceneChangeByInput : MonoBehaviour
     {
         if (isChanging) return;
 
-        // キーボード入力
-        bool anyKey = Keyboard.current?.anyKey.wasPressedThisFrame == true;
+        bool isPressed = false;
 
-        // ゲームパッド入力
-        bool anyGamepad = false;
+        // 1. キーボードのエンターキーなど（デバッグ用などに残す場合はここを調整、不要なら削除可）
+        if (Keyboard.current != null && Keyboard.current.enterKey.wasPressedThisFrame)
+        {
+            isPressed = true;
+        }
+
+        // 2. ゲームパッド入力のチェック
+        // 接続されているすべてのゲームパッドを確認する
         foreach (var pad in Gamepad.all)
         {
             if (pad == null) continue;
 
-            foreach (var control in pad.allControls)
+            // ★修正箇所: buttonSouth (Xbox:A, PS:×, Switch:B) が押されたかチェック
+            if (pad.buttonSouth.wasPressedThisFrame)
             {
-                if (control is ButtonControl button && button.wasPressedThisFrame)
-                {
-                    anyGamepad = true;
-                    break;
-                }
+                isPressed = true;
+                break;
             }
-
-            if (anyGamepad) break;
         }
 
-        if (anyKey || anyGamepad)
+        // 入力があったらシーン遷移処理を開始
+        if (isPressed)
         {
             StartCoroutine(BlinkAndChangeScene());
         }
@@ -60,13 +61,17 @@ public class SceneChangeByInput : MonoBehaviour
     {
         isChanging = true;
 
-        // SE再生（BGMは止めない）
+        // SE再生
         if (seSource != null)
             seSource.Play();
 
+        // 点滅開始
         StartCoroutine(BlinkImage());
+
+        // 指定時間待つ
         yield return new WaitForSeconds(delayTime);
 
+        // シーンロード
         SceneManager.LoadScene(nextSceneName);
     }
 

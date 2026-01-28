@@ -72,7 +72,7 @@ public class CharacterLottery2P : MonoBehaviour
         canStop = true;
     }
 
-    void StopLottery()
+    public void StopLottery()
     {
         if (!isRolling) return;
 
