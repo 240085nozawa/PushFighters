@@ -2157,6 +2157,7 @@ MonoBehaviour:
   - rankText: {fileID: 1853405931}
     scoreText: {fileID: 719232105}
     nameText: {fileID: 221903779}
+  nextSceneName: TitleScene
 --- !u!4 &782263000
 Transform:
   m_ObjectHideFlags: 0
