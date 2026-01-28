@@ -540,6 +540,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81f0d325ffae67d4188e384cbefdf9e5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 977888176950288275}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 81f0d325ffae67d4188e384cbefdf9e5, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5418270459993000589}
   m_SourcePrefab: {fileID: 100100000, guid: 81f0d325ffae67d4188e384cbefdf9e5, type: 3}
 --- !u!4 &2696458592935021243 stripped
 Transform:
@@ -573,6 +576,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5418270459993000589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3323777889463259137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099c64e863bec9841a70bf0d690bc390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 977888176950288275}
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  punchButton: Punch
+  ultAxisName: P1_Special
+  ultDuration: 2
+  windUpTime: 0.5
+  recoveryTime: 1
 --- !u!1001 &7639445592425869983
 PrefabInstance:
   m_ObjectHideFlags: 0
