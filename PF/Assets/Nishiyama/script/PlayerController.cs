@@ -191,22 +191,6 @@ public class PlayerController : MonoBehaviour
         if (PlayerTag == 0) return;
 
         if (isTimeStopped) return;
-        // ★デバッグ用：現在どの入力を読み取ろうとしているか確認
-        // (確認できたらコメントアウトしてください。ログが大量に出ます)
-        if (Input.GetKey(KeyCode.Space))
-        {
-            Debug.Log($"[PlayerTag: {PlayerTag}] 確認中: {horizontalAxis} / 入力値: {Input.GetAxisRaw(horizontalAxis)}");
-        }
-
-
-
-       
-        // ★修正: 攻撃中は移動処理などをスキップして、その場で停止させる
-        if (isAttacking)
-        {
-            if (rb != null) rb.velocity = Vector3.zero; // 滑り防止
-            return;
-        }
 
         move();
 
@@ -304,18 +288,20 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
 
         // 1. 予備動作（タメ）
-        // ここで「構えモーション」などを入れると良いです
+        // ★ここは残しています（ボタンを押してからパンチが出るまでの時間）
         yield return new WaitForSeconds(windUpTime);
 
         // 2. パンチ実行
-        // 既存のプレハブ生成処理を呼び出します
         Punch();
 
-        // 3. 硬直（パンチした後も少し動けない）
-        yield return new WaitForSeconds(recoveryTime);
+        // ▼▼▼【削除した部分】▼▼▼
+        // パンチを出した後の硬直時間をなくしました
+        // yield return new WaitForSeconds(recoveryTime); 
+        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 
         isAttacking = false;
     }
+
     void Punch()
     {
         if (Time.time < nextPunchTime) return;
