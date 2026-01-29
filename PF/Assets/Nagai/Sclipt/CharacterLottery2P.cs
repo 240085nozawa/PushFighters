@@ -19,9 +19,25 @@ public class CharacterLottery2P : MonoBehaviour
     [Header("遷移先ゲームシーン（2P用）")]
     [SerializeField] private string[] gameSceneNames;
 
+    [Header("カウントダウンUI（3・2・1）")]
+    [SerializeField] private GameObject count3;
+    [SerializeField] private GameObject count2;
+    [SerializeField] private GameObject count1;
+
     private bool isRolling;
     private bool canStop;
+    private bool isStopping;
     private Coroutine rollCoroutine;
+
+    // =============================
+    // 最初に全部非表示
+    // =============================
+    void Start()
+    {
+        if (count3) count3.SetActive(false);
+        if (count2) count2.SetActive(false);
+        if (count1) count1.SetActive(false);
+    }
 
     public void StartLottery()
     {
@@ -35,6 +51,7 @@ public class CharacterLottery2P : MonoBehaviour
 
         isRolling = true;
         canStop = false;
+        isStopping = false;
 
         rollCoroutine = StartCoroutine(Roll());
         StartCoroutine(EnableStopAfterDelay());
@@ -42,11 +59,30 @@ public class CharacterLottery2P : MonoBehaviour
 
     void Update()
     {
-        if (!isRolling || !canStop) return;
-        if (Keyboard.current == null) return;
+        if (!isRolling || !canStop || isStopping) return;
 
-        if (Keyboard.current.enterKey.wasPressedThisFrame ||
-            Keyboard.current.spaceKey.wasPressedThisFrame)
+        bool press = false;
+
+        // キーボード
+        if (Keyboard.current != null)
+        {
+            if (Keyboard.current.spaceKey.wasPressedThisFrame ||
+                Keyboard.current.enterKey.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
+
+        // コントローラーB
+        if (Gamepad.current != null)
+        {
+            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
+            {
+                press = true;
+            }
+        }
+
+        if (press)
         {
             StopLottery();
         }
@@ -76,7 +112,9 @@ public class CharacterLottery2P : MonoBehaviour
     {
         if (!isRolling) return;
 
+        isStopping = true;
         isRolling = false;
+
         if (rollCoroutine != null)
             StopCoroutine(rollCoroutine);
 
@@ -87,7 +125,24 @@ public class CharacterLottery2P : MonoBehaviour
         SkillSelectionData.p3Character = -1;
         SkillSelectionData.p4Character = -1;
 
-        // ===== シーン遷移 =====
+        // ===== カウントダウン開始 =====
+        StartCoroutine(CountDownAndMove());
+    }
+
+    IEnumerator CountDownAndMove()
+    {
+        if (count3) count3.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (count3) count3.SetActive(false);
+
+        if (count2) count2.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (count2) count2.SetActive(false);
+
+        if (count1) count1.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        if (count1) count1.SetActive(false);
+
         MoveToRandomScene();
     }
 
@@ -99,9 +154,7 @@ public class CharacterLottery2P : MonoBehaviour
             return;
         }
 
-        string next =
-            gameSceneNames[Random.Range(0, gameSceneNames.Length)];
-
+        string next = gameSceneNames[Random.Range(0, gameSceneNames.Length)];
         SceneManager.LoadScene(next);
     }
 
