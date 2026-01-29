@@ -81,9 +81,13 @@ public class PlayerController : MonoBehaviour
     public float knockbackForce = 20f;     // 吹き飛ぶ強さ
     public float knockbackDuration = 0.5f; // 操作不能になる時間
 
+    private AnimationController animController;
+
     void Start()
     {
         Application.targetFrameRate = 60;
+
+        animController = GetComponentInChildren<AnimationController>();
 
         rb = GetComponent<Rigidbody>();
         playerRenderer = GetComponentInChildren<Renderer>();
@@ -240,13 +244,24 @@ public class PlayerController : MonoBehaviour
     {
         string specialButton = $"P{PlayerTag}_Special";
 
+        // ボタン入力があり、かつゲージがMAXなら発動
         if (Input.GetAxis(specialButton) > 0 && specialGaugeValue >= 100)
         {
+            // =================================================
+            // ★ここです！ ゲージを減らすのと同時にアニメ再生命令！
+            // =================================================
+            if (animController != null)
+            {
+                animController.PlayUltAnimation(); // 「再生しろ！」と命令
+            }
+
+            // 技の効果を発動
             if (specialBeam != null) specialBeam.Activate();
             else if (bombAttack != null) bombAttack.Activate();
             else if (theWorld != null) theWorld.Activate();
             else if (allCounters != null) allCounters.Activate();
 
+            // ゲージを消費 (-100)
             DecreaseSpecialGauge(MAX_GAUGE);
         }
     }

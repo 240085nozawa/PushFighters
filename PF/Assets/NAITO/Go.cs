@@ -13,17 +13,17 @@ public class FadeTMP : MonoBehaviour  //GOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
     {
         // 2.8•bŒã‚Éƒ[ƒJƒ‹À•W(0,0,0)‚Ö0.2•b‚©‚¯‚ÄˆÚ“®
 
-        transform.DOLocalMove(new Vector3(0f, 0f, 0f), 0.2f).SetDelay(3.3f);
+        transform.DOLocalMove(new Vector3(0f, 0f, 0f), 0.2f).SetDelay(1.3f);
 
         // 3.5•bŒã‚É0.2•b‚©‚¯‚ÄŠg‘å
 
-        transform.DOScale(new Vector3(5f, 5f, 5f), 0.2f).SetDelay(3.8f);
+        transform.DOScale(new Vector3(5f, 5f, 5f), 0.2f).SetDelay(1.6f);
 
         // 3.8•bŒã‚É1.5•b‚©‚¯‚Ä“§–¾“x‚ğ0.2‚É
         if (_target != null)
         {
 
-            _target.DOFade(0f, 0.2f).SetDelay(3.8f);
+            _target.DOFade(0f, 0.2f).SetDelay(1.6f);
 
         }
     }
