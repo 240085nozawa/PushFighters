@@ -784,7 +784,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD
 --- !u!4 &410914647
+=======
+--- !u!114 &447890667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 447890666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a016373416572845be5b83084edb360, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterPrefabs:
+  - {fileID: 8971202431665667762, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
+  - {fileID: 8971202431665667762, guid: 6a8da0201313a014f991cb0603ade4ee, type: 3}
+  - {fileID: 8971202431665667762, guid: 054ba625c2feeb543b2867d364149005, type: 3}
+  - {fileID: 8971202431665667762, guid: 590375841ab8bd647b78545c97a9bcf7, type: 3}
+  spawnPoints:
+  - {fileID: 331289893}
+  - {fileID: 1275720223}
+  - {fileID: 1548773183}
+  - {fileID: 385791119}
+--- !u!4 &447890668
+>>>>>>> ccac131a5fefbf2dbd496ed58d0277d5411db162
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

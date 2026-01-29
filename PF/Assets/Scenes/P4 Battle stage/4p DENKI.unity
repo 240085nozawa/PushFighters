@@ -29371,8 +29371,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterPrefabs:
   - {fileID: 8971202431665667762, guid: 41be0a36e1f093e46a7f3275922cb8c4, type: 3}
+<<<<<<< HEAD
   - {fileID: 8971202431665667762, guid: 054ba625c2feeb543b2867d364149005, type: 3}
+=======
+>>>>>>> ccac131a5fefbf2dbd496ed58d0277d5411db162
   - {fileID: 8971202431665667762, guid: 6a8da0201313a014f991cb0603ade4ee, type: 3}
+  - {fileID: 8971202431665667762, guid: 054ba625c2feeb543b2867d364149005, type: 3}
   - {fileID: 8971202431665667762, guid: 590375841ab8bd647b78545c97a9bcf7, type: 3}
   spawnPoints:
   - {fileID: 1568303611}
