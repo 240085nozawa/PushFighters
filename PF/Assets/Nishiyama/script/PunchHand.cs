@@ -6,9 +6,25 @@ public class PunchHand : MonoBehaviour
     public float lifetime = 0.3f;
     public float knockbackForce = 10f;
 
+    // ★追加項目: パーティクルのプレハブ
+    [Header("Effects")]
+    public GameObject kokusenPrefab;
+
+    // ★追加項目: 生成したパーティクルを保持する変数
+    private GameObject spawnedKokusen;
+
     void Start()
     {
         Destroy(gameObject, lifetime);
+    }
+
+    // ★追加項目: PunchHand本体が消える時に呼ばれる
+    void OnDestroy()
+    {
+        if (spawnedKokusen != null)
+        {
+            Destroy(spawnedKokusen);
+        }
     }
 
     void OnTriggerEnter(Collider other)
@@ -19,6 +35,9 @@ public class PunchHand : MonoBehaviour
 
         if (opponent != null&& opponent != owner)
         {
+            // ★追加項目: 黒閃（Kokusen）の生成
+            SpawnKokusenEffect();
+
             owner.IncreaseSpecialGauge(5);
             Debug.Log($"PunchHand: 相手プレイヤー ({other.name}) にヒット。ゲージ増加 (+5)。");
 
@@ -53,6 +72,15 @@ public class PunchHand : MonoBehaviour
                 enemyRb.velocity = Vector3.zero;
                 enemyRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
             }
+        }
+    }
+    // ★追加項目: パーティクル生成用のメソッド
+    void SpawnKokusenEffect()
+    {
+        if (kokusenPrefab != null && spawnedKokusen == null) // 二重生成防止
+        {
+            // パンチの位置と回転で生成
+            spawnedKokusen = Instantiate(kokusenPrefab, transform.position, transform.rotation);
         }
     }
 }
