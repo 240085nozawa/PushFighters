@@ -115,15 +115,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.21052167
+      value: 0.14167266
       objectReference: {fileID: 0}
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.21052167
+      value: 0.14167266
       objectReference: {fileID: 0}
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.21052167
+      value: 0.14167266
       objectReference: {fileID: 0}
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -131,7 +131,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.75
+      value: 0.627
       objectReference: {fileID: 0}
     - target: {fileID: 4694664261386621494, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -225,7 +225,6 @@ MonoBehaviour:
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   punchButton: Punch
-  ultAxisName: P1_Special
   ultDuration: 2
   windUpTime: 0.5
   recoveryTime: 1
