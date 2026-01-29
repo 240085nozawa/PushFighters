@@ -2477,11 +2477,11 @@ MonoBehaviour:
   interval: 0.01
   gameSceneNames:
   - 2p AKAZA
+  - 2p TENKAI
+  - 2p KARA
+  - 2p ICE
   - 2p DENKI
   - 2p DJ
-  - 2p ICE
-  - 2p KARA
-  - 2p TENKAI
   count3: {fileID: 100924691}
   count2: {fileID: 1588387145}
   count1: {fileID: 55848733}

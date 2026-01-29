@@ -176,7 +176,7 @@ PrefabInstance:
     - target: {fileID: 6275814268251694069, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: bcd34f09e608ced4097408bb9a453634, type: 2}
+      objectReference: {fileID: 9100000, guid: ba83b7edb74e70647afa2d1b74e6172f, type: 2}
     - target: {fileID: 8228740815269485223, guid: 44cd81d388ff9f74e8f4e94bc114fcc5, type: 3}
       propertyPath: m_Name
       value: Mech_A
