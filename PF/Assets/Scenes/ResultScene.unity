@@ -1564,13 +1564,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a8e1016dbbb3e32419eec5cb280e3e03, type: 3}
   - {fileID: 21300000, guid: ce690261b49201542933c6198f783d5d, type: 3}
   playerCharacters:
-  - playerTag: 1
+  - playerTag: 0
     characterSprite: {fileID: 21300000, guid: 1dd1e79116b5666469415d442fb12390, type: 3}
-  - playerTag: 2
+  - playerTag: 1
     characterSprite: {fileID: 21300000, guid: 1c721c628c84d2849a99f89e5f5d906f, type: 3}
-  - playerTag: 3
+  - playerTag: 2
     characterSprite: {fileID: 21300000, guid: 03799090c6606854aa7bce5f61431725, type: 3}
-  - playerTag: 4
+  - playerTag: 3
     characterSprite: {fileID: 21300000, guid: 16faa06603888f34d9b6a948ec2d5613, type: 3}
   nextSceneName: TitleScene
 --- !u!4 &782263000
