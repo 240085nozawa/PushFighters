@@ -1,29 +1,45 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using System.Collections; // ã‚³ãƒ«ãƒ¼ãƒãƒ³ç”¨
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using TMPro;
+
+// â˜…ãƒ¢ãƒ¼ãƒ‰é¸æŠç”¨ã®å®šç¾©
+public enum GameMode
+{
+    TwoPlayers,  // 2äººãƒ¢ãƒ¼ãƒ‰
+    FourPlayers  // 4äººãƒ¢ãƒ¼ãƒ‰
+}
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    [Header("‡ˆÊƒ|ƒCƒ“ƒgİ’è")]
-    public int[] rankPoints = { 50, 30, 15, 10 };
+    [Header("â˜… ãƒ¢ãƒ¼ãƒ‰è¨­å®š (ã‚·ãƒ¼ãƒ³ã«åˆã‚ã›ã¦å¤‰æ›´ã—ã¦ãã ã•ã„)")]
+    public GameMode currentGameMode = GameMode.FourPlayers;
 
-    [Header("Œ»İ‚Ì¶‘¶ƒvƒŒƒCƒ„[”")]
-    public int activePlayerCount = 0; // Å‰‚Í0‚É‚µ‚Ä‚¨‚­
+    [Header("é †ä½ãƒã‚¤ãƒ³ãƒˆè¨­å®š (2Pç”¨: 1ä½, 2ä½)")]
+    public int[] rankPoints2P = { 50, 10 };
 
-    [Header("ƒŠƒUƒ‹ƒgƒV[ƒ“‚Ì–¼‘O")]
+    [Header("é †ä½ãƒã‚¤ãƒ³ãƒˆè¨­å®š (4Pç”¨: 1ä½, 2ä½, 3ä½, 4ä½)")]
+    public int[] rankPoints4P = { 50, 30, 15, 10 };
+
+    [Header("ç¾åœ¨ã®ç”Ÿå­˜ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æ•°")]
+    public int activePlayerCount = 0;
+
+    [Header("ãƒªã‚¶ãƒ«ãƒˆã‚·ãƒ¼ãƒ³ã®åå‰")]
     public string resultSceneName = "ResultScene";
 
     private List<int> deadPlayerTags = new List<int>();
 
-    // ƒQ[ƒ€ŠJnƒtƒ‰ƒOiƒvƒŒƒCƒ„[‚ªo‘µ‚¤‚Ü‚Å”»’è‚µ‚È‚¢—pj
+    // â˜…é‡è¤‡é˜²æ­¢ç”¨ã®ãƒªã‚¹ãƒˆ
+    private List<PlayerController> registeredPlayers = new List<PlayerController>();
+
     private bool isGameStarted = false;
+    private bool isGameEnded = false;
 
     void Awake()
     {
-        // ƒV[ƒ““à‚ÉGameManager‚ª2‚Â‚ ‚é‚ÆƒoƒO‚é‚Ì‚ÅAd•¡ƒ`ƒFƒbƒN
         if (Instance != null && Instance != this)
         {
             Destroy(this.gameObject);
@@ -35,45 +51,79 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameData.FinalScores.Clear();
-        // š‚±‚±‚Å”‚¦‚é‚Ì‚ğ‚â‚ß‚Ü‚µ‚½iƒ^ƒCƒ~ƒ“ƒO–â‘è‚ÌŒ³‹¥‚È‚Ì‚Åj
 
-        // ­‚µ‘Ò‚Á‚Ä‚©‚çƒQ[ƒ€ŠJnƒtƒ‰ƒO‚ğ—§‚Ä‚éiƒXƒ|[ƒ“‘Ò‚¿j
+        // â˜… GameDataã®è¨­å®šã‚‚ãƒ¢ãƒ¼ãƒ‰ã«åˆã‚ã›ã¦æ›´æ–°
+        GameData.PlayerCount = (currentGameMode == GameMode.TwoPlayers) ? 2 : 4;
+
+        // ãƒªã‚¹ãƒˆåˆæœŸåŒ–
+        registeredPlayers.Clear();
+        activePlayerCount = 0;
+
+        // ã‚²ãƒ¼ãƒ é–‹å§‹å¾…ã¡
         Invoke("EnableGameCheck", 0.5f);
     }
 
     void EnableGameCheck()
     {
         isGameStarted = true;
-        Debug.Log($"ƒQ[ƒ€ŠJn”»’èONBŒ»İ‚ÌQ‰ÁÒ: {activePlayerCount}l");
+        Debug.Log($"ã‚²ãƒ¼ãƒ é–‹å§‹åˆ¤å®šONã€‚ãƒ¢ãƒ¼ãƒ‰: {currentGameMode}, ç¾åœ¨ã®å‚åŠ è€…: {activePlayerCount}äºº");
+
+        // â˜…è¨­å®šãƒŸã‚¹è­¦å‘Š
+        if (currentGameMode == GameMode.TwoPlayers && activePlayerCount > 2)
+        {
+            Debug.LogError("âš  è¨­å®šãƒŸã‚¹: 2äººãƒ¢ãƒ¼ãƒ‰ã§ã™ãŒã€3äººä»¥ä¸Šã®ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒæ¤œå‡ºã•ã‚Œã¦ã„ã¾ã™ï¼");
+        }
     }
 
-    // š’Ç‰Á: ƒvƒŒƒCƒ„[‚ª©•ª‚Å“o˜^‚µ‚É—ˆ‚éêŠ
+    // â˜…ä¿®æ­£: é‡è¤‡ãƒã‚§ãƒƒã‚¯ä»˜ãã®ç™»éŒ²å‡¦ç†
     public void RegisterPlayer(PlayerController player)
     {
+        // 1. ã¾ã£ãŸãåŒã˜ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã™ã§ã«ç™»éŒ²ã•ã‚Œã¦ã„ãŸã‚‰ç„¡è¦–
+        if (registeredPlayers.Contains(player))
+        {
+            return;
+        }
+
+        // 2. é•ã†ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã ã‘ã©ã€ŒåŒã˜ç•ªå·(P1ãªã©)ã€ãŒæ¥ãŸã‚‰è­¦å‘Šï¼ˆé‡è¤‡ãƒã‚°ã®åŸå› ï¼‰
+        foreach (var p in registeredPlayers)
+        {
+            if (p.PlayerTag == player.PlayerTag)
+            {
+                Debug.LogWarning($"âš  é‡è¤‡è­¦å‘Š: P{player.PlayerTag} ãŒè¤‡æ•°ä½“ã„ã¾ã™ã€‚ä½™åˆ†ãªãƒ—ãƒ¬ãƒãƒ–ãŒã‚·ãƒ¼ãƒ³ã«æ®‹ã£ã¦ã„ã¾ã›ã‚“ã‹ï¼Ÿ");
+                // ã“ã“ã§ return ã™ã‚Œã°é‡è¤‡ç™»éŒ²ã‚’å®Œå…¨ã«é˜²ã’ã¾ã™ãŒã€
+                // æ„å›³çš„ã«ã‚„ã£ã¦ã„ã‚‹å¯èƒ½æ€§ã‚‚ã‚ã‚‹ã®ã§è­¦å‘Šã«ç•™ã‚ã¦ç™»éŒ²ã¯è¨±å¯ã—ã¾ã™
+                // ã‚‚ã—ã€Œ8äººã€ã«ãªã‚‹ã®ã‚’é˜²ããŸã„ãªã‚‰ã€ã“ã“ã® return ã®ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆã‚’å¤–ã—ã¦ãã ã•ã„
+                // return; 
+            }
+        }
+
+        registeredPlayers.Add(player);
         activePlayerCount++;
-        Debug.Log($"ƒvƒŒƒCƒ„[Q‰Á“o˜^: P{player.PlayerTag} (Œ»İ {activePlayerCount}l)");
+
+        Debug.Log($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼å‚åŠ ç™»éŒ²: P{player.PlayerTag} (ç¾åœ¨ {activePlayerCount}äºº)");
     }
 
     public void PlayerFinished(int playerTag)
     {
-        // ƒQ[ƒ€ŠJn‘O‚È‚ç–³‹
         if (!isGameStarted) return;
-
         if (deadPlayerTags.Contains(playerTag)) return;
 
         deadPlayerTags.Add(playerTag);
 
+        // ç¾åœ¨ã®ç”Ÿå­˜æ•° = é †ä½
         int rank = activePlayerCount;
-        int points = GetPointsForRank(rank);
+
+        // ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ãŸãƒã‚¤ãƒ³ãƒˆã‚’å–å¾—
+        int points = GetPointsForMode(rank);
 
         GivePointsToPlayer(playerTag, points);
         SavePlayerScore(playerTag);
 
-        Debug.Log($"P{playerTag} ’E—Bc‚è {activePlayerCount - 1}l");
+        Debug.Log($"P{playerTag} è„±è½ã€‚æ®‹ã‚Š {activePlayerCount - 1}äºº");
 
         activePlayerCount--;
 
-        // c‚è1l‚É‚È‚Á‚½‚çI—¹
+        // æ®‹ã‚Š1äººã«ãªã£ãŸã‚‰çµ‚äº†
         if (activePlayerCount <= 1)
         {
             HandleWinner();
@@ -82,23 +132,58 @@ public class GameManager : MonoBehaviour
 
     void HandleWinner()
     {
-        // ‚Ü‚¾¶‘¶‚µ‚Ä‚¢‚él‚ğ’T‚·
+        if (isGameEnded) return;
+        isGameEnded = true;
+
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
 
         foreach (PlayerController pc in allPlayers)
         {
             if (!deadPlayerTags.Contains(pc.PlayerTag) && pc.gameObject.activeInHierarchy)
             {
-                int points = GetPointsForRank(1);
+                // 1ä½ã®ãƒã‚¤ãƒ³ãƒˆã‚’ä¸ãˆã‚‹
+                int points = GetPointsForMode(1);
                 pc.AddScore(points);
+
                 GameData.FinalScores[pc.PlayerTag] = pc.currentScore;
-                Debug.Log($"—DŸI P{pc.PlayerTag}");
+                Debug.Log($"å„ªå‹ï¼ P{pc.PlayerTag}");
                 break;
             }
         }
 
-        Debug.Log("ƒŠƒUƒ‹ƒg‚ÖˆÚ“®‚µ‚Ü‚·...");
-        Invoke("GoToResultScene", 3.0f);
+        // æ™‚é–“åœæ­¢ã—ã¦ã„ã¦ã‚‚å‹•ãã‚ˆã†ã«ã‚³ãƒ«ãƒ¼ãƒãƒ³ã§é·ç§»
+        StartCoroutine(TransitionToResult());
+    }
+
+    IEnumerator TransitionToResult()
+    {
+        Debug.Log("3ç§’å¾Œã«ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã¸ç§»å‹•ã—ã¾ã™...");
+        // ã‚²ãƒ¼ãƒ å†…æ™‚é–“ãŒæ­¢ã¾ã£ã¦ã„ã¦ã‚‚å¾…æ©Ÿã§ãã‚‹
+        yield return new WaitForSecondsRealtime(3.0f);
+        SceneManager.LoadScene(resultSceneName);
+    }
+
+    // â˜…ãƒ¢ãƒ¼ãƒ‰ã«å¿œã˜ã¦ãƒã‚¤ãƒ³ãƒˆã‚’å¤‰ãˆã‚‹
+    int GetPointsForMode(int rank)
+    {
+        int index = rank - 1;
+        int[] currentPointsArray;
+
+        if (currentGameMode == GameMode.TwoPlayers)
+        {
+            currentPointsArray = rankPoints2P;
+        }
+        else
+        {
+            currentPointsArray = rankPoints4P; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯4äººè¨­å®š
+        }
+
+        if (index >= 0 && index < currentPointsArray.Length)
+        {
+            return currentPointsArray[index];
+        }
+
+        return 0;
     }
 
     void SavePlayerScore(int playerTag)
@@ -114,18 +199,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void GoToResultScene()
-    {
-        SceneManager.LoadScene(resultSceneName);
-    }
-
-    int GetPointsForRank(int rank)
-    {
-        int index = rank - 1;
-        if (index >= 0 && index < rankPoints.Length) return rankPoints[index];
-        return 0;
-    }
-
     void GivePointsToPlayer(int tag, int score)
     {
         PlayerController[] players = FindObjectsOfType<PlayerController>();
@@ -139,12 +212,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // ƒfƒoƒbƒO•\¦i¶‘¶l”‚ªŒ©‚¦‚é‚æ‚¤‚Éj
-    void OnGUI()
-    {
-        GUIStyle style = new GUIStyle();
-        style.fontSize = 40;
-        style.normal.textColor = Color.red;
-        GUI.Label(new Rect(10, 10, 500, 100), $"¶‘¶: {activePlayerCount}l", style);
-    }
+    //void OnGUI()
+    //{
+    //    // ç¢ºèªç”¨ï¼ˆä¸è¦ãªã‚‰å‰Šé™¤ã—ã¦ãã ã•ã„ï¼‰
+    //    GUIStyle style = new GUIStyle();
+    //    style.fontSize = 40;
+    //    style.normal.textColor = Color.red;
+    //    GUI.Label(new Rect(10, 10, 500, 100), $"[{currentGameMode}] ç”Ÿå­˜: {activePlayerCount}äºº", style);
+    //}
 }
