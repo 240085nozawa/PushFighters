@@ -1563,6 +1563,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startTime: 120
   timerText: {fileID: 3778418707809677775}
+  resultSceneName: ResultScene
   isStopped: 0
 --- !u!1 &4364407473574367964
 GameObject:
