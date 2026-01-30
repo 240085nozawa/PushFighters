@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement; // ★ シーン遷移に必要
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -14,16 +14,10 @@ public class GameManager : MonoBehaviour
     public int activePlayerCount;
 
     [Header("リザルトシーンの名前")]
-    public string resultSceneName = "ResultScene"; // ★ 設定が必要
+    public string resultSceneName = "ResultScene";
 
-    // 脱落したプレイヤーのリスト（順位計算用）
+    // 脱落したプレイヤーのリスト
     private List<int> deadPlayerTags = new List<int>();
-
-    // リザルト画面で使うために順位リストを返す関数（今は使わないが互換性のため残す）
-    public List<int> GetFinalRanking()
-    {
-        return deadPlayerTags;
-    }
 
     void Awake()
     {
@@ -32,44 +26,55 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // ゲーム開始時の人数を保存
-        activePlayerCount = FindObjectsOfType<PlayerController>().Length;
-        Debug.Log($"ゲーム開始: 参加人数 {activePlayerCount}人");
+        // ゲーム開始時にスコアデータをリセット
+        GameData.FinalScores.Clear();
+
+        // ★修正: FindObjectsOfTypeは非表示のオブジェクトも拾うことがあるため、
+        // 「実際にActiveなやつ」だけをフィルタリングして数える
+        var allPlayers = FindObjectsOfType<PlayerController>();
+        int count = 0;
+        foreach (var p in allPlayers)
+        {
+            if (p.gameObject.activeInHierarchy) // シーンに出てきているかチェック
+            {
+                count++;
+            }
+        }
+        activePlayerCount = count;
+
+        Debug.Log($"============== ゲーム開始 ==============");
+        Debug.Log($"現在認識されているプレイヤー数: {activePlayerCount} 人");
+        // もしここで「3」とか「4」と出たら、シーンのどこかに余計なキャラが隠れています！
     }
 
-    // プレイヤーがゲームオーバーになったら呼ばれる関数
+    // プレイヤーがゲームオーバーになったら呼ばれる
     public void PlayerFinished(int playerTag)
     {
-        // 既に登録済みなら無視
         if (deadPlayerTags.Contains(playerTag)) return;
 
-        // 脱落リストに追加
         deadPlayerTags.Add(playerTag);
 
-        // --- 順位決定とスコア加算 ---
-
-        // 今回の順位 = 現在の生存数 (例: 4人中1人脱落したら、その人は4位)
+        // 順位とポイント計算
         int rank = activePlayerCount;
-
-        // ポイント付与 (配列は0始まりなので rank-1)
         int points = GetPointsForRank(rank);
 
-        // プレイヤーにスコア加算
+        // ポイント加算
         GivePointsToPlayer(playerTag, points);
+
+        // ★修正点1: 脱落した瞬間に、その人の最終スコアをGameDataに保存する
+        // (後でDestroyされても大丈夫なようにする)
+        SavePlayerScore(playerTag);
 
         Debug.Log($"Player {playerTag} 脱落。順位: {rank}位, ポイント: {points}p");
 
-        // 生存数を減らす
         activePlayerCount--;
 
-        // --- 最後の1人になったかチェック ---
         if (activePlayerCount == 1)
         {
             HandleWinner();
         }
     }
 
-    // 最後の生存者（勝者）の処理
     void HandleWinner()
     {
         PlayerController[] allPlayers = FindObjectsOfType<PlayerController>();
@@ -78,28 +83,35 @@ public class GameManager : MonoBehaviour
         {
             if (!deadPlayerTags.Contains(pc.PlayerTag))
             {
-                // この人が1位！
-                int points = GetPointsForRank(1); // 1位のポイント
+                // 1位の処理
+                int points = GetPointsForRank(1);
                 pc.AddScore(points);
+
+                // ★修正点2: 勝者のスコアも保存
+                GameData.FinalScores[pc.PlayerTag] = pc.currentScore;
+
                 Debug.Log($"優勝！ Player {pc.PlayerTag}。順位: 1位, ポイント: {points}p");
                 break;
             }
         }
 
-        // ★ 全員のスコアをGameDataに保存してシーン移動
-        SaveAllScores();
-        Debug.Log("3秒後にリザルト画面へ移動します...");
+        // シーン遷移
+        Debug.Log("リザルト画面へ移動します...");
         Invoke("GoToResultScene", 3.0f);
     }
 
-    void SaveAllScores()
+    // ★修正点3: 指定したプレイヤーの現在のスコアをGameDataに書き込む
+    void SavePlayerScore(int playerTag)
     {
-        GameData.FinalScores.Clear();
         PlayerController[] players = FindObjectsOfType<PlayerController>();
-        foreach (PlayerController pc in players)
+        foreach (var pc in players)
         {
-            // 各プレイヤーのタグとスコアを保存
-            GameData.FinalScores[pc.PlayerTag] = pc.currentScore;
+            if (pc.PlayerTag == playerTag)
+            {
+                // 辞書に登録（上書き）
+                GameData.FinalScores[playerTag] = pc.currentScore;
+                break;
+            }
         }
     }
 
@@ -108,7 +120,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(resultSceneName);
     }
 
-    // 順位に応じたポイントを安全に取得する関数
     int GetPointsForRank(int rank)
     {
         int index = rank - 1;
@@ -119,7 +130,6 @@ public class GameManager : MonoBehaviour
         return 0;
     }
 
-    // 指定したタグのプレイヤーにポイントを加算
     void GivePointsToPlayer(int tag, int score)
     {
         PlayerController[] players = FindObjectsOfType<PlayerController>();

@@ -683,8 +683,8 @@ Transform:
   m_GameObject: {fileID: 192778834}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.2, z: 0}
-  m_LocalScale: {x: 50, y: 1, z: 50}
+  m_LocalPosition: {x: 0, y: -7.06, z: 0}
+  m_LocalScale: {x: 65.025, y: 1.3005, z: 65.025}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -5810,25 +5810,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4370804404199962848, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
-      propertyPath: targetPlayerNumber
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 5429575638552372649, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
       propertyPath: m_Name
       value: Canvas_4p
-      objectReference: {fileID: 0}
-    - target: {fileID: 6206473152438558578, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
-      propertyPath: targetPlayerNumber
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6268262067600729193, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
-      propertyPath: targetPlayerNumber
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7919145713983604803, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
-      propertyPath: targetPlayerNumber
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

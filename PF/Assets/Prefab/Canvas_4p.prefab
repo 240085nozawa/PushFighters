@@ -1223,7 +1223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 0
   player: {fileID: 0}
 --- !u!1 &2149063330258788702
@@ -1539,7 +1539,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 2
   player: {fileID: 0}
 --- !u!1 &2813686101841045087
@@ -3010,7 +3010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c6608d1cae72741851721760e9b631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   targetPlayer: {fileID: 0}
   targetImage: {fileID: 2153919002732401665}
   levelSprites:
@@ -3105,7 +3105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70fff42e22be7b348856a1bebebe472f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   gaugeType: 1
   player: {fileID: 0}
 --- !u!1 &5429575638552372649
