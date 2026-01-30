@@ -90,6 +90,15 @@ public class PlayerController : MonoBehaviour
 
         animController = GetComponentInChildren<AnimationController>();
 
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterPlayer(this);
+        }
+        else
+        {
+            Debug.LogError("注意: GameManagerが見つかりません！");
+        }
+
         rb = GetComponent<Rigidbody>();
         playerRenderer = GetComponentInChildren<Renderer>();
 
