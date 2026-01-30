@@ -57,14 +57,14 @@ public class BombAttack : MonoBehaviour
         // =========================
         // プレイヤー4移動停止
         // =========================
-        if (pc != null)
-        {
-            pc.canMove = false;
-        }
+        //if (pc != null)
+        //{
+        //    pc.canMove = false;
+        //}
 
         // =========================
         // 溜め演出
-        // =========================
+        // =========================s
         if (chargeEffectPrefab != null)
         {
             GameObject charge = Instantiate(
@@ -121,5 +121,5 @@ public class BombAttack : MonoBehaviour
         }
 
         isRunning = false;
-}
+    }
 }
