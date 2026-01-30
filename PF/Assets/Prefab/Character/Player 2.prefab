@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 280831311
+  GlobalObjectIdHash: 1841799325
   InScenePlacedSourceGlobalObjectIdHash: 1917903477
   DeferredDespawnTick: 0
   Ownership: 1
@@ -705,6 +705,7 @@ MonoBehaviour:
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   punchButton: Punch
+  punchCooldown: 1.25
   ultDuration: 2
   ultEffectPrefab: {fileID: 0}
   ultSound: {fileID: 0}
@@ -815,6 +816,10 @@ PrefabInstance:
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: punchButton
       value: Punch
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: dashCooldown
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: recoveryTime

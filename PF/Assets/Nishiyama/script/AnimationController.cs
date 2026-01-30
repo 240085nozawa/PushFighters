@@ -12,14 +12,17 @@ public class AnimationController : MonoBehaviour
     public string verticalAxis = "Vertical";
     public string punchButton = "Punch";
 
+    [Header("Punch Cooldown")] // ★追加: パンチ専用のクールタイム設定
+    public float punchCooldown = 0.5f; // 連打できる間隔（秒）
+    private float nextPunchTime = 0f;  // 次にパンチできる時間
+
     [Header("Ultimet Settings")]
     public float ultDuration = 2.0f;
     public GameObject ultEffectPrefab;
     public AudioClip ultSound;
 
     [Header("Punch Settings")]
-    public float windUpTime = 0.1f;   // 発生までの時間（これだけは残さないとエフェクトとズレます）
-    // public float recoveryTime = 0.5f; // ←削除しました
+    public float windUpTime = 0.1f;
     public GameObject punchEffectPrefab;
     public AudioClip punchSound;
 
@@ -74,12 +77,11 @@ public class AnimationController : MonoBehaviour
 
     void Update()
     {
+        // 1. 移動アニメーション（歩き・走り）
         float x = Input.GetAxisRaw(horizontalAxis);
         float z = Input.GetAxisRaw(verticalAxis);
         bool hasMoveInput = new Vector2(x, z).sqrMagnitude > 0;
 
-        // 攻撃中でも移動入力をAnimatorに送り続けるように変更
-        // これにより、攻撃が終わった瞬間にAnimatorが即座に反応できます
         if (hasMoveInput)
         {
             animator.SetBool("isDash", true);
@@ -89,11 +91,15 @@ public class AnimationController : MonoBehaviour
             animator.SetBool("isDash", false);
         }
 
-        // 攻撃中でなければ新しいパンチを受け付ける
+        // 2. パンチ入力監視（クールタイム判定付き）
         if (!isAttacking)
         {
-            if (Input.GetButtonDown(punchButton))
+            // ★修正: 現在時刻が「次にパンチできる時間」を過ぎているかチェック
+            if (Input.GetButtonDown(punchButton) && Time.time >= nextPunchTime)
             {
+                // 次のパンチが可能になる時間をセット（現在時刻 + クールタイム）
+                nextPunchTime = Time.time + punchCooldown;
+
                 StartCoroutine(AnimatePunchSequence());
             }
         }
@@ -109,35 +115,24 @@ public class AnimationController : MonoBehaviour
     {
         isAttacking = true;
 
-        // 瞬間的に移動アニメーションを止める（滑り防止）
-        // ただしUpdateですぐに上書きされるため、実質一瞬だけ止まる効果
         animator.SetBool("isDash", false);
         animator.SetBool("isPunch", true);
 
-        // 1. 発生までのタメ（0.1秒など）
+        // タメ時間
         yield return new WaitForSeconds(windUpTime);
 
-        // 2. ヒット処理（エフェクト・音）
         PlayEffect(punchEffectPrefab);
         PlaySound(punchSound);
 
-        // 3. アニメーターのトリガーを戻す
         animator.SetBool("isPunch", false);
 
-        // 【削除】硬直待機ループを完全に削除しました
-        // float timer = 0f;
-        // while (timer < recoveryTime) ...
-
-        // 4. 即座に攻撃終了
-        // これで次のフレームからすぐに移動や次の攻撃が可能になります
+        // 攻撃終了
         isAttacking = false;
     }
 
     IEnumerator AnimateUltSequence()
     {
         isAttacking = true;
-        // 必殺技中は移動キー入力を無視したいので、Updateの制御とは別に強制オフし続ける工夫が必要ですが
-        // 簡易的にここではDashをオフにします
         animator.SetBool("isDash", false);
         animator.SetBool("isUltimet", true);
 

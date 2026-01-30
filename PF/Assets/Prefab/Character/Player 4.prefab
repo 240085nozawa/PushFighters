@@ -326,6 +326,7 @@ MonoBehaviour:
   horizontalAxis: Horizontal
   verticalAxis: Vertical
   punchButton: Punch
+  punchCooldown: 1.25
   ultDuration: 2
   ultEffectPrefab: {fileID: 0}
   ultSound: {fileID: 0}
@@ -572,6 +573,10 @@ PrefabInstance:
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: punchButton
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: dashCooldown
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: recoveryTime
