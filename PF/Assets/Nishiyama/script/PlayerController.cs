@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 using System.Linq;
@@ -35,16 +34,13 @@ public class PlayerController : MonoBehaviour
     public float recoveryTimer;
     public bool isRecovering = false;
 
-
     [Header("Move")]
     private Rigidbody rb;
     private Renderer playerRenderer;
     public float moveSpeed = 5f;
 
     [Header("Punch Timing")]
-    // ★削除: windUpTime も不要になりました
-    // public float windUpTime = 0.1f;   
-
+    // windUpTime は削除済み
     private bool isAttacking = false;
     public Vector3 LastMoveDirection { get; private set; } = Vector3.forward;
     public float rotationSpeed = 10f;
@@ -84,6 +80,9 @@ public class PlayerController : MonoBehaviour
 
     private AnimationController animController;
 
+    [Header("SE")]
+    [SerializeField] private AudioSource levelUpSE;  // レベルアップ用SE（インスペクターでドラッグ）
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -110,6 +109,12 @@ public class PlayerController : MonoBehaviour
         if (rb != null)
         {
             rb.mass = massStages[0];
+        }
+
+        // ★レベルアップSEの音量をここで上げる（0.0〜1.0）
+        if (levelUpSE != null)
+        {
+            levelUpSE.volume = 1.0f;   // 必要なら 0.7f などに調整
         }
 
         AutoSetupFromNearestSpawnPoint();
@@ -160,7 +165,6 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("足元に SpawnPointInfo が見つかりません！");
         }
     }
-
 
     public void SetupFromSpawnPoint(SpawnPointInfo info)
     {
@@ -222,7 +226,6 @@ public class PlayerController : MonoBehaviour
         CheckAndActivateSpecial();
     }
 
-
     private void CheckAndActivateSpecial()
     {
         string specialButton = $"P{PlayerTag}_Special";
@@ -280,17 +283,12 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = true;
 
-        // ★修正: 予備動作の待機時間 (windUpTime) を完全に削除しました。
-        // yield return new WaitForSeconds(windUpTime); ←これが無いため即座に実行されます
+        // 予備動作・硬直の待機は削除済み
 
-        // 2. パンチ実行（当たり判定生成）
         Punch();
-
-        // ★修正: 硬直時間 (recoveryTime) も削除済みです。
 
         isAttacking = false;
 
-        // Coroutineの形式ですが、実質1フレーム内で完了します
         yield return null;
     }
 
@@ -314,11 +312,18 @@ public class PlayerController : MonoBehaviour
     {
         if (!canTakeDamage) return;
 
+        int beforeStage = currentMassStage;   // 変更前を保存
+
         if (currentMassStage < massStages.Length - 1)
         {
             currentMassStage++;
             if (rb != null) rb.mass = massStages[currentMassStage];
+        }
 
+        // 1段階上がった瞬間だけレベルアップSEを鳴らす
+        if (currentMassStage > beforeStage && levelUpSE != null)
+        {
+            levelUpSE.Play();   // AudioSource に設定済みの Clip を再生
         }
 
         if (currentMassStage > 0)
@@ -334,7 +339,6 @@ public class PlayerController : MonoBehaviour
         {
             currentMassStage--;
             if (rb != null) rb.mass = massStages[currentMassStage];
-
         }
 
         if (currentMassStage == 0)
@@ -366,7 +370,6 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         if (rb != null) rb.velocity = Vector3.zero;
     }
-
 
     public void IncreaseSpecialGauge(int amount)
     {
@@ -452,8 +455,8 @@ public class PlayerController : MonoBehaviour
         {
             OnGameOver();
         }
-
     }
+
     public void ApplyKnockback(Vector3 direction)
     {
         if (!canKnockback) return;
