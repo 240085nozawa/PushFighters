@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using System.Collections;
 using System.Linq;
@@ -8,10 +9,10 @@ public class PlayerController : MonoBehaviour
     public int PlayerTag;
 
     [Header("Score")]
-    public int currentScore = 0; // ★ 追加: 現在のスコア
+    public int currentScore = 0;
 
     [Header("レベル管理")]
-    public int knockbackLevel = 1; // これをUIで表示します (初期値1)
+    public int knockbackLevel = 1;
 
     [Header("ULT")]
     public bool canMove = true;
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
     public float recoveryInterval = 2f;
     public float recoveryTimer;
     public bool isRecovering = false;
- 
+
 
     [Header("Move")]
     private Rigidbody rb;
@@ -41,9 +42,10 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
 
     [Header("Punch Timing")]
-    public float windUpTime = 0.5f;   // ★追加: パンチが出るまでのタメ時間
-    public float recoveryTime = 1.0f; // ★追加: パンチ後の硬直時間
-    private bool isAttacking = false; // ★追加: 現在攻撃中かどうかのフラグ
+    // ★削除: windUpTime も不要になりました
+    // public float windUpTime = 0.1f;   
+
+    private bool isAttacking = false;
     public Vector3 LastMoveDirection { get; private set; } = Vector3.forward;
     public float rotationSpeed = 10f;
     public GameObject punchHandPrefab;
@@ -65,8 +67,7 @@ public class PlayerController : MonoBehaviour
     public string dashButton = "Dash";
 
     [Header("Spawn Info")]
-    // 🔥CHANGE
-    public int spawnBoxNumber = 0; // 0 = 未設定
+    public int spawnBoxNumber = 0;
 
     private SpecialExecutor specialExecutor;
     private SpecialBeam specialBeam;
@@ -78,8 +79,8 @@ public class PlayerController : MonoBehaviour
     private bool isTimerActive = false;
 
     [Header("Knockback Settings")]
-    public float knockbackForce = 20f;     // 吹き飛ぶ強さ
-    public float knockbackDuration = 0.5f; // 操作不能になる時間
+    public float knockbackForce = 20f;
+    public float knockbackDuration = 0.5f;
 
     private AnimationController animController;
 
@@ -107,8 +108,6 @@ public class PlayerController : MonoBehaviour
         isTimerActive = true;
 
         StartGaugeTicker();
-
-       
     }
 
     public void AddScore(int amount)
@@ -119,15 +118,13 @@ public class PlayerController : MonoBehaviour
 
     void AutoSetupFromNearestSpawnPoint()
     {
-        // 1. シーン内のすべての SpawnPointInfo を探す
         SpawnPointInfo[] allPoints = FindObjectsOfType<SpawnPointInfo>();
 
         SpawnPointInfo nearestPoint = null;
-        float minDistance = 0.5f; // 0.5m以内なら「自分のスポーン地点」とみなす
+        float minDistance = 0.5f;
 
         foreach (var point in allPoints)
         {
-            // 自分とスポーン地点の距離を測る
             float dist = Vector3.Distance(transform.position, point.transform.position);
 
             if (dist < minDistance)
@@ -137,7 +134,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // 2. 近くに見つかったら、そこから設定をコピーする
         if (nearestPoint != null)
         {
             horizontalAxis = nearestPoint.horizontalAxis;
@@ -152,19 +148,16 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("足元に SpawnPointInfo が見つかりません！スポーン位置とキャラの位置がズレているか、スクリプトがありません。");
+            Debug.LogError("足元に SpawnPointInfo が見つかりません！");
         }
     }
 
 
     public void SetupFromSpawnPoint(SpawnPointInfo info)
     {
-        // 1. 番号を受け取る
         PlayerTag = info.playerNumber;
         spawnBoxNumber = info.playerNumber;
 
-        // 2. 文字列のチェックと強制修正
-        // データが空っぽ(nullまたは"")なら、自動で「P○_Horizontal」を作る
         if (string.IsNullOrEmpty(info.horizontalAxis))
         {
             Debug.LogWarning($"[自動修正] P{PlayerTag} の入力設定が空でした。自動生成します。");
@@ -175,7 +168,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // データが入っていればそれを使う
             horizontalAxis = info.horizontalAxis;
             verticalAxis = info.verticalAxis;
             punchButton = info.punchButton;
@@ -187,7 +179,6 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // ★追加: まだ番号をもらっていない(0番の)ときは、何もしないで待つ
         if (PlayerTag == 0) return;
 
         if (isTimeStopped) return;
@@ -199,7 +190,6 @@ public class PlayerController : MonoBehaviour
             // Debug.Log("ULT Rdy");
         }
 
-        // ★修正: ボタンを押したら「Punch()」を直接呼ばず、コルーチンを開始する
         if (Input.GetButtonDown(punchButton))
         {
             StartCoroutine(PunchSequence());
@@ -228,24 +218,18 @@ public class PlayerController : MonoBehaviour
     {
         string specialButton = $"P{PlayerTag}_Special";
 
-        // ボタン入力があり、かつゲージがMAXなら発動
         if (Input.GetAxis(specialButton) > 0 && specialGaugeValue >= 100)
         {
-            // =================================================
-            // ★ここです！ ゲージを減らすのと同時にアニメ再生命令！
-            // =================================================
             if (animController != null)
             {
-                animController.PlayUltAnimation(); // 「再生しろ！」と命令
+                animController.PlayUltAnimation();
             }
 
-            // 技の効果を発動
             if (specialBeam != null) specialBeam.Activate();
             else if (bombAttack != null) bombAttack.Activate();
             else if (theWorld != null) theWorld.Activate();
             else if (allCounters != null) allCounters.Activate();
 
-            // ゲージを消費 (-100)
             DecreaseSpecialGauge(MAX_GAUGE);
         }
     }
@@ -287,19 +271,18 @@ public class PlayerController : MonoBehaviour
     {
         isAttacking = true;
 
-        // 1. 予備動作（タメ）
-        // ★ここは残しています（ボタンを押してからパンチが出るまでの時間）
-        yield return new WaitForSeconds(windUpTime);
+        // ★修正: 予備動作の待機時間 (windUpTime) を完全に削除しました。
+        // yield return new WaitForSeconds(windUpTime); ←これが無いため即座に実行されます
 
-        // 2. パンチ実行
+        // 2. パンチ実行（当たり判定生成）
         Punch();
 
-        // ▼▼▼【削除した部分】▼▼▼
-        // パンチを出した後の硬直時間をなくしました
-        // yield return new WaitForSeconds(recoveryTime); 
-        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+        // ★修正: 硬直時間 (recoveryTime) も削除済みです。
 
         isAttacking = false;
+
+        // Coroutineの形式ですが、実質1フレーム内で完了します
+        yield return null;
     }
 
     void Punch()
@@ -326,7 +309,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMassStage++;
             if (rb != null) rb.mass = massStages[currentMassStage];
-           
+
         }
 
         if (currentMassStage > 0)
@@ -342,7 +325,7 @@ public class PlayerController : MonoBehaviour
         {
             currentMassStage--;
             if (rb != null) rb.mass = massStages[currentMassStage];
-           
+
         }
 
         if (currentMassStage == 0)
@@ -374,7 +357,7 @@ public class PlayerController : MonoBehaviour
         isDashing = false;
         if (rb != null) rb.velocity = Vector3.zero;
     }
- 
+
 
     public void IncreaseSpecialGauge(int amount)
     {
@@ -464,34 +447,29 @@ public class PlayerController : MonoBehaviour
     }
     public void ApplyKnockback(Vector3 direction)
     {
-        if (!canKnockback) return; // ノックバック無効フラグがあれば中断
+        if (!canKnockback) return;
 
         StartCoroutine(KnockbackRoutine(direction));
     }
 
-    // ノックバックの実際の処理
     IEnumerator KnockbackRoutine(Vector3 direction)
     {
-        // 1. 操作不能にする
         canMove = false;
-        isDashing = false; // ダッシュもキャンセル
+        isDashing = false;
 
-        // 2. 物理挙動で吹き飛ばす
         if (rb != null)
         {
-            rb.velocity = Vector3.zero; // 一旦停止
+            rb.velocity = Vector3.zero;
             rb.AddForce(direction * knockbackForce, ForceMode.Impulse);
         }
 
         Debug.Log($"[Player {PlayerTag}] Knockback!");
 
-        // 3. 硬直時間待つ
         yield return new WaitForSeconds(knockbackDuration);
 
-        // 4. 復帰
         if (rb != null)
         {
-            rb.velocity = Vector3.zero; // 滑りを止める
+            rb.velocity = Vector3.zero;
         }
         canMove = true;
     }
