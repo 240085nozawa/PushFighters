@@ -1,29 +1,24 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Linq;
+using TMPro;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.SceneManagement;
 
 public class ResultDisplay : MonoBehaviour
 {
+    public TextMeshProUGUI resultText;
+
     [System.Serializable]
     public class RankSlot
     {
-        public Image rankImage;   // No.1 ～ No.4
-        public Image nameImage;   // キャラ画像
+        public TextMeshProUGUI rankText;
+        public TextMeshProUGUI scoreText;
+        public TextMeshProUGUI nameText;
     }
 
-    [System.Serializable]
-    public class PlayerCharacter
-    {
-        public int playerTag;          // Player番号（1～4）
-        public Sprite characterSprite; // キャラ画像
-    }
+    public RankSlot[] rankSlots;
 
-    public RankSlot[] rankSlots;        // 0=No.1, 1=No.2, 2=No.3, 3=No.4
-    public Sprite[] rankSprites;        // 同上
-    public PlayerCharacter[] playerCharacters;
-
+    [Header("Bボタンで戻るシーン名")]
     public string nextSceneName = "Title";
 
     void Start()
@@ -33,59 +28,73 @@ public class ResultDisplay : MonoBehaviour
 
     void Update()
     {
+        // 🎮 コントローラーのAボタン（Xbox基準 = Button 0）
         if (Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             SceneManager.LoadScene(nextSceneName);
         }
     }
 
-    void ShowResults()
+    public void ShowResults()
     {
-        // 初期化
-        foreach (var slot in rankSlots)
+        if (GameData.FinalScores == null || GameData.FinalScores.Count == 0)
         {
-            slot.rankImage.enabled = false;
-            slot.nameImage.enabled = false;
+            if (resultText != null) resultText.text = "No Score Data Found.";
+            return;
         }
 
-        if (GameData.FinalScores == null || GameData.FinalScores.Count == 0)
-            return;
-
-        // スコア順に並べる
-        var sorted = GameData.FinalScores
+        // スコアの高い順に並べ替え
+        var sortedScores = GameData.FinalScores
             .OrderByDescending(x => x.Value)
             .ToList();
 
-        // 各プレイヤーの順位を確定
-        Dictionary<int, int> playerRanks = new Dictionary<int, int>();
-
-        int currentRank = 1;
-        for (int i = 0; i < sorted.Count; i++)
+        // 1位の表示（同点1位が複数いても、とりあえずリスト先頭の人を表示）
+        if (resultText != null && sortedScores.Count > 0)
         {
-            if (i > 0 && sorted[i].Value < sorted[i - 1].Value)
-            {
-                currentRank = i + 1;
-            }
-            playerRanks[sorted[i].Key] = currentRank;
+            int winnerTag = sortedScores[0].Key;
+            resultText.text = $"CONGRATULATIONS!\nWINNER: PLAYER {winnerTag}";
         }
 
-        // 順位に応じて「直接」スロットへ配置
-        foreach (var pair in playerRanks)
+        if (rankSlots != null)
         {
-            int playerTag = pair.Key;
-            int rank = pair.Value;
+            int currentRank = 1;
 
-            int slotIndex = rank - 1;
-            if (slotIndex >= rankSlots.Length) continue;
+            for (int i = 0; i < rankSlots.Length; i++)
+            {
+                if (i < sortedScores.Count)
+                {
+                    int playerTag = sortedScores[i].Key;
+                    int score = sortedScores[i].Value;
 
-            // 順位画像
-            rankSlots[slotIndex].rankImage.sprite = rankSprites[slotIndex];
-            rankSlots[slotIndex].rankImage.enabled = true;
+                    // ★追加: 同率順位の計算ロジック
+                    if (i > 0)
+                    {
+                        // 前の人とスコアが同じなら、順位(currentRank)はそのまま
+                        // スコアが低ければ、本来の順位(i + 1)に更新
+                        // 例: 100点(1位), 100点(1位), 80点(3位)
+                        if (score < sortedScores[i - 1].Value)
+                        {
+                            currentRank = i + 1;
+                        }
+                    }
+                    else
+                    {
+                        currentRank = 1;
+                    }
 
-            // キャラ画像
-            var pc = playerCharacters.First(p => p.playerTag == playerTag);
-            rankSlots[slotIndex].nameImage.sprite = pc.characterSprite;
-            rankSlots[slotIndex].nameImage.enabled = true;
+                    // UI反映
+                    if (rankSlots[i].rankText) rankSlots[i].rankText.text = $"No.{currentRank}";
+                    if (rankSlots[i].scoreText) rankSlots[i].scoreText.text = $"{score}p";
+                    if (rankSlots[i].nameText) rankSlots[i].nameText.text = $"Player {playerTag}";
+                }
+                else
+                {
+                    // データがないスロットは空欄に
+                    if (rankSlots[i].rankText) rankSlots[i].rankText.text = "-";
+                    if (rankSlots[i].scoreText) rankSlots[i].scoreText.text = "";
+                    if (rankSlots[i].nameText) rankSlots[i].nameText.text = "";
+                }
+            }
         }
     }
 }
