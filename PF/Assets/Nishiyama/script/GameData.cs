@@ -1,5 +1,5 @@
-using UnityEngine;
-using System.Collections.Generic; // š Dictionary—p‚É•K—v
+ï»¿using UnityEngine;
+using System.Collections.Generic; // â˜… Dictionaryç”¨ã«å¿…è¦
 
 public class GameData : MonoBehaviour
 {
@@ -8,8 +8,12 @@ public class GameData : MonoBehaviour
     public static int Player3CharacterIndex = 0;
     public static int Player4CharacterIndex = 0;
 
-    public static int PlayerCount = 2; // ƒfƒtƒHƒ‹ƒg‚Í2lƒ‚[ƒh
+    public static int PlayerCount = 2; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã¯2äººãƒ¢ãƒ¼ãƒ‰
 
-    // š ’Ç‰Á: ƒŠƒUƒ‹ƒg‰æ–Ê‚ÖƒXƒRƒA‚ğó‚¯“n‚·‚½‚ß‚Ì«‘
+    // â˜… è¿½åŠ : ãƒªã‚¶ãƒ«ãƒˆç”»é¢ã¸ã‚¹ã‚³ã‚¢ã‚’å—ã‘æ¸¡ã™ãŸã‚ã®è¾æ›¸
     public static Dictionary<int, int> FinalScores = new Dictionary<int, int>();
+
+    // â˜…â˜…â˜… ã“ã‚ŒãŒé‡è¦ï¼ â˜…â˜…â˜…
+    // å„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ç”»åƒã‚’ä¿å­˜ã—ã¦ãŠãå ´æ‰€
+    public static Dictionary<int, Sprite> PlayerIcons = new Dictionary<int, Sprite>();
 }

@@ -28,11 +28,7 @@ public class CharacterLottery : MonoBehaviour
     [SerializeField] private AudioClip startPressSE;
     [SerializeField] private AudioClip loopSE;
 
-    // ★★★ ここが変更点 ★★★
-    [Header("カウントダウンUI（3・2・1）")]
-    [SerializeField] private Text count3;
-    [SerializeField] private Text count2;
-    [SerializeField] private Text count1;
+    // ★カウントダウン用の変数は削除しました
 
     private Coroutine rollCoroutine;
     private GameObject rollingEffectInstance;
@@ -44,7 +40,7 @@ public class CharacterLottery : MonoBehaviour
 
     void Start()
     {
-        SetAllCount(false);
+        // 初期化処理なし
     }
 
     void Update()
@@ -165,40 +161,20 @@ public class CharacterLottery : MonoBehaviour
 
         SaveResult();
 
-        // ★ カウントダウン開始
-        StartCoroutine(CountdownAndMoveScene());
+        // ★修正: カウントダウンを削除し、結果を見せるための短い待機後に移動
+        StartCoroutine(WaitAndMoveScene());
     }
 
-    // ★★★ カウントダウン本体 ★★★
-    IEnumerator CountdownAndMoveScene()
+    // ★修正: 結果決定後、1秒だけ待ってからシーン移動（余韻用）
+    IEnumerator WaitAndMoveScene()
     {
-        SetAllCount(false);
-
-        count3.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-
-        SetAllCount(false);
-        count2.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-
-        SetAllCount(false);
-        count1.gameObject.SetActive(true);
-        yield return new WaitForSeconds(1f);
-
-        SetAllCount(false);
-
+        yield return new WaitForSeconds(1.0f);
         MoveToRandomScene();
-    }
-
-    void SetAllCount(bool active)
-    {
-        if (count3) count3.gameObject.SetActive(active);
-        if (count2) count2.gameObject.SetActive(active);
-        if (count1) count1.gameObject.SetActive(active);
     }
 
     void SaveResult()
     {
+        // SkillSelectionDataクラスが存在している前提の処理
         SkillSelectionData.playerCount = slots.Length;
 
         for (int i = 0; i < slots.Length; i++)
@@ -225,6 +201,7 @@ public class CharacterLottery : MonoBehaviour
 
     int GetSkillFromCharacter(int characterId)
     {
+        // キャラクタIDに応じたスキルIDを返す（適宜調整してください）
         switch (characterId)
         {
             case 0: return 0;
@@ -237,9 +214,16 @@ public class CharacterLottery : MonoBehaviour
 
     void MoveToRandomScene()
     {
-        SceneManager.LoadScene(
-            gameScenes[Random.Range(0, gameScenes.Length)]
-        );
+        if (gameScenes.Length > 0)
+        {
+            SceneManager.LoadScene(
+                gameScenes[Random.Range(0, gameScenes.Length)]
+            );
+        }
+        else
+        {
+            Debug.LogError("移動先のシーン(Game Scenes)が設定されていません！");
+        }
     }
 
     void Shuffle(List<Sprite> list)

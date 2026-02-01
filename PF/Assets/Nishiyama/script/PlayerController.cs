@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     [Header("Score")]
     public int currentScore = 0;
 
+    [Header("Character Icon")]
+    public Sprite characterIcon;
+
     [Header("レベル管理")]
     public int knockbackLevel = 1;
 
@@ -40,7 +43,6 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
 
     [Header("Punch Timing")]
-    // windUpTime は削除済み
     private bool isAttacking = false;
     public Vector3 LastMoveDirection { get; private set; } = Vector3.forward;
     public float rotationSpeed = 10f;
@@ -81,26 +83,17 @@ public class PlayerController : MonoBehaviour
     private AnimationController animController;
 
     [Header("SE")]
-    [SerializeField] private AudioSource levelUpSE;  // レベルアップ用SE（インスペクターでドラッグ）
+    [SerializeField] private AudioSource levelUpSE;
+
+    private bool isControlsEnabled = false; // 操作許可フラグ
 
     void Start()
     {
         Application.targetFrameRate = 60;
 
         animController = GetComponentInChildren<AnimationController>();
-
-        if (GameManager.Instance != null)
-        {
-            GameManager.Instance.RegisterPlayer(this);
-        }
-        else
-        {
-            Debug.LogError("注意: GameManagerが見つかりません！");
-        }
-
         rb = GetComponent<Rigidbody>();
         playerRenderer = GetComponentInChildren<Renderer>();
-
         specialBeam = GetComponent<SpecialBeam>();
         bombAttack = GetComponent<BombAttack>();
         theWorld = GetComponent<TheWorld>();
@@ -111,17 +104,45 @@ public class PlayerController : MonoBehaviour
             rb.mass = massStages[0];
         }
 
-        // ★レベルアップSEの音量をここで上げる（0.0〜1.0）
         if (levelUpSE != null)
         {
-            levelUpSE.volume = 1.0f;   // 必要なら 0.7f などに調整
+            levelUpSE.volume = 1.0f;
         }
 
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.RegisterPlayer(this);
+        }
+        else
+        {
+            Debug.LogError("注意: GameManagerが見つかりません！");
+        }
+
+        // ★★★ 修正ポイント 1 ★★★
+        // 先にここでプレイヤー番号（PlayerTag）を確定させます
         AutoSetupFromNearestSpawnPoint();
 
-        isTimerActive = true;
+        // ★★★ 修正ポイント 2 ★★★
+        // 番号が決まった「後」に画像を登録します
+        if (PlayerTag != 0 && characterIcon != null)
+        {
+            if (GameData.PlayerIcons.ContainsKey(PlayerTag))
+            {
+                GameData.PlayerIcons[PlayerTag] = characterIcon; // 上書き
+            }
+            else
+            {
+                GameData.PlayerIcons.Add(PlayerTag, characterIcon); // 新規登録
+            }
+            // 確認用ログ
+            Debug.Log($"[Icon登録] P{PlayerTag} の画像を保存しました。");
+        }
 
+        isTimerActive = true;
         StartGaugeTicker();
+
+        isControlsEnabled = false;
+        StartCoroutine(EnableControlsDelay());
     }
 
     public void AddScore(int amount)
@@ -195,6 +216,8 @@ public class PlayerController : MonoBehaviour
         if (PlayerTag == 0) return;
 
         if (isTimeStopped) return;
+
+        if (!isControlsEnabled) return;
 
         move();
 
@@ -282,13 +305,8 @@ public class PlayerController : MonoBehaviour
     IEnumerator PunchSequence()
     {
         isAttacking = true;
-
-        // 予備動作・硬直の待機は削除済み
-
         Punch();
-
         isAttacking = false;
-
         yield return null;
     }
 
@@ -312,7 +330,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!canTakeDamage) return;
 
-        int beforeStage = currentMassStage;   // 変更前を保存
+        int beforeStage = currentMassStage;
 
         if (currentMassStage < massStages.Length - 1)
         {
@@ -320,10 +338,9 @@ public class PlayerController : MonoBehaviour
             if (rb != null) rb.mass = massStages[currentMassStage];
         }
 
-        // 1段階上がった瞬間だけレベルアップSEを鳴らす
         if (currentMassStage > beforeStage && levelUpSE != null)
         {
-            levelUpSE.Play();   // AudioSource に設定済みの Clip を再生
+            levelUpSE.Play();
         }
 
         if (currentMassStage > 0)
@@ -485,4 +502,12 @@ public class PlayerController : MonoBehaviour
         }
         canMove = true;
     }
+
+    IEnumerator EnableControlsDelay()
+    {
+        yield return new WaitForSeconds(2.0f);
+        isControlsEnabled = true;
+        Debug.Log($"P{PlayerTag} 操作開始！");
+    }
+
 }
