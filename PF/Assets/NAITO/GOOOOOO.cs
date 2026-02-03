@@ -10,7 +10,7 @@ public class SlowAudioPlayer : MonoBehaviour
 
     [SerializeField, Range(0.1f, 2.0f)] private float playbackSpeed = 0.8f; // 0.8=80%‘¬“x
 
-    [SerializeField, Range(0f, 5f)] private float delaySeconds = 0.2f; // Ä¶’x‰„ŠÔ
+    [SerializeField, Range(0f, 5f)] private float delaySeconds = 0.1f; // Ä¶’x‰„ŠÔ
 
     private AudioSource audioSource;
 
