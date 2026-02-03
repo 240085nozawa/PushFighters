@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5110338015249036076}
   - component: {fileID: 359172497249309467}
   m_Layer: 0
-  m_Name: punch hand
+  m_Name: punch hand 3
   m_TagString: PunchHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lifetime: 0.25
   knockbackForce: 25
-  kokusenPrefab: {fileID: 7752009684864070410, guid: 3f7cd089766e2fa488336588551d9a6d, type: 3}
+  kokusenPrefab: {fileID: 7752009684864070410, guid: 97a3ce4faebd90c40ae4f7894c2f5634, type: 3}
 --- !u!114 &359172497249309467
 MonoBehaviour:
   m_ObjectHideFlags: 0
