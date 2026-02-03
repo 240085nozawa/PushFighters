@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // Input Systemを使用
+using UnityEngine.InputSystem;
 
 public class ModeSelectGlow : MonoBehaviour
 {
@@ -9,15 +9,21 @@ public class ModeSelectGlow : MonoBehaviour
     public class ModeButton
     {
         [Header("ボタン設定")]
-        public GameObject buttonObject; // 光らせる対象のオブジェクト
-        public Outline outline;         // Outlineコンポーネント
+        public GameObject buttonObject;
+        public Outline outline;
 
         [Header("モード設定")]
-        public int playerCount;         // 人数 (2 or 4)
-        public string sceneName;        // ★ 移動先のシーン名 ("BattleScene_2P" など)
+        public int playerCount;
+        public string sceneName;
     }
 
-    public ModeButton[] modeButtons; // インスペクターで設定するリスト
+    [Header("モードボタン設定")]
+    public ModeButton[] modeButtons;
+
+    [Header("決定SE設定")]
+    [SerializeField] AudioSource confirmAudioSource; // 決定音
+    [SerializeField] AudioClip confirmClip;
+
     private int currentIndex = 0;
 
     private bool canInput = true;
@@ -36,11 +42,7 @@ public class ModeSelectGlow : MonoBehaviour
 
         float horizontal = 0f;
 
-        // ---------------------------------------------------------
-        // 1. 移動入力のチェック (キーボード & ゲームパッド)
-        // ---------------------------------------------------------
-
-        // ⌨️ キーボード (矢印 or WASD)
+        // --- 移動入力 ---
         if (Keyboard.current != null)
         {
             if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
@@ -53,13 +55,11 @@ public class ModeSelectGlow : MonoBehaviour
             }
         }
 
-        // 🎮 ゲームパッド (十字キー & 左スティック)
         if (Gamepad.current != null)
         {
-            Vector2 dpad = Gamepad.current.dpad.ReadValue();     // 十字キー
-            Vector2 stick = Gamepad.current.leftStick.ReadValue(); // 左スティック
+            Vector2 dpad = Gamepad.current.dpad.ReadValue();
+            Vector2 stick = Gamepad.current.leftStick.ReadValue();
 
-            // 十字キー優先、なければスティックも反応させる
             if (dpad.x > 0.5f || stick.x > 0.5f)
             {
                 horizontal = 1f;
@@ -70,31 +70,25 @@ public class ModeSelectGlow : MonoBehaviour
             }
         }
 
-        // ⏱ 入力遅延処理（カーソル移動）
         if (inputTimer >= inputDelay)
         {
             if (horizontal > 0.5f)
             {
-                // 右へ移動（最大値で止まる）
                 currentIndex = Mathf.Min(currentIndex + 1, modeButtons.Length - 1);
                 UpdateSelection();
                 inputTimer = 0f;
             }
             else if (horizontal < -0.5f)
             {
-                // 左へ移動（0で止まる）
                 currentIndex = Mathf.Max(currentIndex - 1, 0);
                 UpdateSelection();
                 inputTimer = 0f;
             }
         }
 
-        // ---------------------------------------------------------
-        // 2. 決定入力のチェック (キーボード & ゲームパッド)
-        // ---------------------------------------------------------
+        // --- 決定入力 ---
         bool isSubmit = false;
 
-        // ⌨️ キーボード (Space / Enter)
         if (Keyboard.current != null)
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)
@@ -103,24 +97,20 @@ public class ModeSelectGlow : MonoBehaviour
             }
         }
 
-        // 🎮 ゲームパッド (Aボタン / 南ボタン)
         if (Gamepad.current != null)
         {
-            // Xbox: A, PS: ×, Switch: B が該当します
             if (Gamepad.current.buttonSouth.wasPressedThisFrame)
             {
                 isSubmit = true;
             }
         }
 
-        // 決定実行
         if (isSubmit)
         {
-            SelectMode();
+            StartCoroutine(SelectModeAfterDelay(1f));
         }
     }
 
-    // 選択状態の見た目を更新（Outlineを光らせる）
     void UpdateSelection()
     {
         for (int i = 0; i < modeButtons.Length; i++)
@@ -133,7 +123,6 @@ public class ModeSelectGlow : MonoBehaviour
 
                 if (selected)
                 {
-                    // 選択中は黄色く光らせる
                     modeButtons[i].outline.effectColor = new Color(1f, 1f, 0.3f, 1f);
                     modeButtons[i].outline.effectDistance = new Vector2(8f, 8f);
                 }
@@ -141,7 +130,6 @@ public class ModeSelectGlow : MonoBehaviour
         }
     }
 
-    // 決定時の処理
     void SelectMode()
     {
         canInput = false;
@@ -149,18 +137,40 @@ public class ModeSelectGlow : MonoBehaviour
 
         Debug.Log($"決定: {selected.buttonObject.name}, 人数: {selected.playerCount}, 移動先: {selected.sceneName}");
 
-        // ▼ データを保存
         SkillSelectionData.playerCount = selected.playerCount;
 
-        // ★★★ ここで設定されたシーンへ移動します ★★★
-        if (!string.IsNullOrEmpty(selected.sceneName))
-        {
-            SceneManager.LoadScene(selected.sceneName);
-        }
-        else
+        if (string.IsNullOrEmpty(selected.sceneName))
         {
             Debug.LogError("移動先のシーン名が設定されていません！インスペクターを確認してください。");
-            canInput = true; // エラー時は入力再開
+            canInput = true;
         }
+    }
+
+    System.Collections.IEnumerator SelectModeAfterDelay(float delay)
+    {
+        SelectMode();
+
+        var selected = modeButtons[currentIndex];
+
+        if (string.IsNullOrEmpty(selected.sceneName))
+        {
+            yield break;
+        }
+
+        // ★★★ 爆音決定SE（PlayOneShotで音量2倍突破！）★★★
+        if (confirmAudioSource != null && confirmClip != null)
+        {
+            confirmAudioSource.volume = 1.0f;
+
+            // 複数重複再生で超大音量！
+            confirmAudioSource.PlayOneShot(confirmClip, 2.0f);  // 2倍音量
+            confirmAudioSource.PlayOneShot(confirmClip, 1.5f);  // 重ねてさらに大音量
+        }
+
+        // 1秒待機
+        yield return new WaitForSeconds(delay);
+
+        // シーン移動
+        SceneManager.LoadScene(selected.sceneName);
     }
 }
