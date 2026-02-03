@@ -657,6 +657,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: Rdytime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: PlayerTag
       value: 3
       objectReference: {fileID: 0}
@@ -700,6 +704,10 @@ PrefabInstance:
       propertyPath: horizontalAxis
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: punchHandPrefab
+      value: 
+      objectReference: {fileID: 3114788990440995519, guid: 1bc9fdeb4bd381f4c9af77ded80da29a, type: 3}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: massColors.Array.data[0].a
       value: 0
