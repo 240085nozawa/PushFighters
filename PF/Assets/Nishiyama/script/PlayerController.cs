@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     [Header("Score")]
     public int currentScore = 0;
 
+    [Header("Ready")]
+    public　float Rdytime = 0f;
+
     [Header("Character Icon")]
     public Sprite characterIcon;
 
@@ -505,7 +508,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator EnableControlsDelay()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(Rdytime);
         isControlsEnabled = true;
         Debug.Log($"P{PlayerTag} 操作開始！");
     }

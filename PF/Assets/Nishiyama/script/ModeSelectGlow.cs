@@ -1,25 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.InputSystem; // Input Systemを使用
+using UnityEngine.InputSystem;
 
 public class ModeSelectGlow : MonoBehaviour
 {
     [System.Serializable]
     public class ModeButton
     {
-        [Header("ボタン設定")]
-        public GameObject buttonObject; // 光らせる対象のオブジェクト
-        public Outline outline;         // Outlineコンポーネント
+        [Header("ボタン本体")]
+        public GameObject buttonObject;
+
+        // ★変更: Outlineではなく、枠用のImageを指定するように変更
+        [Header("選択枠の画像 (子のImageなど)")]
+        public Image selectionFrame;
 
         [Header("モード設定")]
-        public int playerCount;         // 人数 (2 or 4)
-        public string sceneName;        // ★ 移動先のシーン名 ("BattleScene_2P" など)
+        public int playerCount;
+        public string sceneName;
     }
 
-    public ModeButton[] modeButtons; // インスペクターで設定するリスト
-    private int currentIndex = 0;
+    [Header("モードボタン設定")]
+    public ModeButton[] modeButtons;
 
+    [Header("選択枠の見た目設定")]
+    [Tooltip("選択されたときの色 (アルファ値に注意！)")]
+    public Color selectColor = new Color(1f, 1f, 0.3f, 1f); // デフォルトは黄色
+
+    [Header("決定SE設定")]
+    [SerializeField] AudioSource confirmAudioSource;
+    [SerializeField] AudioClip confirmClip;
+
+    private int currentIndex = 0;
     private bool canInput = true;
     private float inputDelay = 0.25f;
     private float inputTimer = 0f;
@@ -36,131 +48,91 @@ public class ModeSelectGlow : MonoBehaviour
 
         float horizontal = 0f;
 
-        // ---------------------------------------------------------
-        // 1. 移動入力のチェック (キーボード & ゲームパッド)
-        // ---------------------------------------------------------
-
-        // ⌨️ キーボード (矢印 or WASD)
+        // --- 入力検知 ---
         if (Keyboard.current != null)
         {
-            if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed)
-            {
-                horizontal = 1f;
-            }
-            else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed)
-            {
-                horizontal = -1f;
-            }
+            if (Keyboard.current.rightArrowKey.isPressed || Keyboard.current.dKey.isPressed) horizontal = 1f;
+            else if (Keyboard.current.leftArrowKey.isPressed || Keyboard.current.aKey.isPressed) horizontal = -1f;
         }
 
-        // 🎮 ゲームパッド (十字キー & 左スティック)
         if (Gamepad.current != null)
         {
-            Vector2 dpad = Gamepad.current.dpad.ReadValue();     // 十字キー
-            Vector2 stick = Gamepad.current.leftStick.ReadValue(); // 左スティック
-
-            // 十字キー優先、なければスティックも反応させる
-            if (dpad.x > 0.5f || stick.x > 0.5f)
-            {
-                horizontal = 1f;
-            }
-            else if (dpad.x < -0.5f || stick.x < -0.5f)
-            {
-                horizontal = -1f;
-            }
+            Vector2 dpad = Gamepad.current.dpad.ReadValue();
+            Vector2 stick = Gamepad.current.leftStick.ReadValue();
+            if (dpad.x > 0.5f || stick.x > 0.5f) horizontal = 1f;
+            else if (dpad.x < -0.5f || stick.x < -0.5f) horizontal = -1f;
         }
 
-        // ⏱ 入力遅延処理（カーソル移動）
         if (inputTimer >= inputDelay)
         {
             if (horizontal > 0.5f)
             {
-                // 右へ移動（最大値で止まる）
                 currentIndex = Mathf.Min(currentIndex + 1, modeButtons.Length - 1);
                 UpdateSelection();
                 inputTimer = 0f;
             }
             else if (horizontal < -0.5f)
             {
-                // 左へ移動（0で止まる）
                 currentIndex = Mathf.Max(currentIndex - 1, 0);
                 UpdateSelection();
                 inputTimer = 0f;
             }
         }
 
-        // ---------------------------------------------------------
-        // 2. 決定入力のチェック (キーボード & ゲームパッド)
-        // ---------------------------------------------------------
+        // --- 決定 ---
         bool isSubmit = false;
+        if (Keyboard.current != null && (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)) isSubmit = true;
+        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame) isSubmit = true;
 
-        // ⌨️ キーボード (Space / Enter)
-        if (Keyboard.current != null)
-        {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)
-            {
-                isSubmit = true;
-            }
-        }
-
-        // 🎮 ゲームパッド (Aボタン / 南ボタン)
-        if (Gamepad.current != null)
-        {
-            // Xbox: A, PS: ×, Switch: B が該当します
-            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
-            {
-                isSubmit = true;
-            }
-        }
-
-        // 決定実行
         if (isSubmit)
         {
-            SelectMode();
+            StartCoroutine(SelectModeAfterDelay(1f));
         }
     }
 
-    // 選択状態の見た目を更新（Outlineを光らせる）
     void UpdateSelection()
     {
         for (int i = 0; i < modeButtons.Length; i++)
         {
             bool selected = (i == currentIndex);
+            Image frame = modeButtons[i].selectionFrame;
 
-            if (modeButtons[i].outline != null)
+            if (frame != null)
             {
-                modeButtons[i].outline.enabled = selected;
+                // 選択されている画像だけを表示(Enabled)にする
+                frame.enabled = selected;
 
                 if (selected)
                 {
-                    // 選択中は黄色く光らせる
-                    modeButtons[i].outline.effectColor = new Color(1f, 1f, 0.3f, 1f);
-                    modeButtons[i].outline.effectDistance = new Vector2(8f, 8f);
+                    // 色を適用 (元のUIの色に左右されず、このImageの色が変わります)
+                    frame.color = selectColor;
                 }
             }
         }
     }
 
-    // 決定時の処理
     void SelectMode()
     {
         canInput = false;
         var selected = modeButtons[currentIndex];
-
-        Debug.Log($"決定: {selected.buttonObject.name}, 人数: {selected.playerCount}, 移動先: {selected.sceneName}");
-
-        // ▼ データを保存
         SkillSelectionData.playerCount = selected.playerCount;
+    }
 
-        // ★★★ ここで設定されたシーンへ移動します ★★★
-        if (!string.IsNullOrEmpty(selected.sceneName))
+    System.Collections.IEnumerator SelectModeAfterDelay(float delay)
+    {
+        SelectMode();
+        var selected = modeButtons[currentIndex];
+
+        if (string.IsNullOrEmpty(selected.sceneName)) yield break;
+
+        if (confirmAudioSource != null && confirmClip != null)
         {
-            SceneManager.LoadScene(selected.sceneName);
+            confirmAudioSource.volume = 1.0f;
+            confirmAudioSource.PlayOneShot(confirmClip, 2.0f);
+            confirmAudioSource.PlayOneShot(confirmClip, 1.5f);
         }
-        else
-        {
-            Debug.LogError("移動先のシーン名が設定されていません！インスペクターを確認してください。");
-            canInput = true; // エラー時は入力再開
-        }
+
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(selected.sceneName);
     }
 }
