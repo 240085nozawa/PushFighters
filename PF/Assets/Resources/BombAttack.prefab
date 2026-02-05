@@ -125,11 +125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  baseKnockbackPower: 10
+  knockbackPower: 5
   stunDuration: 2
-  spawnPrefab: {fileID: 8151293795276954672, guid: e11ff71d394875c4c9c7bf64eb5ed844, type: 3}
-  spawnDelay: 1
-  destroyDelay: 2
 --- !u!114 &4783869413914064950
 MonoBehaviour:
   m_ObjectHideFlags: 0

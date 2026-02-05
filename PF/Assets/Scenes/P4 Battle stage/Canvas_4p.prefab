@@ -4713,7 +4713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 944d130e9a8a36948aec19a150edd598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayerNumber: 1
+  targetPlayerNumber: 2
   targetPlayer: {fileID: 0}
   valueText: {fileID: 3274509145308246766}
 --- !u!1 &7678824044865428614
