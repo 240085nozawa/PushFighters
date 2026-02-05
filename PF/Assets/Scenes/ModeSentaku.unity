@@ -4473,8 +4473,8 @@ RectTransform:
   - {fileID: 130666879}
   - {fileID: 1631194858}
   - {fileID: 1737455350}
-  - {fileID: 1973577447}
   - {fileID: 650025409}
+  - {fileID: 1973577447}
   - {fileID: 1451886395}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
