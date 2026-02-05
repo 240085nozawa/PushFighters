@@ -1,27 +1,42 @@
 ﻿using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class PunchHand : MonoBehaviour
 {
     public float lifetime = 0.3f;
     public float knockbackForce = 10f;
 
-    // ★追加項目: パーティクルのプレハブ
+    //[Header("Effects")]
+    //public GameObject kokusenPrefab; // インスペクターで黒閃のプレハブを割り当て
+
+    //private GameObject spawnedKokusen; // 生成したパーティクルを保持
+    //// ★追加項目: エフェクトを発生させる場所（Playerの子オブジェクトなどをアサイン）
+    //public Transform kokusenSpawner;
+
     [Header("Effects")]
     public GameObject kokusenPrefab;
 
-    // ✦追加項目: 生成位置のオフセット（ここをインスペクターで調整してください）
-    public Vector3 effectOffset = new Vector3(0, 0, 0);
+    // ★内部で保持する変数
+    private Transform kokusenSpawner;
     private GameObject spawnedKokusen;
 
     void Start()
     {
+        // ★修正：親（Player）の子供の中から "KokusenSP" という名前のオブジェクトを探す
+        // GetComponentInParentで親を取得してから探すので、シーン全体のFindより高速で安全です
+        Transform parentTransform = GetComponentInParent<PlayerController>()?.transform;
+        if (parentTransform != null)
+        {
+            kokusenSpawner = parentTransform.Find("KokusenSP");
+        }
+
+        
+        // 指定時間後にパンチオブジェクト自体を削除
         Destroy(gameObject, lifetime);
     }
 
-    // ★追加項目: PunchHand本体が消える時に呼ばれる
     void OnDestroy()
     {
+        // パンチ本体が消える際、エフェクトが残っていれば削除
         if (spawnedKokusen != null)
         {
             Destroy(spawnedKokusen);
@@ -30,42 +45,40 @@ public class PunchHand : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // 1. パンチハンドの所有者 (ゲージが増加するプレイヤー) を取得
+        // パンチハンドの所有者 (ゲージが増加するプレイヤー) を取得
         PlayerController owner = GetComponentInParent<PlayerController>();
         PlayerController opponent = other.GetComponent<PlayerController>();
 
-        if (opponent != null&& opponent != owner)
+        // 相手がプレイヤーであり、自分自身ではない場合
+        if (opponent != null && opponent != owner)
         {
-            // ★追加項目: 黒閃（Kokusen）の生成
+            // 黒閃（Kokusen）エフェクトの生成
             SpawnKokusenEffect();
 
             owner.IncreaseSpecialGauge(5);
             Debug.Log($"PunchHand: 相手プレイヤー ({other.name}) にヒット。ゲージ増加 (+5)。");
 
-            if (!opponent.canKnockback) return; // ← AllCounters中なら吹っ飛ばさない
-
+            // カウンター中などでノックバック無効な場合は処理を抜ける
+            if (!opponent.canKnockback) return;
 
             Rigidbody opponentRb = other.GetComponent<Rigidbody>();
+            if (opponentRb != null)
+            {
+                Vector3 knockbackDirection = transform.forward;
+                opponentRb.velocity = Vector3.zero;
+                opponentRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
+            }
 
-         if (opponentRb != null)
-         {
-             Vector3 knockbackDirection = transform.forward;
-            opponentRb.velocity = Vector3.zero;
-            opponentRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
-         }
             opponent.TakeDamage();
-
             return;
-            //untimorimori
         }
 
-        
+        // 一般的な敵（Playerタグを持つもの）への処理
         if (other.CompareTag("Player"))
         {
             owner.IncreaseSpecialGauge(1);
-            Debug.Log("PunchHand: 一般的な敵にヒット。ゲージ増加 (+5)。");
+            Debug.Log("PunchHand: 一般的な敵にヒット。ゲージ増加 (+1)。");
 
-            // 敵にノックバックを適用
             Rigidbody enemyRb = other.GetComponent<Rigidbody>();
             if (enemyRb != null)
             {
@@ -75,14 +88,21 @@ public class PunchHand : MonoBehaviour
             }
         }
     }
-    // ★追加項目: パーティクル生成用のメソッド
+
+    // パーティクル生成用のメソッド
     void SpawnKokusenEffect()
     {
-        if (kokusenPrefab != null && spawnedKokusen == null) // 二重生成防止
+        if (kokusenPrefab != null && spawnedKokusen == null)
         {
-            Vector3 spawnPosition = transform.position + transform.TransformDirection(effectOffset);    
-            // パンチの位置と回転で生成
-            spawnedKokusen = Instantiate(kokusenPrefab, transform.position, transform.rotation);
+            // kokusenSpawnerが見つかっていて、まだエフェクトが生成されていない場合
+            if (kokusenPrefab != null && spawnedKokusen == null && kokusenSpawner != null)
+            {
+                // KokusenSPの位置と回転で生成
+                spawnedKokusen = Instantiate(kokusenPrefab, kokusenSpawner.position, kokusenSpawner.rotation);
+
+                // スポナーの子供にして追従させる（パンチが消えてもエフェクトは維持したい場合はここをコメントアウト）
+                spawnedKokusen.transform.SetParent(kokusenSpawner);
+            }
         }
     }
 }
