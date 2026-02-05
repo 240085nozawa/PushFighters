@@ -5558,7 +5558,6 @@ GameObject:
   - component: {fileID: 752001852}
   - component: {fileID: 752001851}
   - component: {fileID: 752001850}
-  - component: {fileID: 752001853}
   m_Layer: 0
   m_Name: BGMManager
   m_TagString: Untagged
@@ -5573,7 +5572,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 752001849}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 15b2bfdcee43d7148b02c1c1685f0f2e, type: 3}
   m_Name: 
@@ -5588,15 +5587,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-<<<<<<< HEAD
-  m_audioClip: {fileID: 8300000, guid: 552ec4ac13733f249b5ccd205d98fa0d, type: 3}
-  m_Resource: {fileID: 8300000, guid: 552ec4ac13733f249b5ccd205d98fa0d, type: 3}
-  m_PlayOnAwake: 0
-=======
   m_audioClip: {fileID: 8300000, guid: 40c425c375c4c534284d7c8ad59f6e2e, type: 3}
   m_Resource: {fileID: 8300000, guid: 40c425c375c4c534284d7c8ad59f6e2e, type: 3}
   m_PlayOnAwake: 1
->>>>>>> 9293fafc13035f56b16f80679c2896054f7005b9
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -5696,19 +5689,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &752001853
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 752001849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a84d83f825b080e4c80e3b52545c9f73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bgmClip: {fileID: 8300000, guid: 552ec4ac13733f249b5ccd205d98fa0d, type: 3}
 --- !u!1 &760121670
 GameObject:
   m_ObjectHideFlags: 0
