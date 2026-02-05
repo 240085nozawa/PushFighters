@@ -125,7 +125,7 @@ MonoBehaviour:
   lifetime: 0.25
   knockbackForce: 25
   kokusenPrefab: {fileID: 7752009684864070410, guid: 3f7cd089766e2fa488336588551d9a6d, type: 3}
-  effectOffset: {x: 0, y: 0, z: 0}
+  effectOffset: {x: 0, y: -3.22, z: 0}
 --- !u!114 &359172497249309467
 MonoBehaviour:
   m_ObjectHideFlags: 0
