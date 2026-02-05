@@ -5587,8 +5587,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 552ec4ac13733f249b5ccd205d98fa0d, type: 3}
-  m_Resource: {fileID: 8300000, guid: 552ec4ac13733f249b5ccd205d98fa0d, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 40c425c375c4c534284d7c8ad59f6e2e, type: 3}
+  m_Resource: {fileID: 8300000, guid: 40c425c375c4c534284d7c8ad59f6e2e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -8111,6 +8111,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2217259882149514417, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2217259882149514417, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274509145308246766, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3274509145308246766, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639671522089052658, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3639671522089052658, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 45
+      objectReference: {fileID: 0}
     - target: {fileID: 4370804404199962848, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
       propertyPath: targetPlayerNumber
       value: 2
@@ -8130,6 +8154,14 @@ PrefabInstance:
     - target: {fileID: 7919145713983604803, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
       propertyPath: targetPlayerNumber
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714404402861275923, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSize
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8714404402861275923, guid: 846af183ca663f6489c8f644a44e83e3, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
