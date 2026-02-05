@@ -1145,6 +1145,7 @@ MonoBehaviour:
   messageImage: {fileID: 977954276}
   bgmSource: {fileID: 2091949542}
   seSource: {fileID: 1834968867}
+  startInputDelay: 1
 --- !u!95 &977954279
 Animator:
   serializedVersion: 7
@@ -1155,7 +1156,7 @@ Animator:
   m_GameObject: {fileID: 977954274}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 504d761df65663a4d8f22f1911d45f1e, type: 2}
+  m_Controller: {fileID: 9100000, guid: a7a062c37e718074b9b6cd6bc2e1139c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

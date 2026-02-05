@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
 public class PunchHand : MonoBehaviour
@@ -6,11 +6,12 @@ public class PunchHand : MonoBehaviour
     public float lifetime = 0.3f;
     public float knockbackForce = 10f;
 
-    // š’Ç‰Á€–Ú: ƒp[ƒeƒBƒNƒ‹‚ÌƒvƒŒƒnƒu
+    // â˜…è¿½åŠ é …ç›®: ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ã®ãƒ—ãƒ¬ãƒãƒ–
     [Header("Effects")]
     public GameObject kokusenPrefab;
 
-    // š’Ç‰Á€–Ú: ¶¬‚µ‚½ƒp[ƒeƒBƒNƒ‹‚ğ•Û‚·‚é•Ï”
+    // âœ¦è¿½åŠ é …ç›®: ç”Ÿæˆä½ç½®ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆï¼ˆã“ã“ã‚’ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§èª¿æ•´ã—ã¦ãã ã•ã„ï¼‰
+    public Vector3 effectOffset = new Vector3(0, 0, 0);
     private GameObject spawnedKokusen;
 
     void Start()
@@ -18,7 +19,7 @@ public class PunchHand : MonoBehaviour
         Destroy(gameObject, lifetime);
     }
 
-    // š’Ç‰Á€–Ú: PunchHand–{‘Ì‚ªÁ‚¦‚é‚ÉŒÄ‚Î‚ê‚é
+    // â˜…è¿½åŠ é …ç›®: PunchHandæœ¬ä½“ãŒæ¶ˆãˆã‚‹æ™‚ã«å‘¼ã°ã‚Œã‚‹
     void OnDestroy()
     {
         if (spawnedKokusen != null)
@@ -29,19 +30,19 @@ public class PunchHand : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // 1. ƒpƒ“ƒ`ƒnƒ“ƒh‚ÌŠ—LÒ (ƒQ[ƒW‚ª‘‰Á‚·‚éƒvƒŒƒCƒ„[) ‚ğæ“¾
+        // 1. ãƒ‘ãƒ³ãƒãƒãƒ³ãƒ‰ã®æ‰€æœ‰è€… (ã‚²ãƒ¼ã‚¸ãŒå¢—åŠ ã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼) ã‚’å–å¾—
         PlayerController owner = GetComponentInParent<PlayerController>();
         PlayerController opponent = other.GetComponent<PlayerController>();
 
         if (opponent != null&& opponent != owner)
         {
-            // š’Ç‰Á€–Ú: •‘MiKokusenj‚Ì¶¬
+            // â˜…è¿½åŠ é …ç›®: é»’é–ƒï¼ˆKokusenï¼‰ã®ç”Ÿæˆ
             SpawnKokusenEffect();
 
             owner.IncreaseSpecialGauge(5);
-            Debug.Log($"PunchHand: ‘ŠèƒvƒŒƒCƒ„[ ({other.name}) ‚ÉƒqƒbƒgBƒQ[ƒW‘‰Á (+5)B");
+            Debug.Log($"PunchHand: ç›¸æ‰‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ ({other.name}) ã«ãƒ’ãƒƒãƒˆã€‚ã‚²ãƒ¼ã‚¸å¢—åŠ  (+5)ã€‚");
 
-            if (!opponent.canKnockback) return; // © AllCounters’†‚È‚ç‚Á”ò‚Î‚³‚È‚¢
+            if (!opponent.canKnockback) return; // â† AllCountersä¸­ãªã‚‰å¹ã£é£›ã°ã•ãªã„
 
 
             Rigidbody opponentRb = other.GetComponent<Rigidbody>();
@@ -62,9 +63,9 @@ public class PunchHand : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             owner.IncreaseSpecialGauge(1);
-            Debug.Log("PunchHand: ˆê”Ê“I‚È“G‚ÉƒqƒbƒgBƒQ[ƒW‘‰Á (+5)B");
+            Debug.Log("PunchHand: ä¸€èˆ¬çš„ãªæ•µã«ãƒ’ãƒƒãƒˆã€‚ã‚²ãƒ¼ã‚¸å¢—åŠ  (+5)ã€‚");
 
-            // “G‚ÉƒmƒbƒNƒoƒbƒN‚ğ“K—p
+            // æ•µã«ãƒãƒƒã‚¯ãƒãƒƒã‚¯ã‚’é©ç”¨
             Rigidbody enemyRb = other.GetComponent<Rigidbody>();
             if (enemyRb != null)
             {
@@ -74,12 +75,13 @@ public class PunchHand : MonoBehaviour
             }
         }
     }
-    // š’Ç‰Á€–Ú: ƒp[ƒeƒBƒNƒ‹¶¬—p‚Ìƒƒ\ƒbƒh
+    // â˜…è¿½åŠ é …ç›®: ãƒ‘ãƒ¼ãƒ†ã‚£ã‚¯ãƒ«ç”Ÿæˆç”¨ã®ãƒ¡ã‚½ãƒƒãƒ‰
     void SpawnKokusenEffect()
     {
-        if (kokusenPrefab != null && spawnedKokusen == null) // “ñd¶¬–h~
+        if (kokusenPrefab != null && spawnedKokusen == null) // äºŒé‡ç”Ÿæˆé˜²æ­¢
         {
-            // ƒpƒ“ƒ`‚ÌˆÊ’u‚Æ‰ñ“]‚Å¶¬
+            Vector3 spawnPosition = transform.position + transform.TransformDirection(effectOffset);    
+            // ãƒ‘ãƒ³ãƒã®ä½ç½®ã¨å›è»¢ã§ç”Ÿæˆ
             spawnedKokusen = Instantiate(kokusenPrefab, transform.position, transform.rotation);
         }
     }
