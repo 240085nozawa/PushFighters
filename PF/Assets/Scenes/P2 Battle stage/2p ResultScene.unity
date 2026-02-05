@@ -1878,7 +1878,7 @@ MonoBehaviour:
     characterIcon: {fileID: 673005136}
   panel4P: {fileID: 0}
   rankSlots4P: []
-  nextSceneName: TitleScene
+  nextSceneName: ModeSentaku
 --- !u!4 &782263000
 Transform:
   m_ObjectHideFlags: 0

@@ -5,31 +5,13 @@ public class PunchHand : MonoBehaviour
     public float lifetime = 0.3f;
     public float knockbackForce = 10f;
 
-    //[Header("Effects")]
-    //public GameObject kokusenPrefab; // インスペクターで黒閃のプレハブを割り当て
-
-    //private GameObject spawnedKokusen; // 生成したパーティクルを保持
-    //// ★追加項目: エフェクトを発生させる場所（Playerの子オブジェクトなどをアサイン）
-    //public Transform kokusenSpawner;
-
     [Header("Effects")]
-    public GameObject kokusenPrefab;
+    public GameObject kokusenPrefab; // インスペクターで黒閃のプレハブを割り当て
 
-    // ★内部で保持する変数
-    private Transform kokusenSpawner;
-    private GameObject spawnedKokusen;
+    private GameObject spawnedKokusen; // 生成したパーティクルを保持
 
     void Start()
     {
-        // ★修正：親（Player）の子供の中から "KokusenSP" という名前のオブジェクトを探す
-        // GetComponentInParentで親を取得してから探すので、シーン全体のFindより高速で安全です
-        Transform parentTransform = GetComponentInParent<PlayerController>()?.transform;
-        if (parentTransform != null)
-        {
-            kokusenSpawner = parentTransform.Find("KokusenSP");
-        }
-
-        
         // 指定時間後にパンチオブジェクト自体を削除
         Destroy(gameObject, lifetime);
     }
@@ -68,7 +50,6 @@ public class PunchHand : MonoBehaviour
                 opponentRb.velocity = Vector3.zero;
                 opponentRb.AddForce(knockbackDirection * knockbackForce, ForceMode.Impulse);
             }
-
             opponent.TakeDamage();
             return;
         }
@@ -92,17 +73,12 @@ public class PunchHand : MonoBehaviour
     // パーティクル生成用のメソッド
     void SpawnKokusenEffect()
     {
-        if (kokusenPrefab != null && spawnedKokusen == null)
+        if (kokusenPrefab != null && spawnedKokusen == null) // 二重生成防止
         {
-            // kokusenSpawnerが見つかっていて、まだエフェクトが生成されていない場合
-            if (kokusenPrefab != null && spawnedKokusen == null && kokusenSpawner != null)
-            {
-                // KokusenSPの位置と回転で生成
-                spawnedKokusen = Instantiate(kokusenPrefab, kokusenSpawner.position, kokusenSpawner.rotation);
-
-                // スポナーの子供にして追従させる（パンチが消えてもエフェクトは維持したい場合はここをコメントアウト）
-                spawnedKokusen.transform.SetParent(kokusenSpawner);
-            }
+            // パンチの位置と回転でエフェクトを生成
+            spawnedKokusen = Instantiate(kokusenPrefab, transform.position, transform.rotation);
+            // 親子関係にしたい場合は以下を有効化（パンチに追従させたい場合）
+            // spawnedKokusen.transform.SetParent(this.transform);
         }
     }
 }

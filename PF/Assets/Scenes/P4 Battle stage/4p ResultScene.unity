@@ -2363,7 +2363,7 @@ MonoBehaviour:
     scoreText: {fileID: 0}
     nameText: {fileID: 1734163241}
     characterIcon: {fileID: 575860004}
-  nextSceneName: TitleScene
+  nextSceneName: ModeSentaku
 --- !u!4 &782263000
 Transform:
   m_ObjectHideFlags: 0
