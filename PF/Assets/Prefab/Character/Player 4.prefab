@@ -901,6 +901,9 @@ MonoBehaviour:
   stopDuration: 5
   theWorldEffectPrefab: {fileID: 5405489201896850485, guid: 0c99204f63e6f244ba511cf73100e1aa, type: 3}
   effectDuration: 2
+  activateSound: {fileID: 8300000, guid: 106b2becefe53014b9d143cb50b45307, type: 3}
+  stopSound: {fileID: 8300000, guid: 6304de387071a4f4eb3891244fb32c06, type: 3}
+  soundVolume: 3
 --- !u!82 &7650449941284328489
 AudioSource:
   m_ObjectHideFlags: 0

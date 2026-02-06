@@ -11,11 +11,6 @@ using System.Collections;
 public class SpecialBeam : MonoBehaviour
 {
     [Header("=== Beam Settings ===")]
-
-    private Transform shootPoint;        // 自動検出（プレイヤー子オブジェクト）
-    private GameObject beamPrefab;       // Resourcesからロード
-    private PlayerController playerController;
-
     [Tooltip("ビームの速度（m/s）")]
     public float beamSpeed = 30f;
 
@@ -27,16 +22,26 @@ public class SpecialBeam : MonoBehaviour
 
     [Tooltip("ヒットを検出するレイヤー（例: Enemy, Wallなど）")]
     public LayerMask hitMask;
+
+    // ★追加：ボイス設定
+    [Header("=== 必殺技ボイス ===")]
+    public AudioClip beamVoiceClip;     // 発動ボイス（Inspectorでドラッグ）
+    [Range(0.5f, 3.0f)]
+    public float voiceVolume = 2.0f;    // ドデカ音量
+
+    private Transform shootPoint;
+    private GameObject beamPrefab;
+    private PlayerController playerController;
+    private AudioSource audioSource;    // ★追加
     private bool isFiring = false;
     private bool isInvincible = false;
 
-    // ★ このプレイヤーのタグ番号を保持（PlayerControllerから取得）
     [HideInInspector]
     public int playerTagNumber;
 
     private void Start()
     {
-        // --- PlayerControllerを取得 ---
+        // PlayerControllerを取得
         playerController = GetComponent<PlayerController>();
         if (playerController == null)
         {
@@ -44,18 +49,27 @@ public class SpecialBeam : MonoBehaviour
             return;
         }
 
-        // --- PlayerTagを取得して記録 ---
         playerTagNumber = playerController.PlayerTag;
         Debug.Log($"[SpecialBeam] PlayerTag = {playerTagNumber}");
 
-        // --- ShootPointを探す ---
+        // ShootPointを探す
         shootPoint = transform.Find("ShootPoint");
         if (shootPoint == null)
         {
-            Debug.LogWarning("[SpecialBeam] ShootPoint が見つかりません。プレイヤーの子に 'ShootPoint' を置いてください。");
+            Debug.LogWarning("[SpecialBeam] ShootPoint が見つかりません。");
         }
 
-        // --- BeamPrefabをResourcesからロード ---
+        // ★AudioSource自動生成
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        audioSource.spatialBlend = 0f;  // 2D音
+        audioSource.volume = 1f;
+        audioSource.playOnAwake = false;
+
+        // BeamPrefabをResourcesからロード
         beamPrefab = Resources.Load<GameObject>("BeamPrefab");
         if (beamPrefab == null)
         {
@@ -64,7 +78,6 @@ public class SpecialBeam : MonoBehaviour
     }
 
     private void Update()
-
     {
         if (Input.GetKeyDown(KeyCode.Space) && !isFiring)
         {
@@ -74,27 +87,28 @@ public class SpecialBeam : MonoBehaviour
 
     public void Activate()
     {
-        if(!isFiring)
+        if (!isFiring)
         {
             StartCoroutine(FireBeamRoutine());
         }
     }
 
-    /// <summary>
-
-    /// ビーム発射ルーチン（チャージ→発射）
-
-    /// </summary>
-
     private IEnumerator FireBeamRoutine()
     {
         isFiring = true;
 
-        // 1秒間は移動不可＆無敵化
+        // ★必殺発動ボイス即再生！
+        if (beamVoiceClip != null)
+        {
+            audioSource.PlayOneShot(beamVoiceClip, voiceVolume);
+            Debug.Log($"[SpecialBeam] Player{playerTagNumber} ボイス再生！");
+        }
+
+        // 移動不可＆無敵化
         playerController.canMove = false;
         isInvincible = true;
 
-        // ① ビーム生成
+        // ビーム生成
         if (beamPrefab == null || shootPoint == null)
         {
             Debug.LogError("[SpecialBeam] BeamPrefab または ShootPoint が未設定です。");
@@ -102,86 +116,39 @@ public class SpecialBeam : MonoBehaviour
         }
 
         GameObject beamObj = Instantiate(beamPrefab, shootPoint.position, shootPoint.rotation);
-
-        // --- Beamに情報を渡す ---
-
         Beam beamScript = beamObj.GetComponent<Beam>();
         if (beamScript != null)
         {
-            beamScript.ownerTag = playerTagNumber;       // ← ここでSpecialBeam側のPlayerTagを渡す
+            beamScript.ownerTag = playerTagNumber;
             beamScript.beamDirection = shootPoint.forward;
         }
 
         Debug.Log($"[SpecialBeam] Player{playerTagNumber} がビーム発動！");
 
-        // ② チャージ時間（1秒）
+        // チャージ時間（1秒）
         yield return new WaitForSeconds(1f);
 
-        // ③ ビーム発射
+        // ビーム発射
         Rigidbody rb = beamObj.GetComponent<Rigidbody>();
         if (rb == null)
         {
             rb = beamObj.AddComponent<Rigidbody>();
             rb.useGravity = false;
         }
-
         rb.velocity = shootPoint.forward * beamSpeed;
 
-        // ④ 一定時間後に削除
+        // 一定時間後に削除
         Destroy(beamObj, beamLifetime);
 
-        // ⑤ 無敵解除＆移動再開
+        // 無敵解除＆移動再開
         yield return new WaitForSeconds(beamLifetime);
-
         playerController.canMove = true;
-
         isInvincible = false;
-
         isFiring = false;
-
     }
-
-    /// <summary>
-
-    /// 他スクリプト（パンチなど）から呼び出せる無敵状態確認
-
-    /// </summary>
 
     public bool IsInvincible()
-
     {
-
         return isInvincible;
-
     }
-
 }
- 
-
-    /// <summary>
-    /// 必殺技の発動入力をチェック（Xキー または Xboxトリガー）
-    /// </summary>
-    //private bool CheckSpecialMoveInput()
-    //{
-    //    // 1. キーボードのXキーチェック
-    //    bool isXKeyDown = Input.GetKeyDown(KeyCode.X);
-
-    //    // 2. Xboxコントローラーのトリガーボタンチェック
-    //    // Input.GetKeyDown()を使うことで、「押された瞬間」だけを検出します。
-    //    bool isTriggerButtonDown = Input.GetKeyDown(TRIGGER_BUTTON_CODE1) || Input.GetKeyDown(TRIGGER_BUTTON_CODE2);
-
-    //    // Xキーの瞬間入力 OR トリガーボタンの瞬間入力
-    //    return isXKeyDown || isTriggerButtonDown;
-    //}
-
-
-//private void Update()
-//{
-//    // Update() は毎フレーム呼ばれる
-//    if (Input.GetKeyDown(KeyCode.Space))
-//    {
-//        Debug.Log("Special Beam 発動！");
-//        // 実際の攻撃処理などを書く
-//    }
-//}
-
