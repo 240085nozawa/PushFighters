@@ -521,6 +521,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4515489409966637167}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: moveSpeed
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: dashButton
       value: 
       objectReference: {fileID: 0}

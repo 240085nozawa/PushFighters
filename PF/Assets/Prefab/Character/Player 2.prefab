@@ -1087,6 +1087,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e0e8a2d2ff9204b40955080366ac23e1, type: 3}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: punchCooldown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: horizontalAxis
       value: Horizontal
       objectReference: {fileID: 0}

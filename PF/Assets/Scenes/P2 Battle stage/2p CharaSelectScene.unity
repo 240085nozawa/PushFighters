@@ -2516,8 +2516,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Character Select
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 3122bfd4bffec8640aeb394aaa719fb9, type: 2}
-  m_sharedMaterial: {fileID: 4381146474335253226, guid: 3122bfd4bffec8640aeb394aaa719fb9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0ad194f1d2e84854aafafc510f9a7fb3, type: 2}
+  m_sharedMaterial: {fileID: 3117824066621048010, guid: 0ad194f1d2e84854aafafc510f9a7fb3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3204,8 +3204,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Push A de Select!!      Are you Ready???
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 61fd6223ef34a5d449b0e87e5b36aebf, type: 2}
-  m_sharedMaterial: {fileID: 4381146474335253226, guid: 61fd6223ef34a5d449b0e87e5b36aebf, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0ad194f1d2e84854aafafc510f9a7fb3, type: 2}
+  m_sharedMaterial: {fileID: 3117824066621048010, guid: 0ad194f1d2e84854aafafc510f9a7fb3, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
