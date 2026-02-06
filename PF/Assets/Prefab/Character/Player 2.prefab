@@ -755,10 +755,16 @@ PrefabInstance:
       addedObject: {fileID: 7040104896712199478}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 299100589752166031}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 5185556974464766903}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7080123874938854614}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4022395823079046990}
   m_SourcePrefab: {fileID: 100100000, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
 --- !u!1 &3479580536437298443 stripped
 GameObject:
@@ -787,6 +793,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &299100589752166031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3479580536437298443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ec7a95ae8e3264db0256cde883cd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAudioSource: {fileID: 5185556974464766903}
+  fallVoiceClip: {fileID: 8300000, guid: b512e358e6910224989780b7f3917678, type: 3}
+  voiceVolume: 2
 --- !u!82 &5185556974464766903
 AudioSource:
   m_ObjectHideFlags: 0
@@ -797,9 +818,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: b512e358e6910224989780b7f3917678, type: 3}
+  m_Resource: {fileID: 8300000, guid: b512e358e6910224989780b7f3917678, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -907,6 +928,27 @@ MonoBehaviour:
   windUpTime: 0.1
   punchEffectPrefab: {fileID: 0}
   punchSound: {fileID: 0}
+--- !u!65 &4022395823079046990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3479580536437298443}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.05, y: 0.05, z: 0.05}
+  m_Center: {x: 0.24, y: 0.16, z: 0}
 --- !u!4 &4252001282484932529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 08457992cdd294f4291b2e68268683d8, type: 3}

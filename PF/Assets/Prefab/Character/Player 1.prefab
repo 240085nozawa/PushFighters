@@ -232,7 +232,13 @@ PrefabInstance:
       addedObject: {fileID: 8555091173925135649}
     - targetCorrespondingSourceObject: {fileID: 8489560655632961387, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3734570722479874940}
+    - targetCorrespondingSourceObject: {fileID: 8489560655632961387, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4551055162937712465}
+    - targetCorrespondingSourceObject: {fileID: 8489560655632961387, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 354433498914289059}
   m_SourcePrefab: {fileID: 100100000, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
 --- !u!1 &2469955162148581717 stripped
 GameObject:
@@ -284,6 +290,21 @@ MonoBehaviour:
   windUpTime: 0.5
   punchEffectPrefab: {fileID: 0}
   punchSound: {fileID: 0}
+--- !u!114 &3734570722479874940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2469955162148581717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ec7a95ae8e3264db0256cde883cd7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myAudioSource: {fileID: 4551055162937712465}
+  fallVoiceClip: {fileID: 8300000, guid: 4bfd7e6cc5ad4a448914aa6f5fdff467, type: 3}
+  voiceVolume: 2
 --- !u!82 &4551055162937712465
 AudioSource:
   m_ObjectHideFlags: 0
@@ -294,9 +315,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 8300000, guid: 4bfd7e6cc5ad4a448914aa6f5fdff467, type: 3}
+  m_Resource: {fileID: 8300000, guid: 4bfd7e6cc5ad4a448914aa6f5fdff467, type: 3}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -381,6 +402,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!65 &354433498914289059
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2469955162148581717}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!4 &2957980461054454767 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9122932488527861201, guid: e4509d2200065d747a53eb650fa91a27, type: 3}
