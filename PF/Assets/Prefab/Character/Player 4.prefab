@@ -809,7 +809,7 @@ PrefabInstance:
       objectReference: {fileID: 7650449941284328489}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: moveSpeed
-      value: 8.09
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: dashButton
@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ownerTag: 
-  stopDuration: 5
+  stopDuration: 3.5
   theWorldEffectPrefab: {fileID: 5405489201896850485, guid: 0c99204f63e6f244ba511cf73100e1aa, type: 3}
   effectDuration: 2
   activateSound: {fileID: 8300000, guid: 106b2becefe53014b9d143cb50b45307, type: 3}
