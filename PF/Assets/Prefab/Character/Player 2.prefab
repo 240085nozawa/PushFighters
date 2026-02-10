@@ -237,8 +237,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 9ce48f03fe0ad5449aac061f2a8d0175, type: 3}
-  m_Resource: {fileID: 8300000, guid: 9ce48f03fe0ad5449aac061f2a8d0175, type: 3}
+  m_audioClip: {fileID: 8300000, guid: bbf11ddd5932d1a42baa3ff63e799ef7, type: 3}
+  m_Resource: {fileID: 8300000, guid: bbf11ddd5932d1a42baa3ff63e799ef7, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -393,15 +393,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       propertyPath: m_LocalScale.x
-      value: 8.528349
+      value: 7.548442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       propertyPath: m_LocalScale.y
-      value: 8.528348
+      value: 7.548441
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       propertyPath: m_LocalScale.z
-      value: 8.528349
+      value: 7.548442
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 08457992cdd294f4291b2e68268683d8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1390,9 +1390,9 @@ MonoBehaviour:
   explosionDuration: 1.5
   explosionATKPrefab: {fileID: 6058947793099854096, guid: 2367778f03b082944869cfcdf7e304f4, type: 3}
   voiceSource: {fileID: 6615424628960721235}
-  bombVoiceClip: {fileID: 8300000, guid: 9ce48f03fe0ad5449aac061f2a8d0175, type: 3}
+  bombVoiceClip: {fileID: 8300000, guid: bbf11ddd5932d1a42baa3ff63e799ef7, type: 3}
   voiceVolume: 2.5
-  fadeOutDuration: 1
+  fadeOutDuration: 1.49
 --- !u!4 &5614112679508601671 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2877121723593382360, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
