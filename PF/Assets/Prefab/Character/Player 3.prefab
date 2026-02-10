@@ -1033,7 +1033,7 @@ MonoBehaviour:
   playerController: {fileID: 0}
   voiceSource: {fileID: 1324287197302450364}
   specialVoiceClip: {fileID: 8300000, guid: 24454d2135c6de14994e50cdcc91f584, type: 3}
-  voiceVolume: 2.02
+  voiceVolume: 2.08
 --- !u!65 &4092628392719287034
 BoxCollider:
   m_ObjectHideFlags: 0

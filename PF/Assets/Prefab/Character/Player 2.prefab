@@ -1391,7 +1391,7 @@ MonoBehaviour:
   explosionATKPrefab: {fileID: 6058947793099854096, guid: 2367778f03b082944869cfcdf7e304f4, type: 3}
   voiceSource: {fileID: 6615424628960721235}
   bombVoiceClip: {fileID: 8300000, guid: bbf11ddd5932d1a42baa3ff63e799ef7, type: 3}
-  voiceVolume: 2.5
+  voiceVolume: 2.46
   fadeOutDuration: 1.49
 --- !u!4 &5614112679508601671 stripped
 Transform:

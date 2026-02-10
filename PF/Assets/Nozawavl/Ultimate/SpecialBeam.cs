@@ -23,16 +23,15 @@ public class SpecialBeam : MonoBehaviour
     [Tooltip("ヒットを検出するレイヤー（例: Enemy, Wallなど）")]
     public LayerMask hitMask;
 
-    // ★追加：ボイス設定
     [Header("=== 必殺技ボイス ===")]
-    public AudioClip beamVoiceClip;     // 発動ボイス（Inspectorでドラッグ）
+    public AudioClip beamVoiceClip;
     [Range(0.5f, 3.0f)]
-    public float voiceVolume = 2.0f;    // ドデカ音量
+    public float voiceVolume = 2.0f;
 
     private Transform shootPoint;
     private GameObject beamPrefab;
     private PlayerController playerController;
-    private AudioSource audioSource;    // ★追加
+    private AudioSource audioSource;
     private bool isFiring = false;
     private bool isInvincible = false;
 
@@ -41,7 +40,6 @@ public class SpecialBeam : MonoBehaviour
 
     private void Start()
     {
-        // PlayerControllerを取得
         playerController = GetComponent<PlayerController>();
         if (playerController == null)
         {
@@ -52,24 +50,21 @@ public class SpecialBeam : MonoBehaviour
         playerTagNumber = playerController.PlayerTag;
         Debug.Log($"[SpecialBeam] PlayerTag = {playerTagNumber}");
 
-        // ShootPointを探す
         shootPoint = transform.Find("ShootPoint");
         if (shootPoint == null)
         {
             Debug.LogWarning("[SpecialBeam] ShootPoint が見つかりません。");
         }
 
-        // ★AudioSource自動生成
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
         {
             audioSource = gameObject.AddComponent<AudioSource>();
         }
-        audioSource.spatialBlend = 0f;  // 2D音
+        audioSource.spatialBlend = 0f;
         audioSource.volume = 1f;
         audioSource.playOnAwake = false;
 
-        // BeamPrefabをResourcesからロード
         beamPrefab = Resources.Load<GameObject>("BeamPrefab");
         if (beamPrefab == null)
         {
@@ -97,9 +92,10 @@ public class SpecialBeam : MonoBehaviour
     {
         isFiring = true;
 
-        // ★必殺発動ボイス即再生！
+        // 必殺発動ボイス即再生！
         if (beamVoiceClip != null)
         {
+            audioSource.volume = 1f;  // 音量リセット
             audioSource.PlayOneShot(beamVoiceClip, voiceVolume);
             Debug.Log($"[SpecialBeam] Player{playerTagNumber} ボイス再生！");
         }
@@ -120,6 +116,7 @@ public class SpecialBeam : MonoBehaviour
         if (beamScript != null)
         {
             beamScript.ownerTag = playerTagNumber;
+            // ★吹っ飛ばし方向を渡す！
             beamScript.beamDirection = shootPoint.forward;
         }
 
