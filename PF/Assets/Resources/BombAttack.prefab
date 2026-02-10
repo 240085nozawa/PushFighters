@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
-  knockbackPower: 5
+  knockbackPower: 10
   stunDuration: 2
 --- !u!114 &4783869413914064950
 MonoBehaviour:

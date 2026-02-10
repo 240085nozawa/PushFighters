@@ -1202,7 +1202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: dashCooldown
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: recoveryTime
@@ -1228,6 +1228,10 @@ PrefabInstance:
       propertyPath: punchHandPrefab
       value: 
       objectReference: {fileID: 3114788990440995519, guid: 58c029eac5bb24b4482f76f1b66230fd, type: 3}
+    - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
+      propertyPath: increaseultamount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: specialGaugeValue
       value: 1
