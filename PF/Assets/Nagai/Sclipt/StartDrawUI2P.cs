@@ -17,7 +17,7 @@ public class StartDrawUI2P : MonoBehaviour
     [SerializeField] private AudioClip loopSE;             // ループSE
 
     [Header("SE音量設定")]
-    [Range(0f, 3f)]
+    [Range(0f, 50f)]
     [SerializeField] private float seVolume = 1.5f;          // ★インスペクター操作用★
 
     private bool started = false;      // スタートしたか

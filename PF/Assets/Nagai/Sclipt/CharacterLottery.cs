@@ -29,7 +29,7 @@ public class CharacterLottery : MonoBehaviour
     [SerializeField] private AudioClip loopSE;
 
     [Header("SE音量設定")]
-    [Range(0f, 3f)]
+    [Range(0f, 100f)]
     [SerializeField] private float seVolume = 1.5f; // ★ここで音量を上げられる★
 
     private Coroutine rollCoroutine;

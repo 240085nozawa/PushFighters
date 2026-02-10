@@ -247,7 +247,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &25772974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1043,7 +1043,7 @@ MonoBehaviour:
   audioSource: {fileID: 318990366}
   startPressSE: {fileID: 8300000, guid: a447eee4e71e9af4f825ad9ca45655c2, type: 3}
   loopSE: {fileID: 8300000, guid: 65cbdfca677f8fe47a32b71ec7b2215f, type: 3}
-  seVolume: 2.8
+  seVolume: 50
 --- !u!82 &318990366
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1463,7 +1463,7 @@ Camera:
   m_GameObject: {fileID: 961739749}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2517,13 +2517,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Character Select
   m_isRightToLeft: 0
-<<<<<<< HEAD
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-=======
   m_fontAsset: {fileID: 11400000, guid: af7c7ac3bb0df2f44be324ffbb0b8fe8, type: 2}
   m_sharedMaterial: {fileID: 3117824066621048010, guid: af7c7ac3bb0df2f44be324ffbb0b8fe8, type: 2}
->>>>>>> 586efffbc948c92a14100a331a81d501e8c4af2c
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2617,7 +2612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1659024054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3210,13 +3205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Push A de Select!!      Are you Ready???
   m_isRightToLeft: 0
-<<<<<<< HEAD
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-=======
   m_fontAsset: {fileID: 11400000, guid: af7c7ac3bb0df2f44be324ffbb0b8fe8, type: 2}
   m_sharedMaterial: {fileID: 3117824066621048010, guid: af7c7ac3bb0df2f44be324ffbb0b8fe8, type: 2}
->>>>>>> 586efffbc948c92a14100a331a81d501e8c4af2c
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
