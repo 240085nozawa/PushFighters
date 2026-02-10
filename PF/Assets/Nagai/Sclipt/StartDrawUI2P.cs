@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.InputSystem; // Input System必須
+using System.Collections;
 
 public class StartDrawUI2P : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class StartDrawUI2P : MonoBehaviour
     [SerializeField] private AudioSource audioSource;      // SE用の AudioSource
     [SerializeField] private AudioClip startPressSE;       // 開始時のSE
     [SerializeField] private AudioClip loopSE;             // ループSE
+
+    [Header("SE音量設定")]
+    [Range(0f, 3f)]
+    [SerializeField] private float seVolume = 1.5f;          // ★インスペクター操作用★
 
     private bool started = false;      // スタートしたか
     private bool stopping = false;     // ストップ済みか
@@ -50,11 +55,11 @@ public class StartDrawUI2P : MonoBehaviour
             }
         }
 
+        if (!press) return;
+
         // ---------------------------------------------------------
         // 処理実行
         // ---------------------------------------------------------
-        if (!press) return;
-
         if (!started)
         {
             StartDraw();
@@ -75,21 +80,22 @@ public class StartDrawUI2P : MonoBehaviour
         StartCoroutine(StartDrawCoroutine());
     }
 
-    System.Collections.IEnumerator StartDrawCoroutine()
+    IEnumerator StartDrawCoroutine()
     {
-        // 開始音
+        // 開始SE
         if (audioSource != null && startPressSE != null)
         {
-            audioSource.PlayOneShot(startPressSE);
+            audioSource.PlayOneShot(startPressSE, seVolume);
         }
 
         // 2秒待機
         yield return new WaitForSeconds(2f);
 
-        // ループ音開始
+        // ループSE開始
         if (audioSource != null && loopSE != null)
         {
             audioSource.clip = loopSE;
+            audioSource.volume = seVolume;
             audioSource.loop = true;
             audioSource.Play();
         }
@@ -109,18 +115,16 @@ public class StartDrawUI2P : MonoBehaviour
     {
         stopping = true;
 
-        // 音を止める
+        // 音停止
         if (audioSource != null)
         {
             audioSource.loop = false;
             audioSource.Stop();
         }
 
-        // ★★★ 追加：ルーレット本体に停止命令を送る ★★★
+        // ルーレット停止
         if (characterLottery2P != null)
         {
-            // CharacterLottery2P に "StopLottery" という関数があると仮定して呼び出します
-            // もしエラーが出る場合は、CharacterLottery2Pのコードを見せてください
             characterLottery2P.StopLottery();
         }
     }

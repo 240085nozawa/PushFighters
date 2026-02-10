@@ -1041,8 +1041,9 @@ MonoBehaviour:
   startUIRoot: {fileID: 1557164747}
   characterLottery2P: {fileID: 1713241313}
   audioSource: {fileID: 318990366}
-  startPressSE: {fileID: 8300000, guid: 6a223c46039f6454abb5e7c9c5287e96, type: 3}
-  loopSE: {fileID: 8300000, guid: 2afb4c9664bb1214c925cce9e48a74bb, type: 3}
+  startPressSE: {fileID: 8300000, guid: a447eee4e71e9af4f825ad9ca45655c2, type: 3}
+  loopSE: {fileID: 8300000, guid: 65cbdfca677f8fe47a32b71ec7b2215f, type: 3}
+  seVolume: 2.8
 --- !u!82 &318990366
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1050,7 +1051,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 318990362}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -2516,8 +2517,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Character Select
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bc7baad4c970a2549868cae23529b7a3, type: 2}
-  m_sharedMaterial: {fileID: 3117824066621048010, guid: bc7baad4c970a2549868cae23529b7a3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3204,8 +3205,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Push A de Select!!      Are you Ready???
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: bc7baad4c970a2549868cae23529b7a3, type: 2}
-  m_sharedMaterial: {fileID: 3117824066621048010, guid: bc7baad4c970a2549868cae23529b7a3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

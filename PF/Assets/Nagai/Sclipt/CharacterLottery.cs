@@ -28,7 +28,9 @@ public class CharacterLottery : MonoBehaviour
     [SerializeField] private AudioClip startPressSE;
     [SerializeField] private AudioClip loopSE;
 
-    // ★カウントダウン用の変数は削除しました
+    [Header("SE音量設定")]
+    [Range(0f, 3f)]
+    [SerializeField] private float seVolume = 1.5f; // ★ここで音量を上げられる★
 
     private Coroutine rollCoroutine;
     private GameObject rollingEffectInstance;
@@ -38,16 +40,11 @@ public class CharacterLottery : MonoBehaviour
     private bool canStop = false;
     private bool stopping = false;
 
-    void Start()
-    {
-        // 初期化処理なし
-    }
-
     void Update()
     {
         bool press = false;
 
-        // キーボード
+        // ⌨️ キーボード
         if (Keyboard.current != null)
         {
             if (Keyboard.current.spaceKey.wasPressedThisFrame ||
@@ -57,13 +54,11 @@ public class CharacterLottery : MonoBehaviour
             }
         }
 
-        // コントローラー B（南ボタン）
-        if (Gamepad.current != null)
+        // 🎮 コントローラー（南ボタン）
+        if (Gamepad.current != null &&
+            Gamepad.current.buttonSouth.wasPressedThisFrame)
         {
-            if (Gamepad.current.buttonSouth.wasPressedThisFrame)
-            {
-                press = true;
-            }
+            press = true;
         }
 
         if (!press) return;
@@ -88,14 +83,17 @@ public class CharacterLottery : MonoBehaviour
     {
         started = true;
 
+        // 🔊 開始SE
         if (audioSource && startPressSE)
-            audioSource.PlayOneShot(startPressSE);
+            audioSource.PlayOneShot(startPressSE, seVolume);
 
         yield return new WaitForSeconds(2f);
 
+        // 🔊 ループSE
         if (audioSource && loopSE)
         {
             audioSource.clip = loopSE;
+            audioSource.volume = seVolume;
             audioSource.loop = true;
             audioSource.Play();
         }
@@ -147,6 +145,7 @@ public class CharacterLottery : MonoBehaviour
         stopping = true;
         isRolling = false;
 
+        // 🔇 SE停止
         if (audioSource)
         {
             audioSource.loop = false;
@@ -160,12 +159,9 @@ public class CharacterLottery : MonoBehaviour
             Destroy(rollingEffectInstance);
 
         SaveResult();
-
-        // ★修正: カウントダウンを削除し、結果を見せるための短い待機後に移動
         StartCoroutine(WaitAndMoveScene());
     }
 
-    // ★修正: 結果決定後、1秒だけ待ってからシーン移動（余韻用）
     IEnumerator WaitAndMoveScene()
     {
         yield return new WaitForSeconds(1.0f);
@@ -174,7 +170,6 @@ public class CharacterLottery : MonoBehaviour
 
     void SaveResult()
     {
-        // SkillSelectionDataクラスが存在している前提の処理
         SkillSelectionData.playerCount = slots.Length;
 
         for (int i = 0; i < slots.Length; i++)
@@ -201,7 +196,6 @@ public class CharacterLottery : MonoBehaviour
 
     int GetSkillFromCharacter(int characterId)
     {
-        // キャラクタIDに応じたスキルIDを返す（適宜調整してください）
         switch (characterId)
         {
             case 0: return 0;
