@@ -2577,12 +2577,12 @@ MonoBehaviour:
   rollingEffectPrefab: {fileID: 0}
   effectParent: {fileID: 0}
   gameScenes:
+  - 4p TENKAI
   - 4p AKAZA
+  - 4p ICE
   - 4p DENKI
   - 4p DJ
-  - 4p ICE
   - 4p KARA
-  - 4p TENKAI
   audioSource: {fileID: 1713241314}
   startPressSE: {fileID: 8300000, guid: a447eee4e71e9af4f825ad9ca45655c2, type: 3}
   loopSE: {fileID: 8300000, guid: 65cbdfca677f8fe47a32b71ec7b2215f, type: 3}

@@ -36,6 +36,10 @@ public class ModeSelectGlow : MonoBehaviour
     private float inputDelay = 0.25f;
     private float inputTimer = 0f;
 
+    // ★追加: 開始時の入力無効化用タイマー
+    private float startupDelay = 0.5f; // 0.5秒待つ
+    private float startupTimer = 0f;
+
     void Start()
     {
         UpdateSelection();
@@ -43,6 +47,14 @@ public class ModeSelectGlow : MonoBehaviour
 
     void Update()
     {
+
+        // ★追加: シーン開始から0.5秒経つまでは入力を受け付けない
+        if (startupTimer < startupDelay)
+        {
+            startupTimer += Time.deltaTime;
+            return;
+        }
+
         if (!canInput) return;
         inputTimer += Time.deltaTime;
 

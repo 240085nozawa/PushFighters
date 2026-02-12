@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     private bool isGameStarted = false;
     private bool isGameEnded = false;
 
+    [Header("タイトルシーンの名前 (Tキーで戻る用)")]
+    public string TitleSceneName = "TitleScene"; // ★追加
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -61,6 +64,15 @@ public class GameManager : MonoBehaviour
 
         // ゲーム開始待ち
         Invoke("EnableGameCheck", 0.5f);
+    }
+
+    void Update()
+    {
+        // Tキーが押されたらタイトルへ戻る
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            SceneManager.LoadScene(TitleSceneName);
+        }
     }
 
     void EnableGameCheck()

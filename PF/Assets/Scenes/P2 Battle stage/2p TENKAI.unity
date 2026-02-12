@@ -7941,12 +7941,12 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d2592a0b060ecba41a70246969f42a11, type: 3}
-  m_Resource: {fileID: 8300000, guid: d2592a0b060ecba41a70246969f42a11, type: 3}
+  m_audioClip: {fileID: 8300000, guid: f02172adb4f17764a9d97511c4d27f8b, type: 3}
+  m_Resource: {fileID: 8300000, guid: f02172adb4f17764a9d97511c4d27f8b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.589
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -15558,6 +15558,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1087436540595814402, guid: 9dc514d9ca850454f9e75910ec81a91f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6293582655354501292, guid: 9dc514d9ca850454f9e75910ec81a91f, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7564975350819441257, guid: 9dc514d9ca850454f9e75910ec81a91f, type: 3}
@@ -32487,7 +32491,6 @@ SceneRoots:
   - {fileID: 3538854493539053525}
   - {fileID: 3680221768456646918}
   - {fileID: 845293170}
-  - {fileID: 1565171478}
   - {fileID: 1613169896}
   - {fileID: 109052505}
   - {fileID: 2096945597}
@@ -32500,3 +32503,4 @@ SceneRoots:
   - {fileID: 2128876255}
   - {fileID: 1169499919}
   - {fileID: 1274463081}
+  - {fileID: 1565171478}
