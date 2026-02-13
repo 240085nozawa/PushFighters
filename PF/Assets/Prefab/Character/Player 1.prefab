@@ -499,7 +499,7 @@ PrefabInstance:
     - target: {fileID: 5705741685193535270, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: beamVoiceClip
       value: 
-      objectReference: {fileID: 8300000, guid: 30d3b2f9617af654ba9afa098ad0171a, type: 3}
+      objectReference: {fileID: 8300000, guid: 244427c007bb6ad4d80e14ba1d8154c6, type: 3}
     - target: {fileID: 6301679752355596949, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.45
@@ -526,7 +526,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7577511561342529831, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.06
+      value: 4.5
       objectReference: {fileID: 0}
     - target: {fileID: 9039189682331158514, guid: 9dee6d967cf13924da8218be1e4e36e6, type: 3}
       propertyPath: Rdytime
